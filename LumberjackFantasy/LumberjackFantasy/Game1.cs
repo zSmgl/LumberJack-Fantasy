@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 namespace LumberjackFantasy
 {
 	/// <summary>
-	/// Bobby Here!
+	/// Now Jacob is Here
 	/// </summary>
 	public class Game1 : Game
 	{
