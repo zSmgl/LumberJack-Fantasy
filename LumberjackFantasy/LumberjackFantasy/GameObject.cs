@@ -20,6 +20,8 @@ namespace LumberjackFantasy
         /// </summary>
 
         // Fields - Numbers
+		// Could be changed in the future to make use of rectangle instead of posX and posY
+
         protected int posX;     // position of object [x]
         protected int posY;     // position of object [y]
         protected int width;    // scale by which object width is drawn
