@@ -10,9 +10,12 @@ using Microsoft.Xna.Framework.Input;
 namespace LumberjackFantasy
 {
 	//make enum for tile type
-	enum TileType
+	enum Quadrent
 	{
-
+		UL = 0,
+		UR = 1,
+		BL = 2,
+		BR = 3
 	}
 	class WorldTile
 	{
@@ -23,6 +26,10 @@ namespace LumberjackFantasy
 		private int lowerLeft;
 		private int lowerRight;
 		private Random rng;
+		private Rectangle upperLeftRect;
+		private Rectangle upperRightRect;
+		private Rectangle lowerLeftRect;
+		private Rectangle lowerRightRect;
 
 
 		//passes in a random object so fast generation of tiles will not be an issue
@@ -33,19 +40,72 @@ namespace LumberjackFantasy
 			lowerLeft = dwnLeft;
 			lowerRight = dwnRight;
 			rng = random;
+
+			upperLeftRect = new Rectangle(0, 0, 896, 896);
+			upperRightRect = new Rectangle(896, 0, 896, 896);
+			lowerLeftRect = new Rectangle(0, 896, 896, 896);
+			lowerRightRect = new Rectangle(896, 896, 896, 896);
 		}
 
 
 
 		//draws the tiles, possibly will be changed in order to allow free scrolling
-		public void Draw(SpriteBatch spriteBatch)
-		{
-			//can't be implimented without tiles
 
-			//spriteBatch.Draw()
+		//Tiles are 896x896.
+		//Bobby Will Remember This
+		public void Draw(SpriteBatch spriteBatch, Texture2D[] textures)
+		{
+			//UL
+			spriteBatch.Draw(getTexture(Quadrent.UL, 9999, textures), upperLeftRect, Color.White);
+			//UR
+			spriteBatch.Draw(getTexture(Quadrent.UR, 9999, textures), upperRightRect, Color.White);
+			//BL
+			spriteBatch.Draw(getTexture(Quadrent.BL, 9999, textures), lowerLeftRect, Color.White);
+			//BR
+			spriteBatch.Draw(getTexture(Quadrent.BR, 9999, textures), lowerRightRect, Color.White);
+
 		}
 
+		public Texture2D getTexture(Quadrent quadrent, int selection, Texture2D[] textures)
+		{
+			Texture2D texture;
+			if (Quadrent.UL == quadrent)
+			{
+				if (selection == 9999)
+				{
+					texture = textures[0];
+				}
+				else { texture = textures[0]; }
+			}
+			else if (Quadrent.UR == quadrent)
+			{
+				if (selection == 9999)
+				{
+					texture = textures[1];
+				}
+				else { texture = textures[0]; }
+			}
+			else if (Quadrent.BL == quadrent)
+			{
+				if (selection == 9999)
+				{
+					texture = textures[2];
+				}
+				else { texture = textures[0]; }
+			}
+			else
+			{
+				if (selection == 9999)
+				{
+					texture = textures[3];
+				}
+				else { texture = textures[0]; }
+			}
 
+			
+
+			return texture;
+		}
 
 
 
