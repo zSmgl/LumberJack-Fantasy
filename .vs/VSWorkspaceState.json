@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\LumberjackFantasy"
+    "\\LumberjackFantasy",
+    "\\LumberjackFantasy\\LumberjackFantasy"
   ],
-  "SelectedNode": "\\LumberjackFantasy\\LumberjackFantasy.sln",
+  "SelectedNode": "\\LumberjackFantasy\\LumberjackFantasy\\Program.cs",
   "PreviewInSolutionExplorer": false
 }
