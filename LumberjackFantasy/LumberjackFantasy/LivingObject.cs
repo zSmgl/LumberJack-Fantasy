@@ -20,7 +20,7 @@ namespace LumberjackFantasy
         // fields -----------------------------------------------------------------------
         private int health;
         private int maxHealth;
-        VelocityManager objectMovement;
+        protected VelocityManager objectMovement;
         
 
         //properties --------------------------------------------------------------------
