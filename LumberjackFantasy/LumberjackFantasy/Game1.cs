@@ -94,5 +94,6 @@ namespace LumberjackFantasy
 			testTiles.Add(Content.Load<Texture2D>("bgP3"));
 			testTiles.Add(Content.Load<Texture2D>("bgP4"));
 		}
+
 	}
 }

@@ -45,9 +45,11 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="LivingObject.cs" />
+    <Compile Include="PickUp.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tile.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="VelocityManager.cs" />
     <Compile Include="WorldTile.cs" />
