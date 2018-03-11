@@ -17,10 +17,14 @@ namespace LumberjackFantasy
 
     enum BearDirection
     {
+        upleft,
+        upright,
+        downleft,
+        downright,
+        up,
+        down,
         left,
         right,
-        up,
-        down
     }
     class Bear : LivingObject 
     {
@@ -29,7 +33,6 @@ namespace LumberjackFantasy
         private int scoreValue;                 // The amount of points that a bear is worth.
 
         private BearState bearState;            // Var that checks the state of the bear [Looking / Following]
-        private BearDirection bearDirection;    // Var that checks that holds the direction the bear is facing. Useful for Animations
 
         private int visionStandard;             // the number that determines how far out the BearVision should be from the actual objectTexture.
         private Rectangle bearVision;           // The Bears field of vision that helps the bears determine what kind of state they are in.
@@ -63,6 +66,50 @@ namespace LumberjackFantasy
            get { return bearVision; }
        }
 
+       public BearDirection bearDirection
+        {
+            get
+            {
+                if(objectMovement.VelocityX > 0 && objectMovement.VelocityY > 0)
+                {
+                    return BearDirection.downright;
+                }
+                else if (objectMovement.VelocityX > 0 && objectMovement.VelocityY == 0)
+                {
+                    return BearDirection.right;
+                }
+                else if (objectMovement.VelocityX > 0 && objectMovement.VelocityY < 0)
+                {
+                    return BearDirection.upright;
+                }
+                else if (objectMovement.VelocityX == 0 && objectMovement.VelocityY > 0)
+                {
+                    return BearDirection.down;
+                }
+                else if (objectMovement.VelocityX < 0 && objectMovement.VelocityY > 0)
+                {
+                    return BearDirection.downleft;
+                }
+                else if (objectMovement.VelocityX < 0 && objectMovement.VelocityY == 0)
+                {
+                    return BearDirection.left;
+                }
+                else if (objectMovement.VelocityX < 0 && objectMovement.VelocityY < 0)
+                {
+                    return BearDirection.upleft;
+                }
+                else if (objectMovement.VelocityX == 0 && objectMovement.VelocityX < 0)
+                {
+                    return BearDirection.up;
+                }
+                else
+                {
+                    //default case, usually upon spawning in
+                    return BearDirection.down;
+                }
+            }
+        }
+
 
 
 
@@ -94,7 +141,6 @@ namespace LumberjackFantasy
             timeOfMovementMin = 1;                                              // Bear can move a min 1 seconds in a direction;
             timeOfMovement = rng.Next(timeOfMovementMin, timeOfMovementMax);    // Can Move in a random direction for 1-5 seconds
 
-            bearDirection = BearDirection.down; // Bears spawn in looking down
 
         }
 
@@ -121,9 +167,6 @@ namespace LumberjackFantasy
                 {
                     // Tells the Bear it can now move in looking state and the direction it will move
                     moveInLook = true;
-
-                    // LOOK AT THIS AND FIX IF NEEDED
-                    bearDirection.Equals(rng.Next(0, 4)); // Code a random direction the bear should now move... ? May be Wrong.
                     
                 }
 
@@ -131,7 +174,11 @@ namespace LumberjackFantasy
                 {
                     timeOfMovementCounter += gameTime.ElapsedGameTime.TotalSeconds;
                     // The object then moves a random speed in a random direction
-                    // objectMovement.addVelocity(?,?)
+                    objectMovement.addVelocity
+                        (
+                        rng.Next(-1 *objectMovement.MaxSpeed,objectMovement.MaxSpeed),
+                        rng.Next(-1 * objectMovement.MaxSpeed, objectMovement.MaxSpeed)
+                        );
 
                 }
 
