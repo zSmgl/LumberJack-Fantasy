@@ -94,7 +94,7 @@ namespace LumberjackFantasy
 
             // Attack Animation ----------------------------------------
 
-            // The idea is this, if the 
+            // The Player Can Only Have One Attack Animation at a time and must complete it before triggering another one.
 
             if (kb.IsKeyDown(Keys.I) == true )
             {
@@ -106,8 +106,8 @@ namespace LumberjackFantasy
                 {
                     // Else stuff
                 }
-                /* If the Attack should be over
-                if ( attackStuff = true)
+                /* If the Attack should be over....
+                if ( [Attack is over now])
                     {
                  attackStuff = false;
                 }
@@ -123,13 +123,6 @@ namespace LumberjackFantasy
                 {
                     // Else stuff
                 }
-
-                /* If the Attack should be over
-                if ( attackStuff = true)
-                {
-                    attackStuff = false;
-                }
-                */
             }
             else if (kb.IsKeyDown(Keys.J) == true)
             {
@@ -141,12 +134,6 @@ namespace LumberjackFantasy
                 {
                     // Else stuff
                 }
-                /* If the Attack should be over
-                if ( attackStuff = true)
-                {
-                    attackStuff = false;
-                }
-                */
             }
             else if (kb.IsKeyDown(Keys.J) == true)
             {
@@ -158,12 +145,6 @@ namespace LumberjackFantasy
                 {
                     // Else stuff
                 }
-                /* If the Attack should be over
-                if ( attackStuff = true)
-                {
-                    attackStuff = false;
-                }
-                */
             }
             // Collisions get handled in the update Position method to assure stuff doesnt end up in other stuff
 
