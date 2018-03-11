@@ -18,6 +18,20 @@ namespace LumberjackFantasy
         axe = 10,                       
         shotgun = 11
     }
+
+    enum PlayerDirection
+    {
+        upleft,
+        upright,
+        downleft,
+        downright,
+        up,
+        down,
+        left,
+        right,
+    }
+
+
     class Player : LivingObject
     {
         // Jacob Marcovecchio

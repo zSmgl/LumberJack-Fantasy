@@ -176,8 +176,8 @@ namespace LumberjackFantasy
                     // The object then moves a random speed in a random direction
                     objectMovement.addVelocity
                         (
-                        rng.Next(-1 *objectMovement.MaxSpeed,objectMovement.MaxSpeed),
-                        rng.Next(-1 * objectMovement.MaxSpeed, objectMovement.MaxSpeed)
+                        rng.Next(-1 *objectMovement.MaxSpeed,objectMovement.MaxSpeed) / 2,  // X Pos increment that is 1/2 potential speed
+                        rng.Next(-1 * objectMovement.MaxSpeed, objectMovement.MaxSpeed) / 2 // Y Pos that is 1/2 Potential Speed
                         );
 
                 }
