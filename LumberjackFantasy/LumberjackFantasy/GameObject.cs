@@ -35,14 +35,14 @@ namespace LumberjackFantasy
 
         public int PosX
         {
-            set { posX = value; }
-            get { return posX; }
+            set { objectCollisionBox.X = value; }
+            get { return objectCollisionBox.X; }
         }
 
         public int PosY
         {
-            set { posY = value; }
-            get { return posY; }
+            set { objectCollisionBox.Y = value; }
+            get { return objectCollisionBox.Y; }
         }
 
         public int Width
@@ -94,7 +94,7 @@ namespace LumberjackFantasy
         /// </summary>
         public void PathUpdate()
         {
-            objectCollisionBox = new Rectangle(posX, posY, width, height);
+            objectCollisionBox = new Rectangle(PosX, PosY, width, height);
         }
 
         /// <summary>

@@ -66,7 +66,7 @@ namespace LumberjackFantasy
         }
 
         //method which hard sets the velocity of an object, children LivingObjects can have methods which use the addSpeed Method
-        public void setVelocity(int velX, int velY)
+        public void SetVelocity(int velX, int velY)
         {
             objectMovement.VelocityX = velX;
             objectMovement.VelocityY = velY;
