@@ -12,18 +12,24 @@ namespace LumberjackFantasy
     public class GameObject
     {
 
-        /// <summary>
-        /// Jacob Marcovecchio
-        /// Blue Print for In-game objects.
-        /// Has fields that hold the texture of the object and builds a path of the object.
-        /// The path is held in both individual int fields and a Rectangle Field that can be updated to be the same as the modified int fields.
-        /// </summary>
+        // Jacob Marcovecchio
+        // Blue Print for In-game objects.
+        // Has fields that hold the texture of the object and builds a path of the object.
+        // The path is held in both individual int fields and a Rectangle Field that can be updated to be the same as the modified int fields.
 
         // Fields - Numbers
 		// Could be changed in the future to make use of rectangle instead of posX and posY
 
-        protected int posX;     // position of object [x]
-        protected int posY;     // position of object [y]
+        /// <summary>
+        /// Starting posX of Object
+        /// </summary>
+        protected int posX;     // starting position of object [x]
+
+        /// <summary>
+        /// Starting posY of Object
+        /// </summary>
+        protected int posY;     // starting position of object [y]
+
         protected int width;    // scale by which object width is drawn
         protected int height;   // scale by which object height is drawn
 
@@ -33,12 +39,18 @@ namespace LumberjackFantasy
 
         // Properties
 
+        /// <summary>
+        /// Current posX of Object
+        /// </summary>
         public int PosX
         {
             set { objectCollisionBox.X = value; }
             get { return objectCollisionBox.X; }
         }
 
+        /// <summary>
+        /// Current posY of Object
+        /// </summary>
         public int PosY
         {
             set { objectCollisionBox.Y = value; }

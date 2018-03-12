@@ -28,17 +28,22 @@ namespace LumberjackFantasy
     }
     class Bear : LivingObject 
     {
-        // Fields ----------------------------------------------------------------------
+        // "Normal" Fields -------------------------------------------------------------------
 
         private int scoreValue;                 // The amount of points that a bear is worth.
+        private int hitPoints;                  // The total amount of hit points the bear currently has. 
+
+        // Attack and Attacked Based Fields --------------------------------------------------
+
+        private int fieldOfAttackStandard;      // Determines how far the Field of Attack to trigger a bear swipping should be from the object   
+        private Rectangle fieldOfAttack;        // Rectangle that determines if the bear should trigger an attack animation
+
+        // Movement Based Fields --------------------------------------------------------------
 
         private BearState bearState;            // Var that checks the state of the bear [Looking / Following]
 
         private int visionStandard;             // the number that determines how far out the BearVision should be from the actual objectTexture.
         private Rectangle bearVision;           // The Bears field of vision that helps the bears determine what kind of state they are in.
-
-        private int fieldOfAttackStandard;      // Determines how far the Field of Attack to trigger a bear swipping should be from the object   
-        private Rectangle fieldOfAttack;        // Rectangle that determines if the bear should trigger an attack animation
 
         private int whenToMoveMax;      // Determines how long a bear should max wait before making a random movement in a direction.
         private int whenToMoveMin;      // Determines how long a bear should min wait before making a random movement in a direction.
@@ -66,7 +71,7 @@ namespace LumberjackFantasy
            get { return bearVision; }
        }
 
-       public BearDirection bearDirection
+       public BearDirection BearDirection
         {
             get
             {
@@ -110,9 +115,7 @@ namespace LumberjackFantasy
             }
         }
 
-
-
-
+        // Constructor ------------------------------------------------------------------------------
 
         public Bear(int x, int y, int width, int height, Texture2D objectTexture, int maxH, int maxS, 
             int visionStandard, int fieldOfAttackStandard, int scoreValue, Random rng)
@@ -155,6 +158,11 @@ namespace LumberjackFantasy
                     ResetWhenToMove();
                     bearScore = bearScore * -1; // Srts Bear Score from Negative to Positive
                     bearState = BearState.following;
+
+                    Set the field of attack of the bear based on the position of the bear.
+                    fieldOfAttack = new Rectangle(PosX - fieldOfAttackStandard, PosY - visionStandard,
+                    width + (visionStandard * 2), height + (visionStandard * 2));
+
                     break this if loop immediatly to run code for when the bear is in a following state
 
                 */
@@ -180,6 +188,12 @@ namespace LumberjackFantasy
                         rng.Next(-1 * objectMovement.MaxSpeed, objectMovement.MaxSpeed) / 2 // Y Pos that is 1/2 Potential Speed
                         );
 
+
+                    // Bear Should only update it's position if it's in a state of moving
+
+                    objectMovement.UpdatePosition(objectCollisionBox);
+                    objectMovement.UpdatePosition(bearVision);
+
                 }
 
                 if (timeOfMovementCounter == timeOfMovement) // When the time of Movement has been hit
@@ -191,6 +205,7 @@ namespace LumberjackFantasy
 
             if (bearState == BearState.following)
             {
+
                 /*Add Collision code between field of vision of player and field of vision of bear
                     If the Collision of Fields Occurs....
                 if()
@@ -200,14 +215,24 @@ namespace LumberjackFantasy
                 break this if loop immediatly to run code for when the bear is in a following state
 
                 */
-                
-                // write code for following state. 
+
+                //else()
+
+                // 1, Update where the bear and it's various rectangles should be.
+                // 2, check to see if there are any bear - wall/ fOA - Player collisions due to this update. 
+                // 3, Adjust all the rectangles as needed to assure bear doesnt get drawn in something.
+                // 3 - b, be sure to see the current of the velocity of the bear to 0 if it runs into a wall.
+                // 3 - c, check to see if the bears attack animation should be triggered or is triggered.
+                // 3c - a, Trigger Attacking Animation from the midpoint of the bear / Update frame of attacking animation to be called.
+                // 3c - b, Decrease hp of player if certain frames of the attackin animation collide with the player.
+                // 3d - a, Dont decrease player hp if it was decreased in a previous attack animation (boolean dependent)
+
+                // [In draw method, end attackin animation boolean once the draw method for the attack is called.]
+                // [This will reset the animation]
+
+
 
             }
-
-            objectMovement.UpdatePosition(objectCollisionBox);
-            objectMovement.UpdatePosition(bearVision);
-            objectMovement.UpdatePosition(fieldOfAttack);
         }
 
         /// <summary>
