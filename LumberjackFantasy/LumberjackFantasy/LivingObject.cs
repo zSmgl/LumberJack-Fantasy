@@ -18,14 +18,19 @@ namespace LumberjackFantasy
         /// </summary>
 
         // fields -----------------------------------------------------------------------
-        private int health;
-        private int maxHealth;
-        protected VelocityManager objectMovement;
+        private int health;     // An Objects current Health
+        private int maxHealth;  // An Objects maximum Health
+        private int speedX;     // An Objects current Speed in the X direction
+        private int speedY;     // An Objects current Speed in the Y direction
+        private int maxSpeed;   // An Objects max amount of Speed
         
 
         //properties --------------------------------------------------------------------
-        public int Health { get { return health; } }
-        public int MaxHealth { get { return maxHealth; } }
+        public int Health { get { return health; } set { health = value; } }
+        public int MaxHealth { get { return maxHealth; } set { maxHealth = value; }  }
+        public int SpeedX { get { return speedX; } set { speedX = value; } }
+        public int SpeedY { get { return speedX; } set { speedX = value; } }
+        public int MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
 
         //IsAlive references the health value and if is greater then 0 returns true
         public bool IsAlive
@@ -49,7 +54,6 @@ namespace LumberjackFantasy
         {
             health = maxH;
             maxHealth = maxH;
-            objectMovement = new VelocityManager(maxS);
         }
         //methods -----------------------------------------------------------------------
 
@@ -57,19 +61,6 @@ namespace LumberjackFantasy
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
-        }
-
-        //method to change the position of the rectangle
-        public void MoveObject()
-        {
-            objectCollisionBox = objectMovement.UpdatePosition(objectCollisionBox);
-        }
-
-        //method which hard sets the velocity of an object, children LivingObjects can have methods which use the addSpeed Method
-        public void SetVelocity(int velX, int velY)
-        {
-            objectMovement.VelocityX = velX;
-            objectMovement.VelocityY = velY;
         }
 
     }

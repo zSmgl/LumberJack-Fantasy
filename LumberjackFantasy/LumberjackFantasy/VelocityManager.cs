@@ -65,12 +65,6 @@ namespace LumberjackFantasy
         //update position method which returns a rectangle with location equal to the input rectangle plus velocities
         public Rectangle UpdatePosition(Rectangle position)
         {
-
-            // WRITE COLLISIONS WITH OBJECTS HERE!
-            // ...
-            // END COLLISIONS WITH OBJECTS HERE 
-
-
             return new Rectangle(position.X + velocityX, position.Y + velocityY, position.Width, position.Height );
         }
 
