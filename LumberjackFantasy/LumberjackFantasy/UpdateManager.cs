@@ -12,8 +12,13 @@ namespace LumberjackFantasy
     class UpdateManager
     {
 
-        int checkablePlayerX;
-        int checkablePlayerY;
+        private Player pCurrent;             // Holds the player's values
+        private List<Bear> bearsCurrent;     // Holds all of the bears in the game
+        private List<Tree> treesCurrent;     // Holds all of the treesInTheGame
+        private List<PickUp> pickUpsCurrent; // Holds all the pickups in the game
+        KeyboardState currentKB;             // Holds the current Kb State
+        KeyboardState previousKB;            // Holds the previous Kb State (if needed)
+
         VelocityManager velocityManager = new VelocityManager(0);
         CollisionManager collisionManager = new CollisionManager();
 
@@ -24,67 +29,95 @@ namespace LumberjackFantasy
 
         public void UpdateAll()
         {
+            
+            //UpdateStoredLists()
             //UpdatePlayer()
             //UpdateAllBears()
             //UpdateAttacks()
         }
         // Player Intended Methods and Helper Methods 
 
-        public void UpdatePlayer(Player p, KeyboardState currentKB, KeyboardState previousKB)
+        public void UpdatePlayer()
         {
-            // Sets up the player X and Y values that should be modified.
-            int playerX = p.PosX;
-            int playerY = p.PosY;
 
             // Creates a Player Velocity Manager
-            velocityManager = new VelocityManager(p.MaxSpeed)
+            velocityManager = new VelocityManager(pCurrent.MaxSpeed)
             {
                 // Sets the current X and Y speed that should be in pl
-                VelocityX = p.SpeedX,
-                VelocityY = p.SpeedY
+                VelocityX = pCurrent.SpeedX,
+                VelocityY = pCurrent.SpeedY
             };
 
-            PlayerMovement(p, currentKB);
-            //p = collisionManager.MapCheck(p, treeList, itemList); ?
 
+            // 0 - Saves player's UnAdjusted State to be compared to through-out Update Player
+
+            Player oldPos = pCurrent;
+
+            // 1 - Adjust Players Movement
+
+            PlayerMovement();
             
+            // 2 - Check for Collisions with Trees in Game. Adjust Accordingly if needed.
             
+            // @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
+
+            int[] adjustPosValues = collisionManager.PosAdjust(pCurrent, oldPos, treesCurrent);
+
+            // If any sort of adjustment value was found, then the object collided with something.
+            // If no adjustment was found, then nothing needs to be offset and the speed doesnt need to be adjusted
+
+            if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
+            {
+                // Makes the player and trees collision no longer occur and sets all player rectangles equally offset
+                pCurrent.ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
+                pCurrent.PlayerVision.Offset(adjustPosValues[0], adjustPosValues[1]);
+
+                // Changes the speed to 0 in the direction of which a potential collision has now occured. 
+                if (adjustPosValues[0] != 0)
+                {
+                    pCurrent.SpeedX = 0;
+                }
+                if (adjustPosValues[1] != 0)
+                {
+                    pCurrent.SpeedY = 0;
+                }
+            }
+
+
+
 
         }
 
         /// <summary>
         /// Calculates the new position of the Player & Field of Vision, and updates the Players current Speed in X and Y Directions
         /// </summary>
-        /// <param name="p">The Player that will be changed</param>
-        /// <param name="kb">Keyboard State of Current Keys</param>
-        public void PlayerMovement(Player p, KeyboardState kb)
+        public void PlayerMovement()
         {
             // Adds Speed to the Velocity Manager Based on the Current Keys Pressed
-            if (kb.IsKeyDown(Keys.W) == true)
+            if (currentKB.IsKeyDown(Keys.W) == true)
             {
-                velocityManager.addVelocity(0, -1 * (p.MaxSpeed / 4));
+                velocityManager.addVelocity(0, -1 * (pCurrent.MaxSpeed / 4));
             }
-            if (kb.IsKeyDown(Keys.S) == true)
+            if (currentKB.IsKeyDown(Keys.S) == true)
             {
-                velocityManager.addVelocity(0, (p.MaxSpeed / 4));
+                velocityManager.addVelocity(0, (pCurrent.MaxSpeed / 4));
             }
-            if (kb.IsKeyDown(Keys.A) == true)
+            if (currentKB.IsKeyDown(Keys.A) == true)
             {
-                velocityManager.addVelocity(-1 * (p.MaxSpeed / 4), 0);
+                velocityManager.addVelocity(-1 * (pCurrent.MaxSpeed / 4), 0);
             }
-            if (kb.IsKeyDown(Keys.D) == true)
+            if (currentKB.IsKeyDown(Keys.D) == true)
             {
-                velocityManager.addVelocity((p.MaxSpeed / 4), 0);
+                velocityManager.addVelocity((pCurrent.MaxSpeed / 4), 0);
             }
 
             // Sets the new Sprite Location & Player Field of Vision
-            p.ObjectCollisionBox = velocityManager.UpdatePosition(p.ObjectCollisionBox);
-            p.PlayerVision = velocityManager.UpdatePosition(p.PlayerVision);
+            pCurrent.ObjectCollisionBox = velocityManager.UpdatePosition(pCurrent.ObjectCollisionBox);
+            pCurrent.PlayerVision = velocityManager.UpdatePosition(pCurrent.PlayerVision);
 
             // Updates the Current Speed of the Player within the Player from the Calculated speed in Players VM
-            p.SpeedX = velocityManager.VelocityX;
-            p.SpeedY = velocityManager.VelocityY;
-            
+            pCurrent.SpeedX = velocityManager.VelocityX;
+            pCurrent.SpeedY = velocityManager.VelocityY;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace LumberjackFantasy
         public Rectangle PlayerVision
         {
             get { return playerVision; }
-            set { PlayerVision = value; }
+            set { playerVision = value; }
         }
 
         public AttackVariation Attack
