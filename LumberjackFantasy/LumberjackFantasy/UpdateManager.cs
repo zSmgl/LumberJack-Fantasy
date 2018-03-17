@@ -53,35 +53,17 @@ namespace LumberjackFantasy
 
             Player oldPos = pCurrent;
 
-            // 1 - Adjust Players Movement
+            // 1 - Finds Players "Un-Collided" Position with new Speed 
 
-            PlayerMovement();
-            
-            // 2 - Check for Collisions with Trees in Game. Adjust Accordingly if needed.
-            
-            // @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
+            UpdatePlayerMovement();
 
-            int[] adjustPosValues = collisionManager.PosAdjust(pCurrent, oldPos, treesCurrent);
+            // 2 - Check for Collisions with Trees in Game. Adjust Speed and Pos Accordingly if needed.
 
-            // If any sort of adjustment value was found, then the object collided with something.
-            // If no adjustment was found, then nothing needs to be offset and the speed doesnt need to be adjusted
+            UpdatePlayerPosition(oldPos);
 
-            if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
-            {
-                // Makes the player and trees collision no longer occur and sets all player rectangles equally offset
-                pCurrent.ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
-                pCurrent.PlayerVision.Offset(adjustPosValues[0], adjustPosValues[1]);
+            // 3 - Updates the Animations of the player
 
-                // Changes the speed to 0 in the direction of which a potential collision has now occured. 
-                if (adjustPosValues[0] != 0)
-                {
-                    pCurrent.SpeedX = 0;
-                }
-                if (adjustPosValues[1] != 0)
-                {
-                    pCurrent.SpeedY = 0;
-                }
-            }
+            UpdatePlayerAnimations(oldPos);
 
 
 
@@ -91,7 +73,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Calculates the new position of the Player & Field of Vision, and updates the Players current Speed in X and Y Directions
         /// </summary>
-        public void PlayerMovement()
+        public void UpdatePlayerMovement()
         {
             // Adds Speed to the Velocity Manager Based on the Current Keys Pressed
             if (currentKB.IsKeyDown(Keys.W) == true)
@@ -118,6 +100,80 @@ namespace LumberjackFantasy
             // Updates the Current Speed of the Player within the Player from the Calculated speed in Players VM
             pCurrent.SpeedX = velocityManager.VelocityX;
             pCurrent.SpeedY = velocityManager.VelocityY;
+        }
+
+        /// <summary>
+        /// Updates the Player's direction enum to be properly set. Used to determine what animation of Player should be drawn
+        /// </summary>
+        /// <param name="oldPos"></param>
+        public void UpdatePlayerAnimations(Player oldPos)
+        {
+
+            // Updates Direction Animation 
+
+            if(oldPos.PosX > pCurrent.PosX && oldPos.PosY == pCurrent.PosY)         // Player walking in Left Direction
+            {
+                pCurrent.PlayerDirection = PlayerDirection.left;
+            }
+            else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY == pCurrent.PosY)   // Player walking in the Right Direction
+            {
+                pCurrent.PlayerDirection = PlayerDirection.right;
+            }
+            else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Player walking Up Direction
+            {
+                pCurrent.PlayerDirection = PlayerDirection.up;
+            }
+            else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Player walking Down Direction
+            {
+                pCurrent.PlayerDirection = PlayerDirection.down;
+            }
+            else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Player is walking Up-Left
+            {
+                pCurrent.PlayerDirection = PlayerDirection.upleft;
+            }
+            else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Player is walking Up-Right
+            {
+                pCurrent.PlayerDirection = PlayerDirection.upright;
+            }
+            else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Player is walking Down-Left
+            {
+                pCurrent.PlayerDirection = PlayerDirection.downleft;
+            }
+            else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Player is walking Down-Right
+            {
+                pCurrent.PlayerDirection = PlayerDirection.downright;
+            }
+            else                                                                    // Player Stood Still
+            {
+                pCurrent.PlayerDirection = oldPos.PlayerDirection;
+            }
+        }
+
+        public void UpdatePlayerPosition(Player oldPos)
+        {
+            // @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
+
+            int[] adjustPosValues = collisionManager.PosAdjust(pCurrent, oldPos, treesCurrent);
+
+            // If any sort of adjustment value was found, then the object collided with something.
+            // If no adjustment was found, then nothing needs to be offset and the speed doesnt need to be adjusted
+
+            if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
+            {
+                // Makes the player and trees collision no longer occur and sets all player rectangles equally offset
+                pCurrent.ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
+                pCurrent.PlayerVision.Offset(adjustPosValues[0], adjustPosValues[1]);
+
+                // Changes the speed to 0 in the direction of which a potential collision has now occured. 
+                if (adjustPosValues[0] != 0)
+                {
+                    pCurrent.SpeedX = 0;
+                }
+                if (adjustPosValues[1] != 0)
+                {
+                    pCurrent.SpeedY = 0;
+                }
+            }
         }
     }
 }
