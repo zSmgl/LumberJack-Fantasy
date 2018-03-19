@@ -11,7 +11,7 @@ using System.IO;
 namespace LumberjackFantasy
 {
     //enum for loadState
-    enum LoadState { tree, pickUp}
+    enum LoadState { tree, bear, pickUp}
 
     class Tile
     {
@@ -22,24 +22,26 @@ namespace LumberjackFantasy
 
         //fields ------------------------------------------------------------------------
         private List<Tree> trees;
+        private List<Bear> bears;
         private List<PickUp> collectibles;
         private List<Texture2D> pickupTextures;
         LoadState loadState = new LoadState();
 
         //properties --------------------------------------------------------------------
         public List<Tree> Trees { get { return trees; } }
+        public List<Bear> Bears { get { return bears; } }
         public List<PickUp> Collectibles { get { return collectibles; } }
 
         //constructor -------------------------------------------------------------------
-        public Tile(string toLoad, Texture2D treeTexture, List<Texture2D> pickups)
+        public Tile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng)
         {
             pickupTextures = pickups;
-            loadTile(toLoad, treeTexture);
+            loadTile(toLoad, treeTexture, bearTexture, rng);
         }
         //methods -----------------------------------------------------------------------
 
         //method to load in tile information to be called in constructor
-        public void loadTile(string toLoad, Texture2D treeTexture)
+        public void loadTile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, Random rng)
         {
             // Create the data structures
             trees = new List<Tree>();
@@ -60,6 +62,10 @@ namespace LumberjackFantasy
                     else if (line == "PickUps:")
                     {
                         loadState = LoadState.pickUp;
+                    }
+                    else if (line == "Bears:")
+                    {
+                        loadState = LoadState.bear;
                     }
 
                     //if line has load information adds an object to list
@@ -87,7 +93,23 @@ namespace LumberjackFantasy
                                     );
                                 break;
 
-
+                            case LoadState.bear:
+                                bears.Add(new Bear
+                                    (
+                                    Int32.Parse(split[0]),
+                                    Int32.Parse(split[1]),
+                                    Int32.Parse(split[2]),
+									Int32.Parse(split[3]),
+									bearTexture,
+									Int32.Parse(split[4]),
+									Int32.Parse(split[5]),
+									Int32.Parse(split[6]),
+									Int32.Parse(split[7]),
+									Int32.Parse(split[8]),
+									rng
+                                    )
+                                    );
+                                break;
 
                             case LoadState.pickUp:
 
