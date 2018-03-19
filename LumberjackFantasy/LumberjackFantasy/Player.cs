@@ -10,15 +10,12 @@ using Microsoft.Xna.Framework.Input;
 namespace LumberjackFantasy
 {
 
-    enum AttackVariation                // If we have a sprite sheet class that holds all the varior animations and textures to our game,
-                                        // Axe and Shotgun should be set to the x or y by which the sheet is in, and then be the 2nd num
-                                        // be incremented
-                                        
-    {
-        axe = 10,                       
-        shotgun = 11
-    }
-
+    enum AttackVariation               // If we have a sprite sheet class that holds all the varior animations and textures to our game,
+	{                                  // Axe and Shotgun should be set to the x or y by which the sheet is in, and then be the 2nd num
+		axe = 10,                      // be incremented
+		shotgun = 11
+	}                               
+                                     
     enum PlayerDirection
     {
         upleft,
@@ -35,6 +32,7 @@ namespace LumberjackFantasy
     class Player : LivingObject
     {
         // Jacob Marcovecchio
+		// Violence by Bobby McKenna
 
         // Fields -----------------------
         private int levelScore;         // Lvl Score'
@@ -100,5 +98,31 @@ namespace LumberjackFantasy
             // This includes sending a texture for the vision texutre. Essentially just a black box.
             // sb.Draw(blackTexture, playerVision, Color.White)
         }
+
+		/// <summary>
+		/// Takes the player's current location, direction and current weapon to render and update attacks. To be called 
+		/// </summary>
+		public void Attacker()
+		{
+			//Bobby McKenna
+			//This is the area that we will
+			Rectangle attackArea;
+			if (this.attack == AttackVariation.axe)
+			{
+				int axeWidth = 100;
+				int axeHeight = 100;
+				//sizes tbd
+				//calles collision manager in a certain area 
+
+				
+
+
+
+			}
+			else if (this.attack == AttackVariation.shotgun)
+			{
+				//sizes tbd
+			}
+		}
     }
 }
