@@ -111,22 +111,18 @@ namespace LumberjackFantasy
                                     );
                                 break;
 
-                            case LoadState.pickUp:
-
-                                //branching if statement for each kind of pickup, the first value in the txt determines pickup type
-                                if (split[0] == "0")
-                                {
-                                    //generic pickup
-                                    collectibles.Add(new PickUp
+							case LoadState.pickUp:
+                                collectibles.Add(new PickUp
                                         (
                                         Int32.Parse(split[1]),
                                         Int32.Parse(split[2]),
                                         Int32.Parse(split[3]),
                                         Int32.Parse(split[4]),
-                                        pickupTextures[0]
+                                        pickupTextures[0],
+										Int32.Parse(split[0])
                                         )
                                         );
-                                }
+                                
                                 break;
                         }
                     }

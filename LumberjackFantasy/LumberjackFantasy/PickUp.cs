@@ -31,13 +31,30 @@ namespace LumberjackFantasy
         // Fields
 
         private int scoreValue; // The score the item is worth 
+		private PickupType pickuptype;
+
+		//properties
 
 
         //temp space
-        public PickUp(int x, int y, int width, int height, Texture2D objectTexture) 
+        public PickUp(int x, int y, int width, int height, Texture2D objectTexture, int type) 
             : base(x, y, width, height, objectTexture)
         {
+			switch (type)
+			{
+				
+				case 1:
+					pickuptype = PickupType.Apple;
+					break;
 
+				case 2:
+					pickuptype = PickupType.MapleSyrup;
+					break;
+
+				case 3:
+					pickuptype = PickupType.Shotgun;
+					break;
+			}
         }
     }
 }
