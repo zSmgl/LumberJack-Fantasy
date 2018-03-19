@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace LumberjackFantasy
 {
@@ -32,14 +33,14 @@ namespace LumberjackFantasy
 		private Rectangle lowerRightRect;
 
 
-		//passes in a random object so fast generation of tiles will not be an issue
-		public WorldTile(int upLeft, int upRight, int dwnLeft, int dwnRight, Random random)
+		//random object removed in favor of random selection of tiles in the tile class
+		public WorldTile(int upLeft, int upRight, int dwnLeft, int dwnRight)
 		{
 			upperLeft = upLeft;
 			upperRight = upRight;
 			lowerLeft = dwnLeft;
 			lowerRight = dwnRight;
-			rng = random;
+		
 
 			upperLeftRect = new Rectangle(0, 0, 896, 896);
 			upperRightRect = new Rectangle(896, 0, 896, 896);
@@ -66,9 +67,11 @@ namespace LumberjackFantasy
 
 		}
 
+		//returns the texture for each "quadrent"
 		public Texture2D getTexture(Quadrent quadrent, int selection, Texture2D[] textures)
 		{
 			Texture2D texture;
+			//currently overridden to be test bois
 			if (Quadrent.UL == quadrent)
 			{
 				if (selection == 9999)
@@ -101,11 +104,11 @@ namespace LumberjackFantasy
 				}
 				else { texture = textures[0]; }
 			}
-
-			
-
 			return texture;
 		}
+
+
+
 
 
 
