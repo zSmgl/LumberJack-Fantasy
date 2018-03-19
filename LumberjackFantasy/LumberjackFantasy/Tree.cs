@@ -9,11 +9,20 @@ namespace LumberjackFantasy
 {
     class Tree : LivingObject
     {
-        //creating a constructor here with the values we want so that the load command works, 
+        ///Tree class
+        ///game object similar to other objects, has no follow code as trees are stationary
+        ///has its own sub class to distinguish from other objects
+
+        //fields ------------------------------------------------------------------------
+        //properties --------------------------------------------------------------------
+        
+        //constructor
         public Tree(int x, int y, int width, int height, Texture2D objectTexture, int maxH, int maxS) 
             : base(x, y, width, height, objectTexture, maxH, maxS)
         {
 
         }
+
+        //methods -----------------------------------------------------------------------
     }
 }
