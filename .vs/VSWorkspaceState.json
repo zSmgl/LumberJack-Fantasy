@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\LumberjackFantasy",
-    "\\LumberjackFantasy\\LumberjackFantasy"
+    "\\LumberjackFantasy\\LumberjackFantasy",
+    "\\LumberjackFantasy\\LumberjackFantasy\\Content"
   ],
-  "SelectedNode": "\\LumberjackFantasy\\LumberjackFantasy\\VelocityManager.cs",
+  "SelectedNode": "\\LumberjackFantasy\\LumberjackFantasy\\WorldTile.cs",
   "PreviewInSolutionExplorer": false
 }
