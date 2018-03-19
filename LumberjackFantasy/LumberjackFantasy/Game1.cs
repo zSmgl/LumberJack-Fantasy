@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System;
 
 namespace LumberjackFantasy
 {
@@ -13,6 +14,7 @@ namespace LumberjackFantasy
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		List<Texture2D> testTiles;
+		List<WorldTile> worldTile;
 
 		public Game1()
 		{
@@ -29,7 +31,8 @@ namespace LumberjackFantasy
 		protected override void Initialize()
 		{
 			// TODO: Add your initialization logic here
-
+			worldTile = new List<WorldTile>();
+			
 			base.Initialize();
 		}
 
@@ -42,7 +45,7 @@ namespace LumberjackFantasy
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			//LoadTile();
+			LoadTile();
 
 			// TODO: use this.Content to load your game content here
 		}
