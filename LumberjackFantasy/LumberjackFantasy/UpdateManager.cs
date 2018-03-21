@@ -265,20 +265,20 @@ namespace LumberjackFantasy
             }
         }
 
-        /// Pass in 1 or 0 to determine bear or player
-        /// If bear, pass a 0 for weapon type
-        /// If plr, pass 0 for axe and 1 for shotgun
-        /// </summary>
-        /// <param name=""></param>
-        public void UpdateAttacks(int sourceType, int attackType)
+		/// Pass in 1 or 0 to determine bear or player
+		/// If bear, pass a 0 for weapon type
+		/// If plr, pass 0 for axe and 1 for shotgun
+		/// </summary>
+		/// <param name=""></param>
+		public void UpdateAttacks(AttackVariation attackType, Point location, PlayerDirection playerDirection)
 		{
 			Rectangle attackArea;
 
 			if (attackType == AttackVariation.axe)
 			{
 				attackArea = new Rectangle(location.X, location.Y, 100, 100);
-				
-				
+
+
 
 			}
 			else if (attackType == AttackVariation.shotgun)
@@ -294,3 +294,4 @@ namespace LumberjackFantasy
 		}
 	}
 }
+
