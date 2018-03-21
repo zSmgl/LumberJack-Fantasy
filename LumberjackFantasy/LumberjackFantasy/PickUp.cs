@@ -12,9 +12,9 @@ namespace LumberjackFantasy
     /// </summary>
     enum PickupType
     {
-        Apple,
-        Shotgun,
-        MapleSyrup
+        Apple, //pickup grants one health value
+        Shotgun, //pickup begins open season
+        MapleSyrup //pickup grants 40-50 points
     }
 
     /// <summary>
@@ -30,11 +30,11 @@ namespace LumberjackFantasy
     {
         // Fields
 
-        private int scoreValue; // The score the item is worth 
 		private PickupType pickuptype;
+		private ItemState itemstate;
 
 		//properties
-
+		
 
         //temp space
         public PickUp(int x, int y, int width, int height, Texture2D objectTexture, int type) 
@@ -55,6 +55,8 @@ namespace LumberjackFantasy
 					pickuptype = PickupType.Shotgun;
 					break;
 			}
+			
         }
+
     }
 }

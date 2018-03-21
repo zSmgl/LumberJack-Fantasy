@@ -175,5 +175,17 @@ namespace LumberjackFantasy
                 }
             }
         }
+
+        //after checking for wall collisions checks for collision with pickup
+        public void UpdatePickups()
+        {
+            foreach(PickUp thisPickUp in pickUpsCurrent)
+            {
+                if(thisPickUp.ObjectCollisionBox.Intersects(pCurrent.ObjectCollisionBox))
+					{
+						thisPickUp.itemState
+					}
+            }
+        }
     }
 }
