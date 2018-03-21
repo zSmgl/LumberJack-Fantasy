@@ -22,10 +22,14 @@ namespace LumberjackFantasy
         VelocityManager velocityManager = new VelocityManager(0);
         CollisionManager collisionManager = new CollisionManager();
 
-        public UpdateManager()
+        public UpdateManager(Player pCurrent, List<Bear> bearsCurrent, List<Tree> treesCurrent, List<PickUp> pickUpsCurrent)
         {
-
-        }
+			//Gets Current Data ??
+			this.pCurrent = pCurrent;
+			this.bearsCurrent = bearsCurrent;
+			this.treesCurrent = treesCurrent;
+			this.pickUpsCurrent = pickUpsCurrent;
+		}
 
         public void UpdateAll()
         {
@@ -175,5 +179,57 @@ namespace LumberjackFantasy
                 }
             }
         }
-    }
+
+
+		/// <summary>
+		/// Updates all of the Lists (Tree, Bear, PickUp)
+		/// </summary>
+		public void UpdateStoredLists()
+		{
+			//Removes all trees from the list that have less than or equal to 0 health
+			for (int i = 0; i < treesCurrent.Count; i++)
+			{
+				if (treesCurrent[i].Health < 0 || treesCurrent[i].Health == 0)
+				{
+					treesCurrent.RemoveAt(i);
+				}
+			}
+
+			//Removes all bears from the list that have less than or equal to 0 health
+			for (int i = 0; i < bearsCurrent.Count; i++)
+			{
+				if (bearsCurrent[i].Health < 0 || bearsCurrent[i].Health == 0)
+				{
+					bearsCurrent.RemoveAt(i);
+				}
+			}
+
+			//Removes all the pickups from the list when item is retrieved
+			for (int i = 0; i < pickUpsCurrent.Count; i++)
+			{
+				if (pickUpsCurrent[i].ItemState == ItemState.Retrieved)
+				{
+					pickUpsCurrent.RemoveAt(i);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void UpdateAllBears()
+		{
+
+
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void UpdateAttacks()
+		{
+
+
+		}
+	}
 }

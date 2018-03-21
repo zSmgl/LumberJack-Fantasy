@@ -32,9 +32,20 @@ namespace LumberjackFantasy
 
         private int scoreValue; // The score the item is worth 
 		private PickupType pickuptype;
+		private ItemState itemState;
 
 		//properties
+		public PickupType PickupType
+		{
+			get { return pickuptype; }
+			set { pickuptype = value; }
+		}
 
+		public ItemState ItemState
+		{
+			get { return ItemState; }
+			set { itemState = value; }
+		}
 
         //temp space
         public PickUp(int x, int y, int width, int height, Texture2D objectTexture, int type) 
