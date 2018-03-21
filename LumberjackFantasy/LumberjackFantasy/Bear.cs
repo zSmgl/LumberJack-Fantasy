@@ -79,6 +79,12 @@ namespace LumberjackFantasy
            set { bearVision = value; }
         }
 
+        public Rectangle FieldOfAttack
+        {
+            get { return fieldOfAttack; }
+            set { fieldOfAttack = value; }
+        }
+
         public BearDirection BearDirection
         {
             get { return bearDirection; }

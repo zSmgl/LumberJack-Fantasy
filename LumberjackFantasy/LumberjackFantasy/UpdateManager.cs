@@ -16,22 +16,26 @@ namespace LumberjackFantasy
 		private List<Bear> bearsCurrent;     // Holds all of the bears in the game
 		private List<Tree> treesCurrent;     // Holds all of the treesInTheGame
 		private List<PickUp> pickUpsCurrent; // Holds all the pickups in the game
-		KeyboardState currentKB;             // Holds the current Kb State
-		KeyboardState previousKB;            // Holds the previous Kb State (if needed)
+		private KeyboardState currentKB;     // Holds the current Kb State
+		private KeyboardState previousKB;    // Holds the previous Kb State (if needed)
 
 		VelocityManager velocityManager = new VelocityManager(0);
 		CollisionManager collisionManager = new CollisionManager();
 
-		public UpdateManager(Player pCurrent, List<Bear> bearsCurrent, List<Tree> treesCurrent, List<PickUp> pickUpsCurrent)
+        /// <summary>
+        /// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
+        /// </summary>
+		public UpdateManager()
 		{
-			//Gets Current Data ??
-			this.pCurrent = pCurrent;
-			this.bearsCurrent = bearsCurrent;
-			this.treesCurrent = treesCurrent;
-			this.pickUpsCurrent = pickUpsCurrent;
+
 		}
 
-		public void UpdateAll()
+        // --------------------------------------------------------------------- Universal Updates for Screen State ------------------------------------------------------
+
+        /// <summary>
+        /// Update method called when the game is actually being played
+        /// </summary>
+		public void UpdateGameScreen()
 		{
 
 			//UpdateStoredLists()
@@ -39,9 +43,75 @@ namespace LumberjackFantasy
 			//UpdateAllBears()
 			//UpdateAttacks()
 		}
-		// Player Intended Methods and Helper Methods 
 
-		public void UpdatePlayer()
+        /// <summary>
+        /// Update method called when the game is at the Title Screen
+        /// </summary>
+        public void UpdateTitleScreen()
+        {
+
+        }
+
+        /// <summary>
+        /// Update Method called when the game is at a Pause Screen
+        /// </summary>
+        public void UpdatePauseScreen()
+        {
+
+        }
+
+        /// <summary>
+        /// Update Method called when the game is at a Game Over Screen
+        /// </summary>
+        public void UpdateEndGameScreen()
+        {
+
+        }
+
+        // ----------------------------------------------------------------------- Add / Remove Stuff from Lists ---------------------------------------------------------
+
+        /// <summary>
+        /// Updates all of the Lists (Tree, Bear, PickUp)
+        /// </summary>
+        public void RemoveStuffFromStoredLists()
+        {
+            //Removes all trees from the list that have less than or equal to 0 health
+            for (int i = 0; i < treesCurrent.Count; i++)
+            {
+                if (treesCurrent[i].Health < 0 || treesCurrent[i].Health == 0)
+                {
+                    treesCurrent.RemoveAt(i);
+                }
+            }
+
+            //Removes all bears from the list that have less than or equal to 0 health
+            for (int i = 0; i < bearsCurrent.Count; i++)
+            {
+                if (bearsCurrent[i].Health < 0 || bearsCurrent[i].Health == 0)
+                {
+                    bearsCurrent.RemoveAt(i);
+                }
+            }
+
+
+            //Removes all the pickups from the list when item is retrieved
+            for (int i = 0; i < pickUpsCurrent.Count; i++)
+            {
+                if (pickUpsCurrent[i].ItemState == ItemState.Retrieved)
+                {
+                    pickUpsCurrent.RemoveAt(i);
+                }
+            }
+        }
+
+
+        // ------------------------------------------------------------------------ Player Specific Methods ---------------------------------------------------------------
+
+
+       /// <summary>
+       /// Responsible for Updating all neccessary variables of the player
+       /// </summary>
+        public void UpdatePlayer()
 		{
 
 			// Creates a Player Velocity Manager
@@ -109,7 +179,7 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Updates the Player's direction enum to be properly set. Used to determine what animation of Player should be drawn
 		/// </summary>
-		/// <param name="oldPos"></param>
+		/// <param name="oldPos">The old player</param>
 		public void UpdatePlayerAnimations(Player oldPos)
 		{
 
@@ -153,6 +223,10 @@ namespace LumberjackFantasy
 			}
 		}
 
+        /// <summary>
+        /// Adjusts Players Rectangle Fields and Pos if a collision with a tree has occured.
+        /// </summary>
+        /// <param name="oldPos"></param>
 		public void UpdatePlayerPosition(Player oldPos)
 		{
 			// @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
@@ -180,71 +254,12 @@ namespace LumberjackFantasy
 			}
 		}
 
-		//loops through list of all pickups, if pickup collides checks type and handles code
-		public void UpdatePickUps()
-		{
-			foreach (PickUp thisPickup in pickUpsCurrent)
-			{
-				if (thisPickup.ObjectCollisionBox.Intersects(pCurrent.ObjectCollisionBox))
-				{
-					thisPickup.ItemState = ItemState.Retrieved;
-					switch(thisPickup.PickupType)
-					{
-						case PickupType.Apple:
-							pCurrent.Health += 1;
-							break;
 
-						case PickupType.MapleSyrup:
-							pCurrent.LevelScore += 45;
-							break;
-
-						case PickupType.Shotgun:
-							//put open season code here
-							break;
-					}
-				}
-			}
-		}
+        // -------------------------------------------------------------------------- Bear Specific Methods ------------------------------------------------------------
 
 
-		/// <summary>
-		/// Updates all of the Lists (Tree, Bear, PickUp)
-		/// </summary>
-		public void RemoveStuffFromStoredLists()
-		{
-			//Removes all trees from the list that have less than or equal to 0 health
-			for (int i = 0; i < treesCurrent.Count; i++)
-			{
-				if (treesCurrent[i].Health < 0 || treesCurrent[i].Health == 0)
-				{
-					treesCurrent.RemoveAt(i);
-				}
-			}
-
-			//Removes all bears from the list that have less than or equal to 0 health
-			for (int i = 0; i < bearsCurrent.Count; i++)
-			{
-				if (bearsCurrent[i].Health < 0 || bearsCurrent[i].Health == 0)
-				{
-					bearsCurrent.RemoveAt(i);
-				}
-			}
-			
-
-			//Removes all the pickups from the list when item is retrieved
-			for (int i = 0; i < pickUpsCurrent.Count; i++)
-			{
-				if (pickUpsCurrent[i].ItemState == ItemState.Retrieved)
-				{
-					pickUpsCurrent.RemoveAt(i);
-				}
-			}
-		}
-
-
-        // -----------------------------------------------------------------BEAR STUFF------------------------------------------------------
         /// <summary>
-        /// 
+        /// Update Responsible for updating all parts of every bear for each bear.
         /// </summary>
         public void UpdateAllBears()
 		{
@@ -271,7 +286,7 @@ namespace LumberjackFantasy
 
 				UpdateBearsPosition(oldPos, i);
 
-                // 3 - Updates the Animations of the player
+                // 3 - Updates the Animations of the bear
 
                 UpdateBearAnimation(oldPos, i);
 
@@ -281,6 +296,11 @@ namespace LumberjackFantasy
 
 		}
 
+        /// <summary>
+        /// Adjusts Bear's Rectangle Fields and Pos if a collision with a tree has occured.
+        /// </summary>
+        /// <param name="oldPos">The old bear</param>
+        /// <param name="i">The # of bear from it's list</param>
         public void UpdateBearsPosition(Bear oldPos, int i)
         {
             // @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
@@ -292,9 +312,10 @@ namespace LumberjackFantasy
 
             if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
             {
-                // Makes the player and trees collision no longer occur and sets all player rectangles equally offset
+                // Makes the bear and trees collision no longer occur and sets all bear rectangles equally offset
                 bearsCurrent[i].ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
                 bearsCurrent[i].BearVision.Offset(adjustPosValues[0], adjustPosValues[1]);
+                bearsCurrent[i].FieldOfAttack.Offset(adjustPosValues[0], adjustPosValues[1]);
 
                 // Changes the speed to 0 in the direction of which a potential collision has now occured. 
                 if (adjustPosValues[0] != 0)
@@ -308,6 +329,11 @@ namespace LumberjackFantasy
             }
         }
 
+        /// <summary>
+        /// Updates the Bear's direction enum to be properly set. Used to determine what animation of Bear should be drawn
+        /// </summary>
+        /// <param name="oldPos">The old bear</param>
+        /// <param name="i">The # of bear from it's list</param>
         public void UpdateBearAnimation(Bear oldPos, int i)
         {
             if(oldPos.PosX > pCurrent.PosX && oldPos.PosY == pCurrent.PosY)         // Bear walking in Left Direction
@@ -348,12 +374,45 @@ namespace LumberjackFantasy
             }
         }
 
-		/// Pass in 1 or 0 to determine bear or player
-		/// If bear, pass a 0 for weapon type
-		/// If plr, pass 0 for axe and 1 for shotgun
-		/// </summary>
-		/// <param name=""></param>
-		public void UpdateAttacks(AttackVariation attackType, Point location, PlayerDirection playerDirection)
+        // ------------------------------------------------------------------- Pickup Specific Methods ---------------------------------------------------------------------
+
+        /// <summary>
+        /// Loops through list of all pickups, if pickup collides checks type and handles code
+        /// </summary>
+        public void UpdatePickUps()
+        {
+            foreach (PickUp thisPickup in pickUpsCurrent)
+            {
+                if (thisPickup.ObjectCollisionBox.Intersects(pCurrent.ObjectCollisionBox))
+                {
+                    thisPickup.ItemState = ItemState.Retrieved;
+                    switch (thisPickup.PickupType)
+                    {
+                        case PickupType.Apple:
+                            pCurrent.Health += 1;
+                            break;
+
+                        case PickupType.MapleSyrup:
+                            pCurrent.LevelScore += 45;
+                            break;
+
+                        case PickupType.Shotgun:
+                            //put open season code here
+                            break;
+                    }
+                }
+            }
+        }
+
+
+        // ---------------------------------------------------------------------------- Attack Stuff ----------------------------------------------------------------------
+
+        /// Pass in 1 or 0 to determine bear or player
+        /// If bear, pass a 0 for weapon type
+        /// If plr, pass 0 for axe and 1 for shotgun
+        /// </summary>
+        /// <param name=""></param>
+        public void UpdateAttacks(AttackVariation attackType, Point location, PlayerDirection playerDirection)
 		{
 			Rectangle attackArea;
 
