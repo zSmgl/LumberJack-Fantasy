@@ -118,7 +118,7 @@ namespace LumberjackFantasy
                                         Int32.Parse(split[2]),
                                         Int32.Parse(split[3]),
                                         Int32.Parse(split[4]),
-                                        pickupTextures[0],
+                                        pickupTextures[Int32.Parse(split[0])],
 										Int32.Parse(split[0])
                                         )
                                         );

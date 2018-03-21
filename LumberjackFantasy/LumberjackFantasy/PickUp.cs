@@ -12,9 +12,9 @@ namespace LumberjackFantasy
     /// </summary>
     enum PickupType
     {
-        Apple,
-        Shotgun,
-        MapleSyrup
+        Apple, //pickup heals 1 health
+        Shotgun, //pickup begins open season
+        MapleSyrup //pickup grants 45 points
     }
 
     /// <summary>
@@ -66,6 +66,7 @@ namespace LumberjackFantasy
 					pickuptype = PickupType.Shotgun;
 					break;
 			}
+			itemState = ItemState.OnGround;
         }
     }
 }
