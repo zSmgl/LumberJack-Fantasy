@@ -9,6 +9,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace LumberjackFantasy
 {
+	//enum to diff sources
+	 enum Source
+	{
+		player = 0,
+		bear = 1
+	}
+
     class UpdateManager
     {
 
@@ -175,5 +182,35 @@ namespace LumberjackFantasy
                 }
             }
         }
+
+		/// <summary>
+		/// Pass in 1 or 0 to determine bear or player
+		/// If bear, pass a 0 for weapon type
+		/// If plr, pass 0 for axe and 1 for shotgun
+		/// </summary>
+		/// <param name=""></param>
+		public void UpdateAttacks(int sourceType, int attackType)
+		{
+			Rectangle attackArea;
+			if (Source.player == )
+			{
+				if (attackType == 0)
+				{
+					int axeWidth = 100;
+					int axeHeight = 100;
+					//sizes tbd
+					//calles collision manager in a certain area 
+
+
+
+
+
+				}
+				else if (attackType == 1)
+				{
+					//sizes 4:3
+				}
+			}
+		}
     }
 }

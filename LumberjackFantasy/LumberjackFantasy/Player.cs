@@ -102,7 +102,7 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Takes the player's current location, direction and current weapon to render and update attacks. To be called 
 		/// </summary>
-		public void Attacker()
+		public void UpdatePlayer()
 		{
 			//Bobby McKenna
 			//This is the area that we will
