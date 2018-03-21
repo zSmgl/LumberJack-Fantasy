@@ -26,7 +26,7 @@ namespace LumberjackFantasy
         
 
         //properties --------------------------------------------------------------------
-        public int Health { get { return health; } set { health = value; } }
+        public int Health { get { return health; } set { health = value; if (health > maxHealth) { health = maxHealth; } } }
         public int MaxHealth { get { return maxHealth; } set { maxHealth = value; }  }
         public int SpeedX { get { return speedX; } set { speedX = value; } }
         public int SpeedY { get { return speedX; } set { speedX = value; } }
