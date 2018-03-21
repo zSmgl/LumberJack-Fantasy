@@ -13,7 +13,8 @@ namespace LumberjackFantasy
     enum AttackVariation               // If we have a sprite sheet class that holds all the varior animations and textures to our game,
 	{                                  // Axe and Shotgun should be set to the x or y by which the sheet is in, and then be the 2nd num
 		axe = 10,                      // be incremented
-		shotgun = 11
+		shotgun = 11,
+		bear = 12
 	}                               
                                      
     enum PlayerDirection
@@ -102,7 +103,7 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Takes the player's current location, direction and current weapon to render and update attacks. To be called 
 		/// </summary>
-		public void Attacker()
+		public void UpdatePlayer()
 		{
 			//Bobby McKenna
 			//This is the area that we will
@@ -124,5 +125,6 @@ namespace LumberjackFantasy
 				//sizes tbd
 			}
 		}
+
     }
 }

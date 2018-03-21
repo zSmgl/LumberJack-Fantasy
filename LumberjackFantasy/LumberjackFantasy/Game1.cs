@@ -9,12 +9,16 @@ namespace LumberjackFantasy
 	/// <summary>
 	/// Now Jacob is Here
 	/// </summary>
+	
+		//gamestate enum to track the games current state
+		enum GameState { start, pause, gameLoop, gameOver}
 	public class Game1 : Game
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		List<Texture2D> testTiles;
 		List<WorldTile> worldTile;
+		GameState gameState;
 
 		public Game1()
 		{
@@ -34,6 +38,7 @@ namespace LumberjackFantasy
 			worldTile = new List<WorldTile>();
 			
 			base.Initialize();
+			gameState = GameState.start;
 		}
 
 		/// <summary>
@@ -70,7 +75,21 @@ namespace LumberjackFantasy
 				Exit();
 
 			// TODO: Add your update logic here
+			switch (gameState)
+			{
+				case GameState.start:
+					break;
 
+				case GameState.pause:
+					break;
+
+				case GameState.gameLoop:
+
+					break;
+
+				case GameState.gameOver:
+					break;
+			}
 			base.Update(gameTime);
 		}
 
@@ -83,6 +102,23 @@ namespace LumberjackFantasy
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			// TODO: Add your drawing code here
+			spriteBatch.Begin();
+			switch (gameState)
+			{
+				case GameState.start:
+					break;
+
+				case GameState.pause:
+					break;
+
+				case GameState.gameLoop:
+					break;
+
+				case GameState.gameOver:
+					break;
+			}
+
+			spriteBatch.End();
 
 			base.Draw(gameTime);
 		}
