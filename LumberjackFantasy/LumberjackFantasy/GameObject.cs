@@ -23,12 +23,6 @@ namespace LumberjackFantasy
         /// <summary>
         /// Starting posX of Object
         /// </summary>
-        protected int posX;     // starting position of object [x]
-
-        /// <summary>
-        /// Starting posY of Object
-        /// </summary>
-        protected int posY;     // starting position of object [y]
 
         protected int width;    // scale by which object width is drawn
         protected int height;   // scale by which object height is drawn
@@ -91,22 +85,11 @@ namespace LumberjackFantasy
         /// <param name="gameTexture"></param>
         public GameObject(int x, int y, int width, int height, Texture2D objectTexture)
         {
-            posX = x;
-            posY = y;
             this.width = width;
             this.height = height;
             this.objectTexture = objectTexture;
             objectCollisionBox = new Rectangle(x, y, width, height);
 
-        }
-
-        /// <summary>
-        /// Updates the objectPath by creating a new Rectangle with any modified posX and posY variables that were called.
-        /// Not Necessarily Needed, but added just in case
-        /// </summary>
-        public void PathUpdate()
-        {
-            objectCollisionBox = new Rectangle(PosX, PosY, width, height);
         }
 
         /// <summary>
