@@ -175,5 +175,47 @@ namespace LumberjackFantasy
                 }
             }
         }
+
+        // -----------------------------------------------------------------BEAR STUFF------------------------------------------------------
+
+        public void UpdateBearAnamation(Bear oldPos, int i)
+        {
+            if (oldPos.PosX > pCurrent.PosX && oldPos.PosY == pCurrent.PosY)         // Bear walking in Left Direction
+            {
+                bearsCurrent[i].BearDirection = BearDirection.left;
+            }
+            else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY == pCurrent.PosY)   // Bear walking in the Right Direction
+            {
+                bearsCurrent[i].BearDirection = BearDirection.right;
+            }
+            else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear walking Up Direction
+            {
+                bearsCurrent[i].BearDirection = BearDirection.up;
+            }
+            else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear walking Down Direction
+            {
+                bearsCurrent[i].BearDirection = BearDirection.down;
+            }
+            else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear is walking Up-Left
+            {
+                bearsCurrent[i].BearDirection = BearDirection.upleft;
+            }
+            else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear is walking Up-Right
+            {
+                bearsCurrent[i].BearDirection = BearDirection.upright;
+            }
+            else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear is walking Down-Left
+            {
+                bearsCurrent[i].BearDirection = BearDirection.downleft;
+            }
+            else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear is walking Down-Right
+            {
+                bearsCurrent[i].BearDirection = BearDirection.downright;
+            }
+            else                                                                    // Bear Stood Still
+            {
+                bearsCurrent[i].BearDirection = oldPos.BearDirection;
+            }
+        }
     }
 }
