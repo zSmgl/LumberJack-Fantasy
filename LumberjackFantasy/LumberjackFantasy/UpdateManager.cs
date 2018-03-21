@@ -193,20 +193,6 @@ namespace LumberjackFantasy
 						case PickupType.Apple:
 							pCurrent.Health += 1;
 							break;
-		public void UpdateAllBearsPosition(Bear oldPos, int i)
-		{
-			// @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
-
-			int[] adjustPosValues = collisionManager.PosAdjust(bearsCurrent[i], oldPos, treesCurrent);
-
-			// If any sort of adjustment value was found, then the object collided with something.
-			// If no adjustment was found, then nothing needs to be offset and the speed doesnt need to be adjusted
-
-			if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
-			{
-				// Makes the player and trees collision no longer occur and sets all player rectangles equally offset
-				bearsCurrent[i].ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
-				bearsCurrent[i].BearVision.Offset(adjustPosValues[0], adjustPosValues[1]);
 
 						case PickupType.MapleSyrup:
 							pCurrent.LevelScore += 45;
@@ -220,23 +206,11 @@ namespace LumberjackFantasy
 			}
 		}
 
-				// Changes the speed to 0 in the direction of which a potential collision has now occured. 
-				if (adjustPosValues[0] != 0)
-				{
-					bearsCurrent[i].SpeedX = 0;
-				}
-				if (adjustPosValues[1] != 0)
-				{
-					bearsCurrent[i].SpeedY = 0;
-				}
-			}
-		}
-
 
 		/// <summary>
 		/// Updates all of the Lists (Tree, Bear, PickUp)
 		/// </summary>
-		public void UpdateStoredLists()
+		public void RemoveStuffFromStoredLists()
 		{
 			//Removes all trees from the list that have less than or equal to 0 health
 			for (int i = 0; i < treesCurrent.Count; i++)
@@ -291,15 +265,15 @@ namespace LumberjackFantasy
 
 				// 1 - Finds Bears "Un-Collided" Position with new Speed 
 
-				UpdateAllBearsMovement();
+				BearMovement();
 
 				// 2 - Check for Collisions with Trees in Game. Adjust Speed and Pos Accordingly if needed.
 
-				UpdateAllBearsPosition(oldPos, i);
+				UpdateBearsPosition(oldPos, i);
 
-				// 3 - Updates the Animations of the player
+                // 3 - Updates the Animations of the player
 
-				UpdatePlayerAnimations(oldPos);
+                UpdateBearAnimation(oldPos, i);
 
 
 
@@ -307,7 +281,34 @@ namespace LumberjackFantasy
 
 		}
 
-        public void UpdateBearAnamation(Bear oldPos, int i)
+        public void UpdateBearsPosition(Bear oldPos, int i)
+        {
+            // @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
+
+            int[] adjustPosValues = collisionManager.PosAdjust(bearsCurrent[i], oldPos, treesCurrent);
+
+            // If any sort of adjustment value was found, then the object collided with something.
+            // If no adjustment was found, then nothing needs to be offset and the speed doesnt need to be adjusted
+
+            if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
+            {
+                // Makes the player and trees collision no longer occur and sets all player rectangles equally offset
+                bearsCurrent[i].ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
+                bearsCurrent[i].BearVision.Offset(adjustPosValues[0], adjustPosValues[1]);
+
+                // Changes the speed to 0 in the direction of which a potential collision has now occured. 
+                if (adjustPosValues[0] != 0)
+                {
+                    bearsCurrent[i].SpeedX = 0;
+                }
+                if (adjustPosValues[1] != 0)
+                {
+                    bearsCurrent[i].SpeedY = 0;
+                }
+            }
+        }
+
+        public void UpdateBearAnimation(Bear oldPos, int i)
         {
             if(oldPos.PosX > pCurrent.PosX && oldPos.PosY == pCurrent.PosY)         // Bear walking in Left Direction
             {
