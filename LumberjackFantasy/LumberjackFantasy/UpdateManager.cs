@@ -186,6 +186,31 @@ namespace LumberjackFantasy
 			}
 		}
 
+		//loops through list of all pickups, if pickup collides checks type and handles code
+		public void UpdatePickUps()
+		{
+			foreach (PickUp thisPickup in pickUpsCurrent)
+			{
+				if (thisPickup.ObjectCollisionBox.Intersects(pCurrent.ObjectCollisionBox))
+				{
+					thisPickup.ItemState = ItemState.Retrieved;
+					switch(thisPickup.PickupType)
+					{
+						case PickupType.Apple:
+							pCurrent.Health += 1;
+							break;
+
+						case PickupType.MapleSyrup:
+							pCurrent.LevelScore += 45;
+							break;
+
+						case PickupType.Shotgun:
+							//put open season code here
+							break;
+					}
+				}
+			}
+		}
 
 		/// <summary>
 		/// Updates all of the Lists (Tree, Bear, PickUp)
@@ -209,6 +234,7 @@ namespace LumberjackFantasy
 					bearsCurrent.RemoveAt(i);
 				}
 			}
+			
 
 			//Removes all the pickups from the list when item is retrieved
 			for (int i = 0; i < pickUpsCurrent.Count; i++)
@@ -257,5 +283,7 @@ namespace LumberjackFantasy
 				}
 			}
 		}
+
+		
 	}
 }
