@@ -9,13 +9,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace LumberjackFantasy
 {
-	//enum to diff sources
-	 enum Source
-	{
-		player = 0,
-		bear = 1
-	}
-
     class UpdateManager
     {
 
@@ -29,10 +22,14 @@ namespace LumberjackFantasy
         VelocityManager velocityManager = new VelocityManager(0);
         CollisionManager collisionManager = new CollisionManager();
 
-        public UpdateManager()
+        public UpdateManager(Player pCurrent, List<Bear> bearsCurrent, List<Tree> treesCurrent, List<PickUp> pickUpsCurrent)
         {
-
-        }
+			//Gets Current Data ??
+			this.pCurrent = pCurrent;
+			this.bearsCurrent = bearsCurrent;
+			this.treesCurrent = treesCurrent;
+			this.pickUpsCurrent = pickUpsCurrent;
+		}
 
         public void UpdateAll()
         {
@@ -183,34 +180,56 @@ namespace LumberjackFantasy
             }
         }
 
+
 		/// <summary>
-		/// Pass in 1 or 0 to determine bear or player
-		/// If bear, pass a 0 for weapon type
-		/// If plr, pass 0 for axe and 1 for shotgun
+		/// Updates all of the Lists (Tree, Bear, PickUp)
 		/// </summary>
-		/// <param name=""></param>
-		public void UpdateAttacks(int sourceType, int attackType)
+		public void UpdateStoredLists()
 		{
-			Rectangle attackArea;
-			if (Source.player == )
+			//Removes all trees from the list that have less than or equal to 0 health
+			for (int i = 0; i < treesCurrent.Count; i++)
 			{
-				if (attackType == 0)
+				if (treesCurrent[i].Health < 0 || treesCurrent[i].Health == 0)
 				{
-					int axeWidth = 100;
-					int axeHeight = 100;
-					//sizes tbd
-					//calles collision manager in a certain area 
-
-
-
-
-
+					treesCurrent.RemoveAt(i);
 				}
-				else if (attackType == 1)
+			}
+
+			//Removes all bears from the list that have less than or equal to 0 health
+			for (int i = 0; i < bearsCurrent.Count; i++)
+			{
+				if (bearsCurrent[i].Health < 0 || bearsCurrent[i].Health == 0)
 				{
-					//sizes 4:3
+					bearsCurrent.RemoveAt(i);
+				}
+			}
+
+			//Removes all the pickups from the list when item is retrieved
+			for (int i = 0; i < pickUpsCurrent.Count; i++)
+			{
+				if (pickUpsCurrent[i].ItemState == ItemState.Retrieved)
+				{
+					pickUpsCurrent.RemoveAt(i);
 				}
 			}
 		}
-    }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void UpdateAllBears()
+		{
+
+
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void UpdateAttacks()
+		{
+
+
+		}
+	}
 }
