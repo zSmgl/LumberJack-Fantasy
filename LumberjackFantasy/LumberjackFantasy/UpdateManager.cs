@@ -303,19 +303,93 @@ namespace LumberjackFantasy
 			if (attackType == AttackVariation.axe)
 			{
 				attackArea = new Rectangle(location.X, location.Y, 100, 100);
+				// changes the direction of the box based on player orientation
+				/*
+				 *    < ^ ^
+				 *    < * >
+				 *    \/\/>
+				 * (diagram of how the layout is setup)
+				 */
+				switch (playerDirection)
+				{
+					case PlayerDirection.up:
+						attackArea.Y -= 96;
+						break;
+					case PlayerDirection.upleft:
+						attackArea.X -= 96;
+						break;
+					case PlayerDirection.upright:
+						attackArea.Y -= 96;
+						break;
+					case PlayerDirection.down:
+						attackArea.Y += 96;
+						break;
+					case PlayerDirection.downleft:
+						attackArea.Y += 96;
+						break;
+					case PlayerDirection.downright:
+						attackArea.X += 96;
+						break;
+					case PlayerDirection.left:
+						attackArea.X -= 96;
+						break;
+					case PlayerDirection.right:
+						attackArea.X += 96;
+						break;
 
+				}
 
 
 			}
 			else if (attackType == AttackVariation.shotgun)
 			{
 				//sizes 4:3
-				attackArea = new Rectangle();
-			}
+				attackArea = new Rectangle(location.X, location.Y, 100, 100);
 
+				//expands the area based on direction, uses same layout as above
+				switch (playerDirection)
+				{
+					case PlayerDirection.up:
+						attackArea.Y -= (96*2);
+						attackArea.Height = 350;
+						break;
+					case PlayerDirection.upleft:
+						attackArea.X -= (96 * 2);
+						attackArea.Width = 350;
+						break;
+					case PlayerDirection.upright:
+						attackArea.Y -= (96 * 2);
+						attackArea.Height = 350;
+						break;
+					case PlayerDirection.down:
+						attackArea.Y += 96;
+						attackArea.Height = 350;
+						break;
+					case PlayerDirection.downleft:
+						attackArea.Y += 96;
+						attackArea.Height = 350;
+						break;
+					case PlayerDirection.downright:
+						attackArea.X += 96;
+						attackArea.Width = 350;
+						break;
+					case PlayerDirection.left:
+						attackArea.X -= (96*2);
+						attackArea.Width = 350;
+						break;
+					case PlayerDirection.right:
+						attackArea.X += 96;
+						attackArea.Width = 350;
+						break;
+
+				}
+
+			}
+			//bear attacks (fight me, puny human)
 			else
 			{
-
+				//should be a radius around the bear
+				//not quite sure about how big I want it to be 
 			}
 		}
 
