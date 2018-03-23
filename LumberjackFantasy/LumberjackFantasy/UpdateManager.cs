@@ -11,7 +11,7 @@ namespace LumberjackFantasy
 {
 	class UpdateManager
 	{
-
+        private GameTime gameTime;           // Holds the current GameTime
 		private Player pCurrent;             // Holds the player's values
 		private List<Bear> bearsCurrent;     // Holds all of the bears in the game
 		private List<Tree> treesCurrent;     // Holds all of the treesInTheGame
@@ -38,10 +38,12 @@ namespace LumberjackFantasy
 		public void UpdateGameScreen()
 		{
 
-			//UpdateStoredLists()
-			//UpdatePlayer()
-			//UpdateAllBears()
-			//UpdateAttacks()
+            UpdatePlayer();
+            UpdatePickUps();
+            UpdateAllBears();
+            //UpdateAttacks();
+            RemoveStuffFromStoredLists();
+
 		}
 
         /// <summary>
@@ -69,9 +71,40 @@ namespace LumberjackFantasy
         }
 
         // ----------------------------------------------------------------------- Add / Remove Stuff from Lists ---------------------------------------------------------
+        
+        /// <summary>
+        /// Sets the neccessary fields for when the game is in Update Game Screen
+        /// </summary>
+        /// <param name="p"> the player</param>
+        /// <param name="bears"> the bears List</param>
+        /// <param name="trees"> the trees List</param>
+        /// <param name="pickUps"> the pickUps List</param>
+        public void UpdateGameScreenFields(Player p, List<Bear> bears, List<Tree> trees, List<PickUp> pickUps, GameTime gameTime)
+        {
+            this.gameTime = gameTime;
+            pCurrent = p;
+            bearsCurrent = bears;
+            treesCurrent = trees;
+            pickUpsCurrent = pickUps;
+        }
+
+        public void UpdateTitleScreenFields()
+        {
+
+        }
+
+        public void UpdatePauseScreenFields()
+        {
+
+        }
+
+        public void UpdateEndGameScreenFields()
+        {
+
+        }
 
         /// <summary>
-        /// Updates all of the Lists (Tree, Bear, PickUp)
+        /// Determines stuff to remove from Lists (Tree, Bear, PickUp)
         /// </summary>
         public void RemoveStuffFromStoredLists()
         {
