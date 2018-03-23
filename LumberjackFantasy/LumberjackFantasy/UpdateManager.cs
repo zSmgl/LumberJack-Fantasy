@@ -11,7 +11,7 @@ namespace LumberjackFantasy
 {
 	class UpdateManager
 	{
-        private GameTime gameTime;           // Holds the current GameTime
+		private GameTime gameTime;           // Holds the current GameTime
 		private Player pCurrent;             // Holds the player's values
 		private List<Bear> bearsCurrent;     // Holds all of the bears in the game
 		private List<Tree> treesCurrent;     // Holds all of the treesInTheGame
@@ -22,129 +22,129 @@ namespace LumberjackFantasy
 		VelocityManager velocityManager = new VelocityManager(0);
 		CollisionManager collisionManager = new CollisionManager();
 
-        /// <summary>
-        /// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
-        /// </summary>
+		/// <summary>
+		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
+		/// </summary>
 		public UpdateManager()
 		{
 
 		}
 
-        // --------------------------------------------------------------------- Universal Updates for Screen State ------------------------------------------------------
+		// --------------------------------------------------------------------- Universal Updates for Screen State ------------------------------------------------------
 
-        /// <summary>
-        /// Update method called when the game is actually being played
-        /// </summary>
+		/// <summary>
+		/// Update method called when the game is actually being played
+		/// </summary>
 		public void UpdateGameScreen()
 		{
 
-            UpdatePlayer();
-            UpdatePickUps();
-            UpdateAllBears();
-            //UpdateAttacks();
-            RemoveStuffFromStoredLists();
+			UpdatePlayer();
+			UpdatePickUps();
+			UpdateAllBears();
+			//UpdateAttacks();
+			RemoveStuffFromStoredLists();
 
 		}
 
-        /// <summary>
-        /// Update method called when the game is at the Title Screen
-        /// </summary>
-        public void UpdateTitleScreen()
-        {
+		/// <summary>
+		/// Update method called when the game is at the Title Screen
+		/// </summary>
+		public void UpdateTitleScreen()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Update Method called when the game is at a Pause Screen
-        /// </summary>
-        public void UpdatePauseScreen()
-        {
+		/// <summary>
+		/// Update Method called when the game is at a Pause Screen
+		/// </summary>
+		public void UpdatePauseScreen()
+		{
 
-        }
+		}
 
-        /// <summary>
-        /// Update Method called when the game is at a Game Over Screen
-        /// </summary>
-        public void UpdateEndGameScreen()
-        {
+		/// <summary>
+		/// Update Method called when the game is at a Game Over Screen
+		/// </summary>
+		public void UpdateEndGameScreen()
+		{
 
-        }
+		}
 
-        // ----------------------------------------------------------------------- Add / Remove Stuff from Lists ---------------------------------------------------------
-        
-        /// <summary>
-        /// Sets the neccessary fields for when the game is in Update Game Screen
-        /// </summary>
-        /// <param name="p"> the player</param>
-        /// <param name="bears"> the bears List</param>
-        /// <param name="trees"> the trees List</param>
-        /// <param name="pickUps"> the pickUps List</param>
-        public void UpdateGameScreenFields(Player p, List<Bear> bears, List<Tree> trees, List<PickUp> pickUps, GameTime gameTime)
-        {
-            this.gameTime = gameTime;
-            pCurrent = p;
-            bearsCurrent = bears;
-            treesCurrent = trees;
-            pickUpsCurrent = pickUps;
-        }
+		// ----------------------------------------------------------------------- Add / Remove Stuff from Lists ---------------------------------------------------------
 
-        public void UpdateTitleScreenFields()
-        {
+		/// <summary>
+		/// Sets the neccessary fields for when the game is in Update Game Screen
+		/// </summary>
+		/// <param name="p"> the player</param>
+		/// <param name="bears"> the bears List</param>
+		/// <param name="trees"> the trees List</param>
+		/// <param name="pickUps"> the pickUps List</param>
+		public void UpdateGameScreenFields(Player p, List<Bear> bears, List<Tree> trees, List<PickUp> pickUps, GameTime gameTime)
+		{
+			this.gameTime = gameTime;
+			pCurrent = p;
+			bearsCurrent = bears;
+			treesCurrent = trees;
+			pickUpsCurrent = pickUps;
+		}
 
-        }
+		public void UpdateTitleScreenFields()
+		{
 
-        public void UpdatePauseScreenFields()
-        {
+		}
 
-        }
+		public void UpdatePauseScreenFields()
+		{
 
-        public void UpdateEndGameScreenFields()
-        {
+		}
 
-        }
+		public void UpdateEndGameScreenFields()
+		{
 
-        /// <summary>
-        /// Determines stuff to remove from Lists (Tree, Bear, PickUp)
-        /// </summary>
-        public void RemoveStuffFromStoredLists()
-        {
-            //Removes all trees from the list that have less than or equal to 0 health
-            for (int i = 0; i < treesCurrent.Count; i++)
-            {
-                if (treesCurrent[i].Health < 0 || treesCurrent[i].Health == 0)
-                {
-                    treesCurrent.RemoveAt(i);
-                }
-            }
+		}
 
-            //Removes all bears from the list that have less than or equal to 0 health
-            for (int i = 0; i < bearsCurrent.Count; i++)
-            {
-                if (bearsCurrent[i].Health < 0 || bearsCurrent[i].Health == 0)
-                {
-                    bearsCurrent.RemoveAt(i);
-                }
-            }
+		/// <summary>
+		/// Determines stuff to remove from Lists (Tree, Bear, PickUp)
+		/// </summary>
+		public void RemoveStuffFromStoredLists()
+		{
+			//Removes all trees from the list that have less than or equal to 0 health
+			for (int i = 0; i < treesCurrent.Count; i++)
+			{
+				if (treesCurrent[i].Health < 0 || treesCurrent[i].Health == 0)
+				{
+					treesCurrent.RemoveAt(i);
+				}
+			}
 
-
-            //Removes all the pickups from the list when item is retrieved
-            for (int i = 0; i < pickUpsCurrent.Count; i++)
-            {
-                if (pickUpsCurrent[i].ItemState == ItemState.Retrieved)
-                {
-                    pickUpsCurrent.RemoveAt(i);
-                }
-            }
-        }
+			//Removes all bears from the list that have less than or equal to 0 health
+			for (int i = 0; i < bearsCurrent.Count; i++)
+			{
+				if (bearsCurrent[i].Health < 0 || bearsCurrent[i].Health == 0)
+				{
+					bearsCurrent.RemoveAt(i);
+				}
+			}
 
 
-        // ------------------------------------------------------------------------ Player Specific Methods ---------------------------------------------------------------
+			//Removes all the pickups from the list when item is retrieved
+			for (int i = 0; i < pickUpsCurrent.Count; i++)
+			{
+				if (pickUpsCurrent[i].ItemState == ItemState.Retrieved)
+				{
+					pickUpsCurrent.RemoveAt(i);
+				}
+			}
+		}
 
 
-       /// <summary>
-       /// Responsible for Updating all neccessary variables of the player
-       /// </summary>
-        public void UpdatePlayer()
+		// ------------------------------------------------------------------------ Player Specific Methods ---------------------------------------------------------------
+
+
+		/// <summary>
+		/// Responsible for Updating all neccessary variables of the player
+		/// </summary>
+		public void UpdatePlayer()
 		{
 
 			// Creates a Player Velocity Manager
@@ -256,10 +256,10 @@ namespace LumberjackFantasy
 			}
 		}
 
-        /// <summary>
-        /// Adjusts Players Rectangle Fields and Pos if a collision with a tree has occured.
-        /// </summary>
-        /// <param name="oldPos"></param>
+		/// <summary>
+		/// Adjusts Players Rectangle Fields and Pos if a collision with a tree has occured.
+		/// </summary>
+		/// <param name="oldPos"></param>
 		public void UpdatePlayerPosition(Player oldPos)
 		{
 			// @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
@@ -288,15 +288,15 @@ namespace LumberjackFantasy
 		}
 
 
-        // -------------------------------------------------------------------------- Bear Specific Methods ------------------------------------------------------------
+		// -------------------------------------------------------------------------- Bear Specific Methods ------------------------------------------------------------
 
 
-        /// <summary>
-        /// Update Responsible for updating all parts of every bear for each bear.
-        /// </summary>
-        public void UpdateAllBears()
+		/// <summary>
+		/// Update Responsible for updating all parts of every bear for each bear.
+		/// </summary>
+		public void UpdateAllBears()
 		{
-			for(int i =0; i<bearsCurrent.Count;i++)
+			for (int i = 0; i < bearsCurrent.Count; i++)
 			{
 				// Creates a Bear Velocity Manager
 				velocityManager = new VelocityManager(bearsCurrent[i].MaxSpeed)
@@ -319,9 +319,9 @@ namespace LumberjackFantasy
 
 				UpdateBearsPosition(oldPos, i);
 
-                // 3 - Updates the Animations of the bear
+				// 3 - Updates the Animations of the bear
 
-                UpdateBearAnimation(oldPos, i);
+				UpdateBearAnimation(oldPos, i);
 
 
 
@@ -329,83 +329,83 @@ namespace LumberjackFantasy
 
 		}
 
-        /// <summary>
-        /// Adjusts Bear's Rectangle Fields and Pos if a collision with a tree has occured.
-        /// </summary>
-        /// <param name="oldPos">The old bear</param>
-        /// <param name="i">The # of bear from it's list</param>
-        public void UpdateBearsPosition(Bear oldPos, int i)
-        {
-            // @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
+		/// <summary>
+		/// Adjusts Bear's Rectangle Fields and Pos if a collision with a tree has occured.
+		/// </summary>
+		/// <param name="oldPos">The old bear</param>
+		/// <param name="i">The # of bear from it's list</param>
+		public void UpdateBearsPosition(Bear oldPos, int i)
+		{
+			// @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
 
-            int[] adjustPosValues = collisionManager.PosAdjust(bearsCurrent[i], oldPos, treesCurrent);
+			int[] adjustPosValues = collisionManager.PosAdjust(bearsCurrent[i], oldPos, treesCurrent);
 
-            // If any sort of adjustment value was found, then the object collided with something.
-            // If no adjustment was found, then nothing needs to be offset and the speed doesnt need to be adjusted
+			// If any sort of adjustment value was found, then the object collided with something.
+			// If no adjustment was found, then nothing needs to be offset and the speed doesnt need to be adjusted
 
-            if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
-            {
-                // Makes the bear and trees collision no longer occur and sets all bear rectangles equally offset
-                bearsCurrent[i].ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
-                bearsCurrent[i].BearVision.Offset(adjustPosValues[0], adjustPosValues[1]);
-                bearsCurrent[i].FieldOfAttack.Offset(adjustPosValues[0], adjustPosValues[1]);
+			if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
+			{
+				// Makes the bear and trees collision no longer occur and sets all bear rectangles equally offset
+				bearsCurrent[i].ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
+				bearsCurrent[i].BearVision.Offset(adjustPosValues[0], adjustPosValues[1]);
+				bearsCurrent[i].FieldOfAttack.Offset(adjustPosValues[0], adjustPosValues[1]);
 
-                // Changes the speed to 0 in the direction of which a potential collision has now occured. 
-                if (adjustPosValues[0] != 0)
-                {
-                    bearsCurrent[i].SpeedX = 0;
-                }
-                if (adjustPosValues[1] != 0)
-                {
-                    bearsCurrent[i].SpeedY = 0;
-                }
-            }
-        }
+				// Changes the speed to 0 in the direction of which a potential collision has now occured. 
+				if (adjustPosValues[0] != 0)
+				{
+					bearsCurrent[i].SpeedX = 0;
+				}
+				if (adjustPosValues[1] != 0)
+				{
+					bearsCurrent[i].SpeedY = 0;
+				}
+			}
+		}
 
-        /// <summary>
-        /// Updates the Bear's direction enum to be properly set. Used to determine what animation of Bear should be drawn
-        /// </summary>
-        /// <param name="oldPos">The old bear</param>
-        /// <param name="i">The # of bear from it's list</param>
-        public void UpdateBearAnimation(Bear oldPos, int i)
-        {
-            if(oldPos.PosX > pCurrent.PosX && oldPos.PosY == pCurrent.PosY)         // Bear walking in Left Direction
-            {
-                bearsCurrent[i].BearDirection = BearDirection.left;
-            }
-            else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY == pCurrent.PosY)   // Bear walking in the Right Direction
-            {
-                bearsCurrent[i].BearDirection = BearDirection.right;
-            }
-            else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear walking Up Direction
-            {
-                bearsCurrent[i].BearDirection = BearDirection.up;
-            }
-            else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear walking Down Direction
-            {
-                bearsCurrent[i].BearDirection = BearDirection.down;
-            }
-            else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear is walking Up-Left
-            {
-                bearsCurrent[i].BearDirection = BearDirection.upleft;
-            }
-            else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear is walking Up-Right
-            {
-                bearsCurrent[i].BearDirection = BearDirection.upright;
-            }
-            else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear is walking Down-Left
-            {
-                bearsCurrent[i].BearDirection = BearDirection.downleft;
-            }
-            else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear is walking Down-Right
-            {
-                bearsCurrent[i].BearDirection = BearDirection.downright;
-            }
-            else                                                                    // Bear Stood Still
-            {
-                bearsCurrent[i].BearDirection = oldPos.BearDirection;
-            }
-        }
+		/// <summary>
+		/// Updates the Bear's direction enum to be properly set. Used to determine what animation of Bear should be drawn
+		/// </summary>
+		/// <param name="oldPos">The old bear</param>
+		/// <param name="i">The # of bear from it's list</param>
+		public void UpdateBearAnimation(Bear oldPos, int i)
+		{
+			if (oldPos.PosX > pCurrent.PosX && oldPos.PosY == pCurrent.PosY)         // Bear walking in Left Direction
+			{
+				bearsCurrent[i].BearDirection = BearDirection.left;
+			}
+			else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY == pCurrent.PosY)   // Bear walking in the Right Direction
+			{
+				bearsCurrent[i].BearDirection = BearDirection.right;
+			}
+			else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear walking Up Direction
+			{
+				bearsCurrent[i].BearDirection = BearDirection.up;
+			}
+			else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear walking Down Direction
+			{
+				bearsCurrent[i].BearDirection = BearDirection.down;
+			}
+			else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear is walking Up-Left
+			{
+				bearsCurrent[i].BearDirection = BearDirection.upleft;
+			}
+			else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear is walking Up-Right
+			{
+				bearsCurrent[i].BearDirection = BearDirection.upright;
+			}
+			else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear is walking Down-Left
+			{
+				bearsCurrent[i].BearDirection = BearDirection.downleft;
+			}
+			else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear is walking Down-Right
+			{
+				bearsCurrent[i].BearDirection = BearDirection.downright;
+			}
+			else                                                                    // Bear Stood Still
+			{
+				bearsCurrent[i].BearDirection = oldPos.BearDirection;
+			}
+		}
 
 		public void BearMovement(Bear oldBear, int i)
 		{
@@ -439,43 +439,43 @@ namespace LumberjackFantasy
 
         // ------------------------------------------------------------------- Pickup Specific Methods ---------------------------------------------------------------------
 
-        /// <summary>
-        /// Loops through list of all pickups, if pickup collides checks type and handles code
-        /// </summary>
-        public void UpdatePickUps()
-        {
-            foreach (PickUp thisPickup in pickUpsCurrent)
-            {
-                if (thisPickup.ObjectCollisionBox.Intersects(pCurrent.ObjectCollisionBox))
-                {
-                    thisPickup.ItemState = ItemState.Retrieved;
-                    switch (thisPickup.PickupType)
-                    {
-                        case PickupType.Apple:
-                            pCurrent.Health += 1;
-                            break;
+		/// <summary>
+		/// Loops through list of all pickups, if pickup collides checks type and handles code
+		/// </summary>
+		public void UpdatePickUps()
+		{
+			foreach (PickUp thisPickup in pickUpsCurrent)
+			{
+				if (thisPickup.ObjectCollisionBox.Intersects(pCurrent.ObjectCollisionBox))
+				{
+					thisPickup.ItemState = ItemState.Retrieved;
+					switch (thisPickup.PickupType)
+					{
+						case PickupType.Apple:
+							pCurrent.Health += 1;
+							break;
 
-                        case PickupType.MapleSyrup:
-                            pCurrent.LevelScore += 45;
-                            break;
+						case PickupType.MapleSyrup:
+							pCurrent.LevelScore += 45;
+							break;
 
-                        case PickupType.Shotgun:
-                            //put open season code here
-                            break;
-                    }
-                }
-            }
-        }
+						case PickupType.Shotgun:
+							//put open season code here
+							break;
+					}
+				}
+			}
+		}
 
 
-        // ---------------------------------------------------------------------------- Attack Stuff ----------------------------------------------------------------------
+		// ---------------------------------------------------------------------------- Attack Stuff ----------------------------------------------------------------------
 
-        /// Pass in 1 or 0 to determine bear or player
-        /// If bear, pass a 0 for weapon type
-        /// If plr, pass 0 for axe and 1 for shotgun
-        /// </summary>
-        /// <param name=""></param>
-        public void UpdateAttacks(AttackVariation attackType, Point location, PlayerDirection playerDirection)
+		/// Pass in 1 or 0 to determine bear or player
+		/// If bear, pass a 0 for weapon type
+		/// If plr, pass 0 for axe and 1 for shotgun
+		/// </summary>
+		/// <param name=""></param>
+		public void UpdateAttacks(AttackVariation attackType, Point location, PlayerDirection playerDirection)
 		{
 			Rectangle attackArea;
 
@@ -492,32 +492,53 @@ namespace LumberjackFantasy
 				switch (playerDirection)
 				{
 					case PlayerDirection.up:
-						attackArea.Y -= 96;
+						attackArea.Y -= pCurrent.Height;
 						break;
 					case PlayerDirection.upleft:
-						attackArea.X -= 96;
+						attackArea.X -= pCurrent.Width;
 						break;
 					case PlayerDirection.upright:
-						attackArea.Y -= 96;
+						attackArea.Y -= pCurrent.Height;
 						break;
 					case PlayerDirection.down:
-						attackArea.Y += 96;
+						attackArea.Y += pCurrent.Height;
 						break;
 					case PlayerDirection.downleft:
-						attackArea.Y += 96;
+						attackArea.Y += pCurrent.Height;
 						break;
 					case PlayerDirection.downright:
-						attackArea.X += 96;
+						attackArea.X += pCurrent.Width;
 						break;
 					case PlayerDirection.left:
-						attackArea.X -= 96;
+						attackArea.X -= pCurrent.Width;
 						break;
 					case PlayerDirection.right:
-						attackArea.X += 96;
+						attackArea.X += pCurrent.Width;
 						break;
-
 				}
 
+
+				//calls collision on Bears
+				bool[] bearHits = collisionManager.GenericAttack(attackType, attackArea, pCurrent, bearsCurrent);
+				//checks and deals with the heath of the bears
+				for (int i = 0; i < bearHits.Length; i++)
+				{
+					if (bearHits[i])
+					{
+						bearsCurrent[i].Health--;
+					}
+				}
+
+				//calls collision on Trees
+				bool[] treeHits = collisionManager.GenericAttack(attackType, attackArea, pCurrent, treesCurrent);
+				//checks and deals with the health of trees.
+				for (int i = 0; i < treeHits.Length; i++)
+				{
+					if (treeHits[i])
+					{
+						treesCurrent[i].Health--;
+					}
+				}
 
 			}
 			else if (attackType == AttackVariation.shotgun)
@@ -529,50 +550,113 @@ namespace LumberjackFantasy
 				switch (playerDirection)
 				{
 					case PlayerDirection.up:
-						attackArea.Y -= (96*2);
+						attackArea.Y -= (pCurrent.Height * 2);
 						attackArea.Height = 350;
 						break;
 					case PlayerDirection.upleft:
-						attackArea.X -= (96 * 2);
+						attackArea.X -= (pCurrent.Width * 2);
 						attackArea.Width = 350;
 						break;
 					case PlayerDirection.upright:
-						attackArea.Y -= (96 * 2);
+						attackArea.Y -= (pCurrent.Height * 2);
 						attackArea.Height = 350;
 						break;
 					case PlayerDirection.down:
-						attackArea.Y += 96;
+						attackArea.Y += pCurrent.Height;
 						attackArea.Height = 350;
 						break;
 					case PlayerDirection.downleft:
-						attackArea.Y += 96;
+						attackArea.Y += pCurrent.Height;
 						attackArea.Height = 350;
 						break;
 					case PlayerDirection.downright:
-						attackArea.X += 96;
+						attackArea.X += pCurrent.Width;
 						attackArea.Width = 350;
 						break;
 					case PlayerDirection.left:
-						attackArea.X -= (96*2);
+						attackArea.X -= (pCurrent.Width * 2);
 						attackArea.Width = 350;
 						break;
 					case PlayerDirection.right:
-						attackArea.X += 96;
+						attackArea.X += pCurrent.Width;
 						attackArea.Width = 350;
 						break;
-
 				}
+
+				//calls collision on Bears
+				bool[] bearHits = collisionManager.GenericAttack(attackType, attackArea, pCurrent, bearsCurrent);
+				//checks and deals with the heath of the bears
+				for (int i = 0; i < bearHits.Length; i++)
+				{
+					if (bearHits[i])
+					{
+						bearsCurrent[i].Health--;
+					}
+				}
+
+				//calls collision on Trees
+				bool[] treeHits = collisionManager.GenericAttack(attackType, attackArea, pCurrent, treesCurrent);
+				//checks and deals with the health of trees.
+				for (int i = 0; i < treeHits.Length; i++)
+				{
+					if (treeHits[i])
+					{
+						treesCurrent[i].Health--;
+					}
+				}
+
 
 			}
 			//bear attacks (fight me, puny human)
 			else
 			{
-				//should be a radius around the bear
-				//not quite sure about how big I want it to be 
+				//when the bear gets in a certain radius, it attacks where it is facing
+				//if (bearbox colides with player, play attack)
+				foreach (Bear b in bearsCurrent)
+				{
+					if (collisionManager.BearboxCollider(b, pCurrent))
+					{
+						attackArea = new Rectangle(location.X, location.Y, 100, 100);
+						switch (b.BearDirection)
+						{
+							case BearDirection.up:
+								attackArea.Y -= b.Height;
+								break;
+							case BearDirection.upleft:
+								attackArea.X -= b.Width;
+								break;
+							case BearDirection.upright:
+								attackArea.Y -= b.Height;
+								break;
+							case BearDirection.down:
+								attackArea.Y += b.Height;
+								break;
+							case BearDirection.downleft:
+								attackArea.Y += b.Height;
+								break;
+							case BearDirection.downright:
+								attackArea.X += b.Width;
+								break;
+							case BearDirection.left:
+								attackArea.X -= b.Width;
+								break;
+							case BearDirection.right:
+								attackArea.X += b.Width;
+								break;
+
+						}
+						// Calls for attack on the player
+						bool[] playerHit = collisionManager.GenericAttack(attackType, attackArea, pCurrent, bearsCurrent);
+						if (playerHit[0])
+						{
+							pCurrent.Health--;
+						}
+					}
+				}
 			}
 		}
 
-		
+
 	}
 }
 
