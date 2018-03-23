@@ -99,6 +99,7 @@ namespace LumberjackFantasy
         public int WhenToMove
         {
             get { return whenToMove; }
+			set { whenToMove = value; }
         }
 
         public double TimeOfMovementCounter
@@ -108,13 +109,15 @@ namespace LumberjackFantasy
 
         public int TimeOfMovement
         {
-            get { return TimeOfMovement; }
+            get { return timeOfMovement; }
+			set { timeOfMovement = value; }
         }
         
         public int ScoreValue
         {
             get { return scoreValue; }
         }
+
 
 
         // Constructor ------------------------------------------------------------------------------

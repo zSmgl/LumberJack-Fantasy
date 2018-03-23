@@ -313,7 +313,7 @@ namespace LumberjackFantasy
 
 				// 1 - Finds Bears "Un-Collided" Position with new Speed 
 
-				BearMovement();
+				BearMovement(oldPos,i);
 
 				// 2 - Check for Collisions with Trees in Game. Adjust Speed and Pos Accordingly if needed.
 
@@ -406,6 +406,36 @@ namespace LumberjackFantasy
                 bearsCurrent[i].BearDirection = oldPos.BearDirection;
             }
         }
+
+		public void BearMovement(Bear oldBear, int i)
+		{
+			if(pCurrent.PlayerVision.Intersects(bearsCurrent[i].BearVision) == true)
+			{
+				bearsCurrent[i].BearState = BearState.following;
+			}
+			else
+			{
+				if (oldBear.BearState == BearState.stationary)
+				{
+					bearsCurrent[i].WhenToMove++;
+				}
+				else if (oldBear.BearState == BearState.looking)
+				{
+					bearsCurrent[i].TimeOfMovement++;
+				}
+
+
+				if(oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveTimer == bearsCurrent[i].WhenToMove)
+				{
+					bearsCurrent[i].BearState = BearState.looking;
+				}
+				else if(bearsCurrent[i].BearState == BearState.stationary && bearsCurrent[i].WhenToMoveTimer != bearsCurrent[i].WhenToMove)
+				{
+					bearsCurrent[i].BearState = BearState.stationary;
+				}
+				
+			}
+		}
 
         // ------------------------------------------------------------------- Pickup Specific Methods ---------------------------------------------------------------------
 
