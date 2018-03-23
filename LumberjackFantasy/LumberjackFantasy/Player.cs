@@ -105,25 +105,7 @@ namespace LumberjackFantasy
 		/// </summary>
 		public void UpdatePlayer()
 		{
-			//Bobby McKenna
-			//This is the area that we will
-			Rectangle attackArea;
-			if (this.attack == AttackVariation.axe)
-			{
-				int axeWidth = 100;
-				int axeHeight = 100;
-				//sizes tbd
-				//calles collision manager in a certain area 
-
-				
-
-
-
-			}
-			else if (this.attack == AttackVariation.shotgun)
-			{
-				//sizes tbd
-			}
+			
 		}
 
     }

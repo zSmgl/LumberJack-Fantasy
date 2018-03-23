@@ -429,28 +429,28 @@ namespace LumberjackFantasy
 				switch (playerDirection)
 				{
 					case PlayerDirection.up:
-						attackArea.Y -= 96;
+						attackArea.Y -= pCurrent.Height;
 						break;
 					case PlayerDirection.upleft:
-						attackArea.X -= 96;
+						attackArea.X -= pCurrent.Width;
 						break;
 					case PlayerDirection.upright:
-						attackArea.Y -= 96;
+						attackArea.Y -= pCurrent.Height;
 						break;
 					case PlayerDirection.down:
-						attackArea.Y += 96;
+						attackArea.Y += pCurrent.Height;
 						break;
 					case PlayerDirection.downleft:
-						attackArea.Y += 96;
+						attackArea.Y += pCurrent.Height;
 						break;
 					case PlayerDirection.downright:
-						attackArea.X += 96;
+						attackArea.X += pCurrent.Width;
 						break;
 					case PlayerDirection.left:
-						attackArea.X -= 96;
+						attackArea.X -= pCurrent.Width;
 						break;
 					case PlayerDirection.right:
-						attackArea.X += 96;
+						attackArea.X += pCurrent.Width;
 						break;
 
 				}
@@ -466,35 +466,35 @@ namespace LumberjackFantasy
 				switch (playerDirection)
 				{
 					case PlayerDirection.up:
-						attackArea.Y -= (96*2);
+						attackArea.Y -= (pCurrent.Height * 2);
 						attackArea.Height = 350;
 						break;
 					case PlayerDirection.upleft:
-						attackArea.X -= (96 * 2);
+						attackArea.X -= (pCurrent.Width * 2);
 						attackArea.Width = 350;
 						break;
 					case PlayerDirection.upright:
-						attackArea.Y -= (96 * 2);
+						attackArea.Y -= (pCurrent.Height * 2);
 						attackArea.Height = 350;
 						break;
 					case PlayerDirection.down:
-						attackArea.Y += 96;
+						attackArea.Y += pCurrent.Height;
 						attackArea.Height = 350;
 						break;
 					case PlayerDirection.downleft:
-						attackArea.Y += 96;
+						attackArea.Y += pCurrent.Height;
 						attackArea.Height = 350;
 						break;
 					case PlayerDirection.downright:
-						attackArea.X += 96;
+						attackArea.X += pCurrent.Width;
 						attackArea.Width = 350;
 						break;
 					case PlayerDirection.left:
-						attackArea.X -= (96*2);
+						attackArea.X -= (pCurrent.Width * 2);
 						attackArea.Width = 350;
 						break;
 					case PlayerDirection.right:
-						attackArea.X += 96;
+						attackArea.X += pCurrent.Width;
 						attackArea.Width = 350;
 						break;
 
@@ -504,8 +504,43 @@ namespace LumberjackFantasy
 			//bear attacks (fight me, puny human)
 			else
 			{
-				//should be a radius around the bear
-				//not quite sure about how big I want it to be 
+				//when the bear gets in a certain radius, it attacks where it is facing
+				//if (bearbox colides with player, play attack)
+				foreach (Bear b in bearsCurrent)
+				{
+					if (collisionManager.BearboxCollider(b, pCurrent))
+					{
+						attackArea = new Rectangle(location.X, location.Y, 100, 100)
+						switch (b.BearDirection)
+						{
+							case BearDirection.up:
+								attackArea.Y -= b.Height;
+								break;
+							case BearDirection.upleft:
+								attackArea.X -= b.Width;
+								break;
+							case BearDirection.upright:
+								attackArea.Y -= b.Height;
+								break;
+							case BearDirection.down:
+								attackArea.Y += b.Height;
+								break;
+							case BearDirection.downleft:
+								attackArea.Y += b.Height;
+								break;
+							case BearDirection.downright:
+								attackArea.X += b.Width;
+								break;
+							case BearDirection.left:
+								attackArea.X -= b.Width;
+								break;
+							case BearDirection.right:
+								attackArea.X += b.Width;
+								break;
+
+						}
+					}
+				}
 			}
 		}
 

@@ -75,15 +75,25 @@ namespace LumberjackFantasy
             get { return objectCollisionBox; }
         }
 
-        /// <summary>
-        /// Constructor for GameObject
-        /// </summary>
-        /// <param name="x"> X Position of the Object on the Screen </param>
-        /// <param name="y"> Y Position of the Object on the Screen</param>
-        /// <param name="width">  Width of the Object</param>
-        /// <param name="height"> Height of the Object</param>
-        /// <param name="gameTexture"></param>
-        public GameObject(int x, int y, int width, int height, Texture2D objectTexture)
+		public Point Location
+		{
+			get { return new Point(objectCollisionBox.X, objectCollisionBox.Y); }
+		}
+
+		public Point Size
+		{
+			get { return new Point(width, height); }
+		}
+
+		/// <summary>
+		/// Constructor for GameObject
+		/// </summary>
+		/// <param name="x"> X Position of the Object on the Screen </param>
+		/// <param name="y"> Y Position of the Object on the Screen</param>
+		/// <param name="width">  Width of the Object</param>
+		/// <param name="height"> Height of the Object</param>
+		/// <param name="gameTexture"></param>
+		public GameObject(int x, int y, int width, int height, Texture2D objectTexture)
         {
             this.width = width;
             this.height = height;

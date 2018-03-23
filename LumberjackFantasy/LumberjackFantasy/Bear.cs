@@ -116,6 +116,8 @@ namespace LumberjackFantasy
             get { return scoreValue; }
         }
 
+		
+
 
         // Constructor ------------------------------------------------------------------------------
 

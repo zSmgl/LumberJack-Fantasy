@@ -80,5 +80,18 @@ namespace LumberjackFantasy
             return posValues;
         }
 
+
+		//bearbox colider
+		//Not meant to be used for anything other than checking if bears should attack.
+		public bool BearboxCollider(Bear bear, Player player)
+		{
+			Rectangle bearBox = new Rectangle(bear.Location, bear.Size);
+			if (bearBox.Intersects(player.ObjectCollisionBox))
+			{
+				return true;
+			}
+			return false;
+		}
+
     }
 }
