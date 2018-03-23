@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\LumberjackFantasy",
-    "\\LumberjackFantasy\\LumberjackFantasy"
+    "\\LumberjackFantasy\\LumberjackFantasy",
+    "\\LumberjackFantasy\\LumberjackFantasy\\Content"
   ],
-  "SelectedNode": "\\LumberjackFantasy\\LumberjackFantasy\\Tree.cs",
+  "SelectedNode": "\\LumberjackFantasy\\LumberjackFantasy\\UpdateManager.cs",
   "PreviewInSolutionExplorer": false
 }

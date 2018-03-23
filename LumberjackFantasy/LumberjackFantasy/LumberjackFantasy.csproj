@@ -50,8 +50,8 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenManager.cs" />
     <Compile Include="Tile.cs" />
-    <Compile Include="TitleScreen.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="UpdateManager.cs" />
     <Compile Include="VelocityManager.cs" />
