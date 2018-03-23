@@ -15,8 +15,9 @@ namespace LumberjackFantasy
     /// </summary>
     enum BearState      
     {
+        stationary,
         looking,
-        following,
+        following
     }
 
     /// <summary>
@@ -57,7 +58,6 @@ namespace LumberjackFantasy
         private double whenToMoveTimer;         // Counter that updates with GameTime that tells the bear when it should move.
         private int whenToMove;                 // Randomly Generated time between max and min that tells how long a bear waits before moving.
 
-        private bool moveInLook;                // Allows the Bear to Move while in a looking State
         private int timeOfMovementMax;          // Determines how long a bear should max move in a random movement in a direction.
         private int timeOfMovementMin;          // Determines how long a bear should min move in a random movement in a direction.
         private double timeOfMovementCounter;   // Counter that updates with GameTime that tells the bear how long it should move.
@@ -139,7 +139,6 @@ namespace LumberjackFantasy
             whenToMoveMin = 5;                                   // Bears Wait a min of 5 Seconds before making a movement;
             whenToMove = rng.Next(whenToMoveMin, whenToMoveMax); // Random int between 5-15 Seconds of when bear first can Move
 
-            moveInLook = false;    
 
             timeOfMovementCounter = 0;
             timeOfMovementMax = 5 + 1;                                          // Bear can move a max 5 seconds in a direction;
@@ -149,27 +148,6 @@ namespace LumberjackFantasy
 
         }
 
-        public void UpdateTimers(GameTime gameTime)
-        {   
-
-                // Adds x amount of seconds to the movement timer
-                whenToMoveTimer += gameTime.ElapsedGameTime.TotalSeconds;
-
-                // Will begin to move whenever the Timer = to the Set time as to when to move
-                if (whenToMoveTimer == whenToMove)
-                {
-                    // Tells the Bear it can now move in looking state and the direction it will move
-                    moveInLook = true;
-                    
-                }
-
-                if (moveInLook == true) // If the object should be in a random movement state
-                {
-                    timeOfMovementCounter += gameTime.ElapsedGameTime.TotalSeconds;
-
-                }
-
-        }
 
         /// <summary>
         /// Resets the Timer and comes up with a new time as to when the bear should move
@@ -180,7 +158,6 @@ namespace LumberjackFantasy
             whenToMoveTimer = 0;                                            // Resets the movementTimer back to 0
             timeOfMovement = rng.Next(timeOfMovementMin, timeOfMovementMax);// Comes up with a random total time of movement.
             timeOfMovementCounter = 0;                                      // Resets the timeOfMovement counter to 0
-            moveInLook = false;                                             // Bear Can No Longer move while Looking
         }
     }
 }
