@@ -410,8 +410,23 @@ namespace LumberjackFantasy
 			}
 		}
 
+        
+        public void Looking()
+        {
+
+        }
+        /// <summary>
+        /// Used for the bear to follow the player
+        /// </summary>
+        public void FollowPlayer()
+        {
+
+        }
+
 		public void BearMovement(Bear oldBear, int i)
 		{
+
+            //Determines the bear's state
 			if(pCurrent.PlayerVision.Intersects(bearsCurrent[i].BearVision) == true)
 			{
 				bearsCurrent[i].BearState = BearState.following;
@@ -434,13 +449,58 @@ namespace LumberjackFantasy
 				{
 					bearsCurrent[i].BearState = BearState.looking;
 				}
-				else if(bearsCurrent[i].BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter != bearsCurrent[i].WhenToMoveLimiter)
+				else if(oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter != bearsCurrent[i].WhenToMoveLimiter)
 				{
 					bearsCurrent[i].BearState = BearState.stationary;
 				}
+                else if(oldBear.BearState == BearState.looking && bearsCurrent[i].TimeOfMovementCounter == bearsCurrent[i].TimeOfMovementCounter)
+                {
+                    bearsCurrent[i].BearState = BearState.stationary;
+                }
+                else if(oldBear.BearState == BearState.looking && bearsCurrent[i].TimeOfMovementCounter != bearsCurrent[i].TimeOfMovementCounter)
+                {
+                    bearsCurrent[i].BearState = BearState.looking;
+                }
+                else if(oldBear.BearState == BearState.following)
+                {
+                    bearsCurrent[i].BearState = BearState.stationary;
+                }
+                
 				
+
 			}
-		}
+
+
+            if(oldBear.BearState == BearState.stationary && bearsCurrent[i].BearState == BearState.looking)
+            {
+                Looking();
+            }
+            else if(oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.looking)
+            {
+                Looking();
+            }
+            else if(oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.stationary)
+            {
+                bearsCurrent[i].ResetCounter();
+            }
+            else if (oldBear.BearState == BearState.following && bearsCurrent[i].BearState == BearState.following)
+            {
+                FollowPlayer();
+            }
+            else if (oldBear.BearState == BearState.stationary && bearsCurrent[i].BearState == BearState.following)
+            {
+                bearsCurrent[i].ResetCounter();
+                FollowPlayer();
+            }
+            else if (oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.following)
+            {
+                bearsCurrent[i].ResetCounter();
+                FollowPlayer();
+            }
+
+
+
+        }
 
         // ------------------------------------------------------------------- Pickup Specific Methods ---------------------------------------------------------------------
 
