@@ -510,7 +510,7 @@ namespace LumberjackFantasy
 				{
 					if (collisionManager.BearboxCollider(b, pCurrent))
 					{
-						attackArea = new Rectangle(location.X, location.Y, 100, 100)
+						attackArea = new Rectangle(location.X, location.Y, 100, 100);
 						switch (b.BearDirection)
 						{
 							case BearDirection.up:
