@@ -11,13 +11,16 @@ namespace LumberjackFantasy
 {
 	class UpdateManager
 	{
-		private GameTime gameTime;           // Holds the current GameTime
-		private Player pCurrent;             // Holds the player's values
-		private List<Bear> bearsCurrent;     // Holds all of the bears in the game
-		private List<Tree> treesCurrent;     // Holds all of the treesInTheGame
-		private List<PickUp> pickUpsCurrent; // Holds all the pickups in the game
-		private KeyboardState currentKB;     // Holds the current Kb State
-		private KeyboardState previousKB;    // Holds the previous Kb State (if needed)
+		private GameTime gameTime;                      // Holds the current GameTime
+		private Player pCurrent;                        // Holds the player's values
+		private List<Bear> bearsCurrent;                // Holds all of the bears in the game
+        private Dictionary<int, Bear> attackingBears;   // Simplified dictionary that holds attacking bears & their int in the list
+            // Key = i && Value = Bear  So... attackingBears[3].BearProperty is = to the 3rd bear that should be in Current Bears but
+            // is held in the dictionary. This will then need to be returned to the proper place in the bearsCurrent List.
+		private List<Tree> treesCurrent;                // Holds all of the treesInTheGame
+		private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
+		private KeyboardState currentKB;                // Holds the current Kb State
+		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
 
 		VelocityManager velocityManager = new VelocityManager(0);
 		CollisionManager collisionManager = new CollisionManager();
@@ -412,24 +415,26 @@ namespace LumberjackFantasy
 			if(pCurrent.PlayerVision.Intersects(bearsCurrent[i].BearVision) == true)
 			{
 				bearsCurrent[i].BearState = BearState.following;
+                attackingBears[i] = bearsCurrent[i];       // SINCE THE BEAR @ I IN THE LIST IS FOLLOWING THE PLAYER, THIS MEANS THE BEAR
+                // COULD POTENTIALLY ATTACK THE PLAYER. 
 			}
 			else
 			{
 				if (oldBear.BearState == BearState.stationary)
 				{
-					bearsCurrent[i].WhenToMove++;
+					bearsCurrent[i].WhenToMoveCounter += gameTime.ElapsedGameTime.TotalSeconds;
 				}
 				else if (oldBear.BearState == BearState.looking)
 				{
-					bearsCurrent[i].TimeOfMovement++;
+					bearsCurrent[i].TimeOfMovementCounter += gameTime.ElapsedGameTime.TotalSeconds;
 				}
 
 
-				if(oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveTimer == bearsCurrent[i].WhenToMove)
+				if(oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter == bearsCurrent[i].WhenToMoveLimiter)
 				{
 					bearsCurrent[i].BearState = BearState.looking;
 				}
-				else if(bearsCurrent[i].BearState == BearState.stationary && bearsCurrent[i].WhenToMoveTimer != bearsCurrent[i].WhenToMove)
+				else if(bearsCurrent[i].BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter != bearsCurrent[i].WhenToMoveLimiter)
 				{
 					bearsCurrent[i].BearState = BearState.stationary;
 				}

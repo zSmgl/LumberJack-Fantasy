@@ -100,13 +100,5 @@ namespace LumberjackFantasy
             // sb.Draw(blackTexture, playerVision, Color.White)
         }
 
-		/// <summary>
-		/// Takes the player's current location, direction and current weapon to render and update attacks. To be called 
-		/// </summary>
-		public void UpdatePlayer()
-		{
-			
-		}
-
     }
 }

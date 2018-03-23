@@ -55,13 +55,13 @@ namespace LumberjackFantasy
 
         private int whenToMoveMax;              // Determines how long a bear should max wait before making a random movement in a direction.
         private int whenToMoveMin;              // Determines how long a bear should min wait before making a random movement in a direction.
-        private double whenToMoveTimer;         // Counter that updates with GameTime that tells the bear when it should move.
-        private int whenToMove;                 // Randomly Generated time between max and min that tells how long a bear waits before moving.
+        private double whenToMoveCounter;       // Counter that updates with GameTime that tells the bear when it should move.
+        private double whenToMoveLimiter;       // Randomly Generated time between max and min that tells how long a bear waits before moving.
 
         private int timeOfMovementMax;          // Determines how long a bear should max move in a random movement in a direction.
         private int timeOfMovementMin;          // Determines how long a bear should min move in a random movement in a direction.
         private double timeOfMovementCounter;   // Counter that updates with GameTime that tells the bear how long it should move.
-        private int timeOfMovement;             // Randomly Generated time between max and min that tells how long a bear can move for.
+        private double timeOfMovementLimiter;   // Randomly Generated time between max and min that tells how long a bear can move for.
 
         private Random rng;                     // Random object used to randomly update how long the bear's next when to move time is. 
 
@@ -91,26 +91,27 @@ namespace LumberjackFantasy
             set { bearDirection = value; }
         }
 
-        public double WhenToMoveTimer
+        public double WhenToMoveCounter
         {
-            get { return WhenToMoveTimer; }
+            get { return whenToMoveCounter; }
+            set { whenToMoveCounter = value; }
         }
 
-        public int WhenToMove
+        public double WhenToMoveLimiter
         {
-            get { return whenToMove; }
-			set { whenToMove = value; }
+            get { return whenToMoveLimiter; }
+			
         }
 
         public double TimeOfMovementCounter
         {
             get { return timeOfMovementCounter; }
+            set { timeOfMovementCounter = value; }
         }
 
-        public int TimeOfMovement
+        public double TimeOfMovementLimiter
         {
-            get { return timeOfMovement; }
-			set { timeOfMovement = value; }
+            get { return timeOfMovementLimiter; }
         }
         
         public int ScoreValue
@@ -139,16 +140,16 @@ namespace LumberjackFantasy
 
             this.rng = rng;
 
-            whenToMoveTimer = 0;        
-            whenToMoveMax = 15 + 1;                              // Bears Wait a max of 15 Seconds before making a movement;
-            whenToMoveMin = 5;                                   // Bears Wait a min of 5 Seconds before making a movement;
-            whenToMove = rng.Next(whenToMoveMin, whenToMoveMax); // Random int between 5-15 Seconds of when bear first can Move
+            whenToMoveCounter = 0;        
+            whenToMoveMax = 15 + 1;                                     // Bears Wait a max of 15 Seconds before making a movement;
+            whenToMoveMin = 5;                                          // Bears Wait a min of 5 Seconds before making a movement;
+            whenToMoveLimiter = rng.Next(whenToMoveMin, whenToMoveMax); // Random int between 5-15 Seconds of when bear first can Move
 
 
             timeOfMovementCounter = 0;
-            timeOfMovementMax = 5 + 1;                                          // Bear can move a max 5 seconds in a direction;
-            timeOfMovementMin = 1;                                              // Bear can move a min 1 seconds in a direction;
-            timeOfMovement = rng.Next(timeOfMovementMin, timeOfMovementMax);    // Can Move in a random direction for 1-5 seconds
+            timeOfMovementMax = 5 + 1;                                                 // Bear can move a max 5 seconds in a direction;
+            timeOfMovementMin = 1;                                                     // Bear can move a min 1 seconds in a direction;
+            timeOfMovementLimiter = rng.Next(timeOfMovementMin, timeOfMovementMax);    // Can Move in a random direction for 1-5 seconds
 
 
         }
@@ -159,10 +160,10 @@ namespace LumberjackFantasy
         /// </summary>
         public void ResetCounter()
         {
-            whenToMove = rng.Next(whenToMoveMin, whenToMoveMax);            // Comes up with a new time as to when to move
-            whenToMoveTimer = 0;                                            // Resets the movementTimer back to 0
-            timeOfMovement = rng.Next(timeOfMovementMin, timeOfMovementMax);// Comes up with a random total time of movement.
-            timeOfMovementCounter = 0;                                      // Resets the timeOfMovement counter to 0
+            whenToMoveLimiter = rng.Next(whenToMoveMin, whenToMoveMax);             // Comes up with a new time as to when to move
+            whenToMoveCounter = 0;                                                  // Resets the movementTimer back to 0
+            timeOfMovementLimiter = rng.Next(timeOfMovementMin, timeOfMovementMax); // Comes up with a random total time of movement.
+            timeOfMovementCounter = 0;                                              // Resets the timeOfMovement counter to 0
         }
     }
 }
