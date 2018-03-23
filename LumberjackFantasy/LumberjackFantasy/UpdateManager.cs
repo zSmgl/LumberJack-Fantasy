@@ -485,9 +485,13 @@ namespace LumberjackFantasy
 					case PlayerDirection.right:
 						attackArea.X += pCurrent.Width;
 						break;
-
 				}
 
+
+				//calls collision on Bears
+				collisionManager.GenericAttack(attackType, attackArea, pCurrent, bearsCurrent);
+				//calls collision on Trees
+				collisionManager.GenericAttack(attackType, attackArea, pCurrent, treesCurrent);
 
 			}
 			else if (attackType == AttackVariation.shotgun)
@@ -530,8 +534,12 @@ namespace LumberjackFantasy
 						attackArea.X += pCurrent.Width;
 						attackArea.Width = 350;
 						break;
-
 				}
+
+				//calls collision on Bears
+				collisionManager.GenericAttack(attackType, attackArea, pCurrent, bearsCurrent);
+				//calls collision on Trees
+				collisionManager.GenericAttack(attackType, attackArea, pCurrent, treesCurrent);
 
 			}
 			//bear attacks (fight me, puny human)
@@ -572,6 +580,8 @@ namespace LumberjackFantasy
 								break;
 
 						}
+						// Calls for attack on the player
+						collisionManager.GenericAttack(attackType, attackArea, pCurrent, bearsCurrent);
 					}
 				}
 			}

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections;
 
 namespace LumberjackFantasy
 {
@@ -94,14 +95,62 @@ namespace LumberjackFantasy
 		}
 
 		//sees which things are hit by attacks.
+		//can use either for player
 		//MUST BE CALLED ONCE FOR EACH LIST OF LIVING OBJECTS
-		public bool[] GenericAttack(AttackVariation attackVariation, Rectangle target, Player player, LivingObject[] livingList)
+		/// <summary>
+		/// Override for BEARS or Player
+		/// </summary>
+		/// <param name="attackVariation"></param>
+		/// <param name="target"></param>
+		/// <param name="player"></param>
+		/// <param name="Bear List"></param>
+		/// <returns></returns>
+		public virtual bool[] GenericAttack(AttackVariation attackVariation, Rectangle target, Player player, List<Bear> livingList)
 		{
 			bool[] hitList;
 			if (attackVariation == AttackVariation.axe || attackVariation == AttackVariation.shotgun)
 			{
-				hitList = new bool[livingList.Length];
-				for (int i = 0; i < livingList.Length; i++)
+				hitList = new bool[livingList.Count];
+				for (int i = 0; i < livingList.Count; i++)
+				{
+					if (target.Intersects(livingList[i].ObjectCollisionBox))
+					{
+						hitList[i] = true;
+					}
+					else
+					{
+						hitList[i] = false;
+					}
+				}
+			}
+			else
+			{
+				hitList = new bool[1];
+				if (target.Intersects(player.ObjectCollisionBox))
+				{
+					hitList[0] = true;
+				}
+			}
+
+
+			return hitList;
+		}
+
+		/// <summary>
+		/// Override for TREES or Player
+		/// </summary>
+		/// <param name="attackVariation"></param>
+		/// <param name="target"></param>
+		/// <param name="player"></param>
+		/// <param name="Tree List"></param>
+		/// <returns></returns>
+		public virtual bool[] GenericAttack(AttackVariation attackVariation, Rectangle target, Player player, List<Tree> livingList)
+		{
+			bool[] hitList;
+			if (attackVariation == AttackVariation.axe || attackVariation == AttackVariation.shotgun)
+			{
+				hitList = new bool[livingList.Count];
+				for (int i = 0; i < livingList.Count; i++)
 				{
 					if (target.Intersects(livingList[i].ObjectCollisionBox))
 					{
