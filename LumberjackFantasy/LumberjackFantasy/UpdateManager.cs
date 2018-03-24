@@ -11,6 +11,7 @@ namespace LumberjackFantasy
 {
 	class UpdateManager
 	{
+        private Random rng;                             // Random Number Generator used for bears and bear speeds.
 		private GameTime gameTime;                      // Holds the current GameTime
 		private Player pCurrent;                        // Holds the player's values
 		private List<Bear> bearsCurrent;                // Holds all of the bears in the game
@@ -30,7 +31,7 @@ namespace LumberjackFantasy
 		/// </summary>
 		public UpdateManager()
 		{
-
+            Random rng = new Random();
 		}
 
 		// --------------------------------------------------------------------- Universal Updates for Screen State ------------------------------------------------------
@@ -314,7 +315,11 @@ namespace LumberjackFantasy
 
 				Bear oldPos = bearsCurrent[i];
 
-				// 1 - Finds Bears "Un-Collided" Position with new Speed 
+				// 1 - Compares Old Bear to New Bear and Decideds New Bear's Type of Movement. - Increments Timers for Statationary / Looking Accordingly.
+
+                    // FIRST - DECIDES TO INCREMENT TIMER IF UPDATED PLAYERVISION BOX DOESN'T INTERACT WITH BEAR FIELD OF VISION
+                    // SECOND - DETERMINES THE NEW STATE OF THE BEAR
+                    // THIRD - DECIDES ON THE MOVEMENT OF THE NEW BEAR AND TO RESET TIMERS BASED ON OLD AND NEW STATE
 
 				BearMovement(oldPos,i);
 
@@ -353,7 +358,7 @@ namespace LumberjackFantasy
 				bearsCurrent[i].BearVision.Offset(adjustPosValues[0], adjustPosValues[1]);
 				bearsCurrent[i].FieldOfAttack.Offset(adjustPosValues[0], adjustPosValues[1]);
 
-				// Changes the speed to 0 in the direction of which a potential collision has now occured. 
+				// Changes the speed to 0 in the X and/or Y direction of which a potential collision has now occured. 
 				if (adjustPosValues[0] != 0)
 				{
 					bearsCurrent[i].SpeedX = 0;
@@ -410,10 +415,24 @@ namespace LumberjackFantasy
 			}
 		}
 
-        
-        public void Looking()
+        /// <summary>
+        /// Determines how the bear is currently looking (wandering) around in a random way
+        /// </summary>
+        public void Looking(int i)
         {
+            // Formula: Adds speed to the velocity manager thats is BETWEEN! -1/2 of it's potential max speed and 1/2 is potential max speed
+            // in both the x and y direction of the bear, randomly creating movement for the bear that could be super fast, or super slow.
+            // Tip: Changing the (/2) is the easiest way to adjust this value.
+            velocityManager.addVelocity(rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2, rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2);
 
+            // Sets the new Sprite Location & Player Field of Vision
+            bearsCurrent[i].ObjectCollisionBox = velocityManager.UpdatePosition(bearsCurrent[i].ObjectCollisionBox);
+            bearsCurrent[i].BearVision = velocityManager.UpdatePosition(bearsCurrent[i].BearVision);
+            bearsCurrent[i].FieldOfAttack = velocityManager.UpdatePosition(bearsCurrent[i].FieldOfAttack);
+
+            // Updates the Current Speed of the Player within the Player from the Calculated speed in Players VM
+            bearsCurrent[i].SpeedX = velocityManager.VelocityX;
+            bearsCurrent[i].SpeedY = velocityManager.VelocityY;
         }
         /// <summary>
         /// Used for the bear to follow the player
@@ -430,8 +449,8 @@ namespace LumberjackFantasy
 			if(pCurrent.PlayerVision.Intersects(bearsCurrent[i].BearVision) == true)
 			{
 				bearsCurrent[i].BearState = BearState.following;
-                attackingBears[i] = bearsCurrent[i];       // SINCE THE BEAR @ I IN THE LIST IS FOLLOWING THE PLAYER, THIS MEANS THE BEAR
-                // COULD POTENTIALLY ATTACK THE PLAYER. 
+                // SINCE THE BEAR @ I IN THE LIST IS FOLLOWING THE PLAYER, THIS MEANS THE BEAR COULD POTENTIALLY ATTACK THE PLAYER. 
+                attackingBears[i] = bearsCurrent[i];       
 			}
 			else
 			{
@@ -473,15 +492,19 @@ namespace LumberjackFantasy
 
             if(oldBear.BearState == BearState.stationary && bearsCurrent[i].BearState == BearState.looking)
             {
-                Looking();
+                Looking(i);
             }
             else if(oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.looking)
             {
-                Looking();
+                Looking(i);
             }
             else if(oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.stationary)
             {
-                bearsCurrent[i].ResetCounter();
+                // Sets speed of bear to 0 since movement has now reset. 
+                bearsCurrent[i].SpeedX = 0;
+                bearsCurrent[i].SpeedY = 0;
+
+                bearsCurrent[i].ResetBearTimers(rng);
             }
             else if (oldBear.BearState == BearState.following && bearsCurrent[i].BearState == BearState.following)
             {
@@ -489,12 +512,13 @@ namespace LumberjackFantasy
             }
             else if (oldBear.BearState == BearState.stationary && bearsCurrent[i].BearState == BearState.following)
             {
-                bearsCurrent[i].ResetCounter();
+                // Sets speed of velocity manager back to 
+                bearsCurrent[i].ResetBearTimers(rng);
                 FollowPlayer();
             }
             else if (oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.following)
             {
-                bearsCurrent[i].ResetCounter();
+                bearsCurrent[i].ResetBearTimers(rng);
                 FollowPlayer();
             }
 

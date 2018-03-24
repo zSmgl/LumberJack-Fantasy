@@ -63,13 +63,11 @@ namespace LumberjackFantasy
         private double timeOfMovementCounter;   // Counter that updates with GameTime that tells the bear how long it should move.
         private double timeOfMovementLimiter;   // Randomly Generated time between max and min that tells how long a bear can move for.
 
-        private Random rng;                     // Random object used to randomly update how long the bear's next when to move time is. 
-
         // Properties ------------------------------------------------------------------
 
         public BearState BearState
         {
-            get { return BearState; }
+            get { return bearState; }
             set { bearState = value; }
         }
 
@@ -123,7 +121,8 @@ namespace LumberjackFantasy
 
 
 
-        // Constructor ------------------------------------------------------------------------------
+        // Constructor ------------------------------------------------------------------------------ 
+        // ! Constructor will pass in a random generator but is not supposed to save it ! 
 
         public Bear(int x, int y, int width, int height, Texture2D objectTexture, int maxH, int maxS, 
             int visionStandard, int fieldOfAttackStandard, int scoreValue, Random rng)
@@ -137,8 +136,6 @@ namespace LumberjackFantasy
             this.fieldOfAttackStandard = fieldOfAttackStandard;
             fieldOfAttack = new Rectangle(x - fieldOfAttackStandard, y - visionStandard, 
                 width + (visionStandard * 2), height + (visionStandard * 2));
-
-            this.rng = rng;
 
             whenToMoveCounter = 0;        
             whenToMoveMax = 15 + 1;                                     // Bears Wait a max of 15 Seconds before making a movement;
@@ -156,9 +153,9 @@ namespace LumberjackFantasy
 
 
         /// <summary>
-        /// Resets the Timer and comes up with a new time as to when the bear should move
+        /// Resets the Timers for Bear
         /// </summary>
-        public void ResetCounter()
+        public void ResetBearTimers(Random rng)
         {
             whenToMoveLimiter = rng.Next(whenToMoveMin, whenToMoveMax);             // Comes up with a new time as to when to move
             whenToMoveCounter = 0;                                                  // Resets the movementTimer back to 0
