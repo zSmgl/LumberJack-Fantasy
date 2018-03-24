@@ -315,11 +315,14 @@ namespace LumberjackFantasy
 
 				Bear oldPos = bearsCurrent[i];
 
-				// 1 - Compares Old Bear to New Bear and Decideds New Bear's Type of Movement. - Increments Timers for Statationary / Looking Accordingly.
+                // 1 - Compares Old Bear to New Bear and Decideds New Bear's Type of Movement. - Increments Timers for Statationary / Looking Accordingly.
 
-                    // FIRST - DECIDES TO INCREMENT TIMER IF UPDATED PLAYERVISION BOX DOESN'T INTERACT WITH BEAR FIELD OF VISION
-                    // SECOND - DETERMINES THE NEW STATE OF THE BEAR
-                    // THIRD - DECIDES ON THE MOVEMENT OF THE NEW BEAR AND TO RESET TIMERS BASED ON OLD AND NEW STATE
+                // FIRST - DECIDES TO INCREMENT TIMER IF UPDATED PLAYERVISION BOX DOESN'T INTERACT WITH BEAR FIELD OF VISION
+                // SECOND - DETERMINES THE NEW STATE OF THE BEAR
+                // THIRD - DECIDES ON THE MOVEMENT OF THE NEW BEAR AND TO RESET TIMERS BASED ON OLD AND NEW STATE
+                // TYPES OF MOVEMENT: FOLLOW()  - Determines the path from the bear to the player in the quickest way
+                //                    LOOKING() - Determines the random path which the bear will walk for the bear's timer
+                // OTHER FUNCTIONS:   Bear.ResetTimer() - Will reset all the timers within the bear. (Timer for how long to stay still, and how long it should walk)
 
 				BearMovement(oldPos,i);
 
