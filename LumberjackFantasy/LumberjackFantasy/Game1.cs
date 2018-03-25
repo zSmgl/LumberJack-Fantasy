@@ -11,13 +11,16 @@ namespace LumberjackFantasy
 	/// </summary>
 	
 		//gamestate enum to track the games current state
-		enum GameState { start, pause, gameLoop, gameOver}
+		enum GameState { start, pause, gameLoop, gameOver, exit}
 	public class Game1 : Game
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		List<Texture2D> testTiles;
 		List<WorldTile> worldTile;
+		Texture2D startButton;
+		Texture2D exitButton;
+        UpdateManager updateManager;
 		GameState gameState;
 
 		public Game1()
@@ -36,9 +39,12 @@ namespace LumberjackFantasy
 		{
 			// TODO: Add your initialization logic here
 			worldTile = new List<WorldTile>();
-			
+			graphics.PreferredBackBufferWidth = 896;
+			graphics.PreferredBackBufferHeight = 896;
+			graphics.ApplyChanges();
 			base.Initialize();
 			gameState = GameState.start;
+            
 		}
 
 		/// <summary>
@@ -49,7 +55,10 @@ namespace LumberjackFantasy
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-
+			//temporary test loadmenu, to keep code short once all textures are made will load into a list, then the loadmenu will call members of that list instead of directly loading
+			startButton = Content.Load<Texture2D>("startButton");
+			exitButton = Content.Load<Texture2D>("exitButton");
+			updateManager = new UpdateManager(startButton, exitButton);
 			LoadTile();
 
 			// TODO: use this.Content to load your game content here
@@ -78,9 +87,12 @@ namespace LumberjackFantasy
 			switch (gameState)
 			{
 				case GameState.start:
+					this.IsMouseVisible = true;
+					gameState = updateManager.UpdateTitleScreen();
 					break;
 
 				case GameState.pause:
+
 					break;
 
 				case GameState.gameLoop:
@@ -88,6 +100,10 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameOver:
+					break;
+
+				case GameState.exit:
+					this.Exit();
 					break;
 			}
 			base.Update(gameTime);
@@ -106,6 +122,7 @@ namespace LumberjackFantasy
 			switch (gameState)
 			{
 				case GameState.start:
+					updateManager.DrawTitleScreen(spriteBatch);
 					break;
 
 				case GameState.pause:

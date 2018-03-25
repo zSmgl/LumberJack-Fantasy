@@ -42,8 +42,36 @@ namespace LumberjackFantasy
         private Vector2 mrbPos;
         private Vector2 psBGPos;
 
+		//bool fields for whether the button is currently hovered
+		private bool startHover;
+		private bool exitHover;
+		private bool returnHover;
+
+        //property rectangles for button hitboxes
+        public Rectangle StartButton { get { return new Rectangle((int)sbPos.X, (int)sbPos.Y, startButton.Width, startButton.Height); } }
+        public Rectangle ExitButton { get { return new Rectangle((int)ebPos.X, (int)ebPos.Y, exitButton.Width, exitButton.Height); } }
+        public Rectangle MenuReturnButton { get { return new Rectangle((int)mrbPos.X, (int)mrbPos.Y, menuReturnButton.Width, menuReturnButton.Height); } }
+
+		//properties to get and set being hovered
+		public bool StartHover { get { return startHover; } set { startHover = value; } }
+		public bool ExitHover { get { return exitHover; } set { exitHover = value; } }
+
         //Constructor
+
+        public ScreenManager(Texture2D start, Texture2D exit)
+        {
+            startButton = start;
+			startHover = false;
+            sbPos.X = 400;
+            sbPos.Y = 200;
+
+            exitButton = exit;
+            ebPos.X = 400;
+            ebPos.Y = 600;
+			exitHover = false;
+        }
         //REMINDER: Game screen background removed from parameters
+		
         public ScreenManager(Texture2D ssBG, Texture2D t, Texture2D sb, Texture2D eb,
             Texture2D h, Texture2D hs, Texture2D pp,
             Texture2D gosBG, Texture2D mrb, Texture2D psBG)
@@ -63,11 +91,13 @@ namespace LumberjackFantasy
             startButton = sb;
             sbPos.X = 0;
             sbPos.Y = 0;
+			startHover = false;
 
             //Exit Button
             exitButton = eb;
             ebPos.X = 0;
             ebPos.Y = 0;
+			exitHover = false;
 
             //Health
             health = h;
@@ -104,16 +134,51 @@ namespace LumberjackFantasy
             psBGPos.X = 0;
             psBGPos.Y = 0;
         }
-
+		
         //Methods
         public void DrawStartScreen(SpriteBatch spriteBatch)
         {
             //Calls the parameter spritebatch and then draws
             //the background, title, and buttons
-            spriteBatch.Draw(startScreenBackground, ssBGPos, Color.White);
-            spriteBatch.Draw(title, tPos, Color.White);
+            //spriteBatch.Draw(startScreenBackground, ssBGPos, Color.White);
+            //spriteBatch.Draw(title, tPos, Color.White);
+            
+        }
+
+        public void DrawStartButton(SpriteBatch spriteBatch)
+        {
+            //draws the start button
             spriteBatch.Draw(startButton, sbPos, Color.White);
+        }
+
+        public void DrawStartHover(SpriteBatch spriteBatch)
+        {
+            //draws hovered over start button
+            spriteBatch.Draw(startButton, sbPos, Color.Firebrick);
+        }
+
+        public void DrawExitButton(SpriteBatch spriteBatch)
+        {
+            //draws the exit button
             spriteBatch.Draw(exitButton, ebPos, Color.White);
+        }
+
+        public void DrawExitHover(SpriteBatch spriteBatch)
+        {
+            //draws the hovered over exit button
+            spriteBatch.Draw(exitButton, ebPos, Color.Firebrick);
+        }
+
+        public void DrawMenuReturnButton(SpriteBatch spriteBatch)
+        {
+            //draws the menu return button
+            spriteBatch.Draw(menuReturnButton, mrbPos, Color.White);
+        }
+
+        public void DrawMenuReturnHover(SpriteBatch spriteBatch)
+        {
+            //draws the hovered over menu return button
+            spriteBatch.Draw(menuReturnButton, mrbPos, Color.Firebrick);
         }
 
         public void DrawGameScreenElements(SpriteBatch spriteBatch)
@@ -128,16 +193,15 @@ namespace LumberjackFantasy
         {
             //Draws GameOver Screen and buttons
             spriteBatch.Draw(gameOverScreenBackground, gosBGPos, Color.White);
-            spriteBatch.Draw(menuReturnButton, mrbPos, Color.White);
-            spriteBatch.Draw(exitButton, ebPos, Color.White);
+            
+            
         }
 
         public void DrawPauseScreen(SpriteBatch spriteBatch)
         {
             //Draw Pause Screen and Buttons
             spriteBatch.Draw(pauseScreenBackground, psBGPos, Color.White);
-            spriteBatch.Draw(menuReturnButton, mrbPos, Color.White);
-            spriteBatch.Draw(exitButton, ebPos, Color.White);
+            
         }
     }
 }
