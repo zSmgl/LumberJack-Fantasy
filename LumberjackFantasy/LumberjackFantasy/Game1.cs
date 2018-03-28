@@ -59,9 +59,9 @@ namespace LumberjackFantasy
 			startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
 			updateManager = new UpdateManager(startButton, exitButton);
-			LoadTile();
+			//LoadTile(); -- BROKEN WON'T FIX
 
-			// TODO: use this.Content to load your game content here
+			
 		}
 
 		/// <summary>
@@ -92,14 +92,16 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.pause:
-
+					//show menu
 					break;
 
 				case GameState.gameLoop:
-
+					//does bears and movement etc
+					//updateManager.UpdatePlayer();
 					break;
 
 				case GameState.gameOver:
+					//kill u
 					break;
 
 				case GameState.exit:
@@ -129,6 +131,7 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameLoop:
+
 					break;
 
 				case GameState.gameOver:
@@ -145,10 +148,10 @@ namespace LumberjackFantasy
 		//can be extended for extra textures
 		public void LoadTile()
 		{
-			testTiles.Add(Content.Load<Texture2D>("bgP1"));
-			testTiles.Add(Content.Load<Texture2D>("bgP2"));
-			testTiles.Add(Content.Load<Texture2D>("bgP3"));
-			testTiles.Add(Content.Load<Texture2D>("bgP4"));
+			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP1"));
+			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP2"));
+			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP3"));
+			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP4"));
 		}
 
 	}
