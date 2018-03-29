@@ -230,11 +230,13 @@ namespace LumberjackFantasy
 
             var keys = currentKB.GetPressedKeys();
 
-            if (keys.Length == 0)
+            // Do not delete this. may use in future. 
+            /*if (keys.Length == 0)
             {
                 pCurrent.SpeedX = 0;
                 pCurrent.SpeedY = 0;
             }
+            */
 
 
 
@@ -251,10 +253,18 @@ namespace LumberjackFantasy
 			{
 				velocityManager.addVelocity(0, -1 * (pCurrent.MaxSpeed / 4));
 			}
-			if (currentKB.IsKeyDown(Keys.S) == true)
+			else if (currentKB.IsKeyDown(Keys.S) == true)
 			{
 				velocityManager.addVelocity(0, (pCurrent.MaxSpeed / 4));
 			}
+            else if (currentKB.IsKeyDown(Keys.S) == true && currentKB.IsKeyDown(Keys.W) == true)
+            {
+                velocityManager.VelocityY = 0;
+            }
+            else if (currentKB.IsKeyDown(Keys.W) != true && currentKB.IsKeyDown(Keys.S) != true)
+            {
+                velocityManager.Decelerate(1);
+            }
 			if (currentKB.IsKeyDown(Keys.A) == true)
 			{
 				velocityManager.addVelocity(-1 * (pCurrent.MaxSpeed / 4), 0);
@@ -263,6 +273,14 @@ namespace LumberjackFantasy
 			{
 				velocityManager.addVelocity((pCurrent.MaxSpeed / 4), 0);
 			}
+            else if (currentKB.IsKeyDown(Keys.A) == true && currentKB.IsKeyDown(Keys.D) == true)
+            {
+                velocityManager.VelocityY = 0;
+            }
+            else if (currentKB.IsKeyDown(Keys.A) != true && currentKB.IsKeyDown(Keys.D) != true)
+            {
+                velocityManager.Decelerate(0);
+            }
 
             // Sets the new Sprite Location & Player Field of Vision
             pCurrent.ObjectCollisionBox = velocityManager.UpdatePosition(pCurrent.ObjectCollisionBox);
