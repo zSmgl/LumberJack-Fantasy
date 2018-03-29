@@ -95,6 +95,9 @@ namespace LumberjackFantasy
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
+            //Base Draw Method for Base Build
+            base.Draw(sb);
+
             // Draw method for vision field incase we need to see it
             // This includes sending a texture for the vision texutre. Essentially just a black box.
             // sb.Draw(blackTexture, playerVision, Color.White)

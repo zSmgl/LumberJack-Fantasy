@@ -18,8 +18,13 @@ namespace LumberjackFantasy
 		SpriteBatch spriteBatch;
 		List<Texture2D> testTiles;
 		List<WorldTile> worldTile;
-		Texture2D startButton;
+
+        Texture2D playerTexture;
+        Texture2D starterBackground;
+        Texture2D startButton;
 		Texture2D exitButton;
+
+        Player player1;
         UpdateManager updateManager;
 		GameState gameState;
 
@@ -42,6 +47,7 @@ namespace LumberjackFantasy
 			graphics.PreferredBackBufferWidth = 896;
 			graphics.PreferredBackBufferHeight = 896;
 			graphics.ApplyChanges();
+
 			base.Initialize();
 			gameState = GameState.start;
             
@@ -55,8 +61,17 @@ namespace LumberjackFantasy
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-			//temporary test loadmenu, to keep code short once all textures are made will load into a list, then the loadmenu will call members of that list instead of directly loading
-			startButton = Content.Load<Texture2D>("startButton");
+            //temporary test loadmenu, to keep code short once all textures are made will load into a list, then the loadmenu will call members of that list instead of directly loading
+            
+            //Starter Background Variables for Base Build
+            starterBackground = Content.Load<Texture2D>("starterBackground");
+
+            //Texture Loading
+            //Player Creation
+            playerTexture = Content.Load<Texture2D>("lumberjackFront");
+            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 7, 10);
+
+            startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
 			updateManager = new UpdateManager(startButton, exitButton);
 			//LoadTile(); -- BROKEN WON'T FIX
@@ -96,7 +111,7 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameLoop:
-					//does bears and movement etc
+                    //does bears and movement etc
 					//updateManager.UpdatePlayer();
 					break;
 
@@ -131,7 +146,8 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameLoop:
-
+                    spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+                    player1.Draw(spriteBatch);
 					break;
 
 				case GameState.gameOver:
