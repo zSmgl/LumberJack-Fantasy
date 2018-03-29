@@ -112,7 +112,7 @@ namespace LumberjackFantasy
 
 				case GameState.gameLoop:
                     //does bears and movement etc
-					//updateManager.UpdatePlayer();
+					updateManager.UpdatePlayer();
 					break;
 
 				case GameState.gameOver:
