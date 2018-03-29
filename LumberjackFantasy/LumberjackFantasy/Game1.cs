@@ -72,7 +72,7 @@ namespace LumberjackFantasy
             //Texture Loading
             //Player Creation
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
-            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 7, 10);
+            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");

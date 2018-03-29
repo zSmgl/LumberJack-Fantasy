@@ -251,33 +251,49 @@ namespace LumberjackFantasy
 			// Adds Speed to the Velocity Manager Based on the Current Keys Pressed
 			if (currentKB.IsKeyDown(Keys.W) == true)
 			{
-				velocityManager.addVelocity(0, -1 * (pCurrent.MaxSpeed / 4));
+                if (velocityManager.VelocityY > 0)
+                {
+                    velocityManager.Decelerate(1);
+                }
+				velocityManager.addVelocity(0, -1 * (pCurrent.MaxSpeed / 16));
 			}
-			else if (currentKB.IsKeyDown(Keys.S) == true)
+			if (currentKB.IsKeyDown(Keys.S) == true)
 			{
-				velocityManager.addVelocity(0, (pCurrent.MaxSpeed / 4));
+                if (velocityManager.VelocityY < 0)
+                {
+                    velocityManager.Decelerate(1);
+                }
+                velocityManager.addVelocity(0, (pCurrent.MaxSpeed / 16));
 			}
-            else if (currentKB.IsKeyDown(Keys.S) == true && currentKB.IsKeyDown(Keys.W) == true)
+            if (currentKB.IsKeyDown(Keys.S) == true && currentKB.IsKeyDown(Keys.W) == true)
             {
                 velocityManager.VelocityY = 0;
             }
-            else if (currentKB.IsKeyDown(Keys.W) != true && currentKB.IsKeyDown(Keys.S) != true)
+            if (currentKB.IsKeyDown(Keys.W) != true && currentKB.IsKeyDown(Keys.S) != true)
             {
                 velocityManager.Decelerate(1);
             }
 			if (currentKB.IsKeyDown(Keys.A) == true)
 			{
-				velocityManager.addVelocity(-1 * (pCurrent.MaxSpeed / 4), 0);
+                if (velocityManager.VelocityX > 0)
+                {
+                    velocityManager.Decelerate(0);
+                }
+                velocityManager.addVelocity(-1 * (pCurrent.MaxSpeed / 16), 0);
 			}
 			if (currentKB.IsKeyDown(Keys.D) == true)
 			{
-				velocityManager.addVelocity((pCurrent.MaxSpeed / 4), 0);
-			}
-            else if (currentKB.IsKeyDown(Keys.A) == true && currentKB.IsKeyDown(Keys.D) == true)
+				velocityManager.addVelocity((pCurrent.MaxSpeed / 16), 0);
+                if (velocityManager.VelocityX < 0)
+                {
+                    velocityManager.Decelerate(0);
+                }
+            }
+            if (currentKB.IsKeyDown(Keys.A) == true && currentKB.IsKeyDown(Keys.D) == true)
             {
                 velocityManager.VelocityY = 0;
             }
-            else if (currentKB.IsKeyDown(Keys.A) != true && currentKB.IsKeyDown(Keys.D) != true)
+            if (currentKB.IsKeyDown(Keys.A) != true && currentKB.IsKeyDown(Keys.D) != true)
             {
                 velocityManager.Decelerate(0);
             }
