@@ -130,13 +130,11 @@ namespace LumberjackFantasy
 		/// <param name="bears"> the bears List</param>
 		/// <param name="trees"> the trees List</param>
 		/// <param name="pickUps"> the pickUps List</param>
-		public void UpdateGameScreenFields(Player p, List<Bear> bears, List<Tree> trees, List<PickUp> pickUps, GameTime gameTime)
+		public void UpdateGameScreenFields(Player p, KeyboardState currentKB, KeyboardState previousKB)
 		{
-			this.gameTime = gameTime;
-			pCurrent = p;
-			bearsCurrent = bears;
-			treesCurrent = trees;
-			pickUpsCurrent = pickUps;
+            this.currentKB = currentKB;
+            this.previousKB = previousKB;
+            pCurrent = p;
 		}
 
 		public void UpdateTitleScreenFields()
@@ -153,6 +151,11 @@ namespace LumberjackFantasy
 		{
 
 		}
+
+        public Player ReturnPlayer()
+        {
+            return pCurrent;
+        }
 
 		/// <summary>
 		/// Determines stuff to remove from Lists (Tree, Bear, PickUp)
@@ -217,16 +220,26 @@ namespace LumberjackFantasy
 
 			// 2 - Check for Collisions with Trees in Game. Adjust Speed and Pos Accordingly if needed.
 
-			UpdatePlayerPosition(oldPos);
+			//UpdatePlayerPosition(oldPos);
 
 			// 3 - Updates the Animations of the player
 
 			UpdatePlayerAnimations(oldPos);
 
+            // temp code to check if player has pressing keys to move. runs after updating all the movement.
+
+            var keys = currentKB.GetPressedKeys();
+
+            if (keys.Length == 0)
+            {
+                pCurrent.SpeedX = 0;
+                pCurrent.SpeedY = 0;
+            }
 
 
 
-		}
+
+        }
 
 		/// <summary>
 		/// Calculates the new position of the Player & Field of Vision, and updates the Players current Speed in X and Y Directions
@@ -251,8 +264,8 @@ namespace LumberjackFantasy
 				velocityManager.addVelocity((pCurrent.MaxSpeed / 4), 0);
 			}
 
-			// Sets the new Sprite Location & Player Field of Vision
-			pCurrent.ObjectCollisionBox = velocityManager.UpdatePosition(pCurrent.ObjectCollisionBox);
+            // Sets the new Sprite Location & Player Field of Vision
+            pCurrent.ObjectCollisionBox = velocityManager.UpdatePosition(pCurrent.ObjectCollisionBox);
 			pCurrent.PlayerVision = velocityManager.UpdatePosition(pCurrent.PlayerVision);
 
 			// Updates the Current Speed of the Player within the Player from the Calculated speed in Players VM

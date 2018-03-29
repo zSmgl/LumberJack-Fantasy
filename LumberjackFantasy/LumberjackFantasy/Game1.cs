@@ -24,6 +24,9 @@ namespace LumberjackFantasy
         Texture2D startButton;
 		Texture2D exitButton;
 
+        KeyboardState kb = new KeyboardState();
+        KeyboardState previousKbstate = new KeyboardState();
+
         Player player1;
         UpdateManager updateManager;
 		GameState gameState;
@@ -98,8 +101,11 @@ namespace LumberjackFantasy
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			// TODO: Add your update logic here
-			switch (gameState)
+            previousKbstate = kb;
+            kb = Keyboard.GetState();
+
+            // TODO: Add your update logic here
+            switch (gameState)
 			{
 				case GameState.start:
 					this.IsMouseVisible = true;
@@ -112,7 +118,9 @@ namespace LumberjackFantasy
 
 				case GameState.gameLoop:
                     //does bears and movement etc
-					//updateManager.UpdatePlayer();
+                    updateManager.UpdateGameScreenFields(player1, kb, previousKbstate);
+                    updateManager.UpdatePlayer();
+                    player1 = updateManager.ReturnPlayer();
 					break;
 
 				case GameState.gameOver:

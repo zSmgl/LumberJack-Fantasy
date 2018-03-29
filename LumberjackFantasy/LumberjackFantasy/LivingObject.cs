@@ -29,7 +29,7 @@ namespace LumberjackFantasy
         public int Health { get { return health; } set { health = value; if (health > maxHealth) { health = maxHealth; } } }
         public int MaxHealth { get { return maxHealth; } set { maxHealth = value; }  }
         public int SpeedX { get { return speedX; } set { speedX = value; } }
-        public int SpeedY { get { return speedX; } set { speedX = value; } }
+        public int SpeedY { get { return speedY; } set { speedY = value; } }
         public int MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
 
         //IsAlive references the health value and if is greater then 0 returns true
@@ -54,6 +54,7 @@ namespace LumberjackFantasy
         {
             health = maxH;
             maxHealth = maxH;
+            maxSpeed = maxS;
         }
         //methods -----------------------------------------------------------------------
 
