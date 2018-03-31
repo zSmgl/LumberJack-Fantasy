@@ -36,12 +36,6 @@ namespace LumberjackFantasy
 
 			foreach (LivingObject tree in treeList)
 			{
-                // Needs to become recursive so if the player intercts with a tree, that tree is removed. 
-                // It's values needed to reset are saved somewhere. Then the collision logic functions again to check all other trees.
-                // This explains why player can glitch into trees.
-
-
-
 				if (objCurrent.ObjectCollisionBox.Intersects(tree.ObjectCollisionBox) == true)
 				{
 
@@ -149,9 +143,10 @@ namespace LumberjackFantasy
                         
                         // Set up rounding function here to determine what does up and down. 
 
-                        adjustByX = (int)x2;
-                        adjustByY = (int)y2;
+                        adjustByX += (int)x2;
+                        adjustByY += (int)y2;
                     }
+
                     // Object moved into the right of the wall without changing along Y Axis
                     if (objCurrent.PosX > objOldPos.PosX && (objCurrent.PosY - objOldPos.PosY) == 0)
 					{
