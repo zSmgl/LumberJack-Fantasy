@@ -36,6 +36,11 @@ namespace LumberjackFantasy
 
 			foreach (LivingObject tree in treeList)
 			{
+                // Needs to become recursive so if the player intercts with a tree, that tree is removed. 
+                // It's values needed to reset are saved somewhere. Then the collision logic functions again to check all other trees.
+                // This explains why player can glitch into trees.
+
+
 
 				if (objCurrent.ObjectCollisionBox.Intersects(tree.ObjectCollisionBox) == true)
 				{
@@ -49,7 +54,7 @@ namespace LumberjackFantasy
                     // This is in Radians
                     if (objCurrent.SpeedY != 0 && objCurrent.SpeedX != 0)
                     {
-                        double tanAngle = Math.Atan((double)(objCurrent.SpeedY / objCurrent.SpeedX));
+                        double tanAngle = Math.Atan((double)objCurrent.SpeedY / (double)objCurrent.SpeedX);
 
                         // Think proportion logic here. The Proportion of the object moving X over Y should be moved back out of the
                         // Tree based on the same angle. By finding the x2 or y2 proportion with the intersection Rect, then you can figure
@@ -65,7 +70,7 @@ namespace LumberjackFantasy
                             if (intersectionRect.Height > intersectionRect.Width)
                             {
                                 x2 = intersectionRect.Width;
-                                y2 = x2 / tanAngle;
+                                y2 = x2 * tanAngle;
 
                             }
                             else if (intersectionRect.Width > intersectionRect.Height)
@@ -85,7 +90,7 @@ namespace LumberjackFantasy
                             if (intersectionRect.Height > intersectionRect.Width) //
                             {
                                 x2 = intersectionRect.Width * (-1);
-                                y2 = x2 / tanAngle;
+                                y2 = x2 * tanAngle;
 
                             }
                             else if (intersectionRect.Width > intersectionRect.Height)
@@ -104,7 +109,7 @@ namespace LumberjackFantasy
                             if (intersectionRect.Height > intersectionRect.Width)
                             {
                                 x2 = intersectionRect.Width;
-                                y2 = x2 / tanAngle;
+                                y2 = x2 * tanAngle;
 
                             }
                             else if (intersectionRect.Width > intersectionRect.Height)
@@ -123,7 +128,7 @@ namespace LumberjackFantasy
                             if (intersectionRect.Height > intersectionRect.Width)
                             {
                                 x2 = intersectionRect.Width * (-1);
-                                y2 = x2 / tanAngle;
+                                y2 = x2 * tanAngle;
 
                             }
                             else if (intersectionRect.Width > intersectionRect.Height)
@@ -137,6 +142,8 @@ namespace LumberjackFantasy
                                 y2 = intersectionRect.Height * (-1);
                             }
                         }
+                        
+                        // Set up rounding function here to determine what does up and down. 
 
                         adjustByX = (int)x2;
                         adjustByY = (int)y2;
