@@ -232,12 +232,14 @@ namespace LumberjackFantasy
             var keys = currentKB.GetPressedKeys();
 
             // Do not delete this. may use in future. 
-            /*if (keys.Length == 0)
+            
+            if (keys.Length == 0)
             {
                 pCurrent.SpeedX = 0;
                 pCurrent.SpeedY = 0;
             }
-            */
+            
+            
 
 
 
