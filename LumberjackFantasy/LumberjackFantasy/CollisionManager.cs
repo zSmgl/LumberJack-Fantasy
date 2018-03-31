@@ -62,6 +62,10 @@ namespace LumberjackFantasy
                         // Speed Y / Speed X = tan(theta) | tan(theta) == ( y2/ x2) | y2 or x2 is solved for based on the lesser value of intRect
                         // Solve for the unknown value is all this is doing. 
 
+                        // tan(theta) in radias = y/x
+                        // x = y / tan
+                        // y = x * tan
+
                         double x2 = 0;
                         double y2 = 0;
 
