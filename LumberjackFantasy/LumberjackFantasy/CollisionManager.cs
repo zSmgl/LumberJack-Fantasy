@@ -36,24 +36,27 @@ namespace LumberjackFantasy
 
 			foreach (LivingObject tree in treeList)
 			{
-				while (objCurrent.ObjectCollisionBox.Intersects(tree.ObjectCollisionBox) == true)
-				{
-					// Determines how much X needs to be adjusted by until it is no longer colliding 
 
-					// Object is to the RIGHT of the wall currently
-					if (objCurrent.PosX > objOldPos.PosX)
+				if (tree.ObjectCollisionBox.Intersects(objCurrent.ObjectCollisionBox) == true)
+				{
+
+                    Rectangle intersection = Rectangle.Intersect(objCurrent.ObjectCollisionBox, tree.ObjectCollisionBox);  
+                    // Determines how much X needs to be adjusted by until it is no longer colliding 
+
+                    // Object is to the RIGHT of the wall currently
+                    if (objCurrent.PosX > objOldPos.PosX)
 					{
-						adjustByX--;        // Increments how much the x pos needs to be adjusted by for all other Rectangle fields
+						adjustByX-= intersection.Width;        // Increments how much the x pos needs to be adjusted by for all other Rectangle fields
 											// in the GameObject
-						objCurrent.PosX--;  // Increments actual collision box of the object that will eventually set the while loop to false
+						//objCurrent.PosX--;  // Increments actual collision box of the object that will eventually set the while loop to false
 					}
 
 					// Object is to the LEFT of the Wall Currently
 					else if (objCurrent.PosX < objOldPos.PosX)
 					{
-						adjustByX++;        // Increments how much the x pos needs to be adjusted by for all other Rectangle fields
+						adjustByX+= intersection.Width;        // Increments how much the x pos needs to be adjusted by for all other Rectangle fields
 											// in the GameObject
-						objCurrent.PosX++;  // Increments actual collision box of the object that will eventually set the while loop to false
+						//objCurrent.PosX++;  // Increments actual collision box of the object that will eventually set the while loop to false
 					}
 
 					// Determines how much Y needs to be adjusted by until it is no longer colliding 
@@ -61,17 +64,17 @@ namespace LumberjackFantasy
 					// Object is BELOW the wall currently
 					if (objCurrent.PosY > objOldPos.PosY)
 					{
-						adjustByY--;        // Increments how much the y pos needs to be adjusted by for all other Rectangle fields
+						adjustByY-= intersection.Height;        // Increments how much the y pos needs to be adjusted by for all other Rectangle fields
 											// in the GameObject
-						objCurrent.PosY--;  // Increments actual collision box of the object that will eventually set the while loop to false
+						//objCurrent.PosY--;  // Increments actual collision box of the object that will eventually set the while loop to false
 					}
 
 					// Object is ABOVE the Wall Currently
 					else if (objCurrent.PosY < objOldPos.PosY)
 					{
-						adjustByY++;        // Increments how much the y pos needs to be adjusted by for all other Rectangle fields
+						adjustByY+= intersection.Height;        // Increments how much the y pos needs to be adjusted by for all other Rectangle fields
 											// in the GameObject
-						objCurrent.PosY++;  // Increments actual collision box of the object that will eventually set the while loop to false
+						//objCurrent.PosY++;  // Increments actual collision box of the object that will eventually set the while loop to false
 					}
 				}
 			}

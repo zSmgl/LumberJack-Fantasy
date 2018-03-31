@@ -18,12 +18,8 @@ namespace LumberjackFantasy
         // The path is held in both individual int fields and a Rectangle Field that can be updated to be the same as the modified int fields.
 
         // Fields - Numbers
-		// Could be changed in the future to make use of rectangle instead of posX and posY
 
-        /// <summary>
-        /// Starting posX of Object
-        /// </summary>
-
+        protected bool onScreen;    // determines if an object is on the screen or not.
         protected int width;    // scale by which object width is drawn
         protected int height;   // scale by which object height is drawn
 
@@ -84,6 +80,12 @@ namespace LumberjackFantasy
 		{
 			get { return new Point(width, height); }
 		}
+
+        public bool OnScreen
+        {
+            get { return onScreen; }
+            set { onScreen = value; }
+        }
 
 		/// <summary>
 		/// Constructor for GameObject
