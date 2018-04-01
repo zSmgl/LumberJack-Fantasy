@@ -87,6 +87,14 @@ namespace LumberjackFantasy
             playerVision = new Rectangle(x - visionStandard, y - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
         }
 
+        //old Player
+        public Player (Player p)
+            : base(p.PosX, p.PosY, p.Width, p.Height, p.objectTexture, p.MaxHealth, p.MaxSpeed)
+        {
+            this.visionStandard = p.visionStandard;
+            playerVision = new Rectangle(p.PosX - visionStandard, p.PosY - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
+        }
+
 
 
         /// <summary>

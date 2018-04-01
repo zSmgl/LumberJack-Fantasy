@@ -130,8 +130,9 @@ namespace LumberjackFantasy
 		/// <param name="bears"> the bears List</param>
 		/// <param name="trees"> the trees List</param>
 		/// <param name="pickUps"> the pickUps List</param>
-		public void UpdateGameScreenFields(Player p, KeyboardState currentKB, KeyboardState previousKB)
+		public void UpdateGameScreenFields(Player p, List<Tree> treesCurrent, KeyboardState currentKB, KeyboardState previousKB)
 		{
+            this.treesCurrent = treesCurrent;
             this.currentKB = currentKB;
             this.previousKB = previousKB;
             pCurrent = p;
@@ -212,7 +213,7 @@ namespace LumberjackFantasy
 
 			// 0 - Saves player's UnAdjusted State to be compared to through-out Update Player
 
-			Player oldPos = pCurrent;
+			Player oldPos = new Player(pCurrent);
 
 			// 1 - Finds Players "Un-Collided" Position with new Speed 
 
@@ -220,7 +221,7 @@ namespace LumberjackFantasy
 
 			// 2 - Check for Collisions with Trees in Game. Adjust Speed and Pos Accordingly if needed.
 
-			//UpdatePlayerPosition(oldPos);
+			UpdatePlayerPosition(oldPos);
 
 			// 3 - Updates the Animations of the player
 
@@ -230,11 +231,15 @@ namespace LumberjackFantasy
 
             var keys = currentKB.GetPressedKeys();
 
+            // Do not delete this. may use in future. 
+            
             if (keys.Length == 0)
             {
                 pCurrent.SpeedX = 0;
                 pCurrent.SpeedY = 0;
             }
+            
+            
 
 
 
@@ -249,20 +254,52 @@ namespace LumberjackFantasy
 			// Adds Speed to the Velocity Manager Based on the Current Keys Pressed
 			if (currentKB.IsKeyDown(Keys.W) == true)
 			{
-				velocityManager.addVelocity(0, -1 * (pCurrent.MaxSpeed / 4));
+                if (velocityManager.VelocityY > 0)
+                {
+                    velocityManager.Decelerate(1);
+                }
+				velocityManager.addVelocity(0, -1 * (pCurrent.MaxSpeed / 16));
 			}
 			if (currentKB.IsKeyDown(Keys.S) == true)
 			{
-				velocityManager.addVelocity(0, (pCurrent.MaxSpeed / 4));
+                if (velocityManager.VelocityY < 0)
+                {
+                    velocityManager.Decelerate(1);
+                }
+                velocityManager.addVelocity(0, (pCurrent.MaxSpeed / 16));
 			}
+            if (currentKB.IsKeyDown(Keys.S) == true && currentKB.IsKeyDown(Keys.W) == true)
+            {
+                velocityManager.VelocityY = 0;
+            }
+            if (currentKB.IsKeyDown(Keys.W) != true && currentKB.IsKeyDown(Keys.S) != true)
+            {
+                velocityManager.Decelerate(1);
+            }
 			if (currentKB.IsKeyDown(Keys.A) == true)
 			{
-				velocityManager.addVelocity(-1 * (pCurrent.MaxSpeed / 4), 0);
+                if (velocityManager.VelocityX > 0)
+                {
+                    velocityManager.Decelerate(0);
+                }
+                velocityManager.addVelocity(-1 * (pCurrent.MaxSpeed / 16), 0);
 			}
 			if (currentKB.IsKeyDown(Keys.D) == true)
 			{
-				velocityManager.addVelocity((pCurrent.MaxSpeed / 4), 0);
-			}
+				velocityManager.addVelocity((pCurrent.MaxSpeed / 16), 0);
+                if (velocityManager.VelocityX < 0)
+                {
+                    velocityManager.Decelerate(0);
+                }
+            }
+            if (currentKB.IsKeyDown(Keys.A) == true && currentKB.IsKeyDown(Keys.D) == true)
+            {
+                velocityManager.VelocityY = 0;
+            }
+            if (currentKB.IsKeyDown(Keys.A) != true && currentKB.IsKeyDown(Keys.D) != true)
+            {
+                velocityManager.Decelerate(0);
+            }
 
             // Sets the new Sprite Location & Player Field of Vision
             pCurrent.ObjectCollisionBox = velocityManager.UpdatePosition(pCurrent.ObjectCollisionBox);
@@ -335,12 +372,12 @@ namespace LumberjackFantasy
 
 			if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
 			{
-				// Makes the player and trees collision no longer occur and sets all player rectangles equally offset
-				pCurrent.ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
-				pCurrent.PlayerVision.Offset(adjustPosValues[0], adjustPosValues[1]);
+                // Makes the player and trees collision no longer occur and sets all player rectangles equally offset
+                pCurrent.ObjectCollisionBox = new Rectangle(pCurrent.PosX + adjustPosValues[0], pCurrent.PosY + adjustPosValues[1], pCurrent.Width, pCurrent.Height);
+                pCurrent.PlayerVision = new Rectangle(pCurrent.PlayerVision.X + adjustPosValues[0], pCurrent.PlayerVision.Y + adjustPosValues[1], pCurrent.Width, pCurrent.Height);
 
-				// Changes the speed to 0 in the direction of which a potential collision has now occured. 
-				if (adjustPosValues[0] != 0)
+                // Changes the speed to 0 in the direction of which a potential collision has now occured. 
+                if (adjustPosValues[0] != 0)
 				{
 					pCurrent.SpeedX = 0;
 				}

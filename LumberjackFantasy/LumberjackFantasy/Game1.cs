@@ -19,6 +19,10 @@ namespace LumberjackFantasy
 		List<Texture2D> testTiles;
 		List<WorldTile> worldTile;
 
+        Random rng;
+
+        Tile aTestedTile;
+
         Texture2D playerTexture;
         Texture2D starterBackground;
         Texture2D startButton;
@@ -71,13 +75,16 @@ namespace LumberjackFantasy
 
             //Texture Loading
             //Player Creation
+            testTiles = new List<Texture2D>();
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
-            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 7, 10);
+            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
+            rng = new Random();
+            LoadTile();
+            aTestedTile = new Tile("testTile.txt", playerTexture, playerTexture, testTiles, rng);
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
 			updateManager = new UpdateManager(startButton, exitButton);
-			//LoadTile(); -- BROKEN WON'T FIX
 
 			
 		}
@@ -108,6 +115,7 @@ namespace LumberjackFantasy
             switch (gameState)
 			{
 				case GameState.start:
+                    
 					this.IsMouseVisible = true;
 					gameState = updateManager.UpdateTitleScreen();
 					break;
@@ -118,7 +126,7 @@ namespace LumberjackFantasy
 
 				case GameState.gameLoop:
                     //does bears and movement etc
-                    updateManager.UpdateGameScreenFields(player1, kb, previousKbstate);
+                    updateManager.UpdateGameScreenFields(player1, aTestedTile.Trees, kb, previousKbstate);
                     updateManager.UpdatePlayer();
                     player1 = updateManager.ReturnPlayer();
 					break;
@@ -156,6 +164,11 @@ namespace LumberjackFantasy
 				case GameState.gameLoop:
                     spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
                     player1.Draw(spriteBatch);
+                    for(int i = 0; i < aTestedTile.Trees.Count; i++)
+                    {
+                        Tree t = aTestedTile.Trees[i];
+                        t.Draw(spriteBatch);
+                    }
 					break;
 
 				case GameState.gameOver:
