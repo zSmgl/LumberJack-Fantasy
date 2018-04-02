@@ -171,12 +171,7 @@ namespace LumberjackFantasy
 
 				case GameState.gameLoop:
                     spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
-                    player1.Draw(spriteBatch);
-                    for(int i = 0; i < aTestedTile.Trees.Count; i++)
-                    {
-                        Tree t = aTestedTile.Trees[i];
-                        t.Draw(spriteBatch);
-                    }
+					updateManager.DrawGame(spriteBatch);
 					break;
 
 				case GameState.gameOver:

@@ -25,7 +25,7 @@ namespace LumberjackFantasy
         private int visionStandard; //offset integer for how large the upScreen should be
 
         //properties --------------------------------------------------------------------
-        private Rectangle CameraPosition { get { return onScreen; } }
+        public Rectangle CameraPosition { get { return onScreen; } }
         //constructor -------------------------------------------------------------------
         public Camera(int standard)
         {

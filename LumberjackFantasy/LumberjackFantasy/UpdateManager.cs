@@ -81,6 +81,42 @@ namespace LumberjackFantasy
 			return toReturn;
 		}
 
+		///<summary>
+		///Draw method called during the gameLoop
+		///</summary>
+		public void DrawGame(SpriteBatch spriteBatch)
+		{
+			//draw player
+			pCurrent.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+			
+			//draws all trees on screen
+			foreach (Tree thisObject in treesCurrent)
+			{
+				if (thisObject.OnScreen)
+				{
+					thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+				}
+			}
+			//draw all bears on screen
+			foreach (Bear thisObject in bearsCurrent)
+			{
+				if (thisObject.OnScreen)
+				{
+					thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+				}
+			}
+			//draw all pickups on screen
+			foreach (PickUp thisObject in pickUpsCurrent)
+			{
+				if (thisObject.OnScreen)
+				{
+					thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+				}
+			}
+
+
+		}
+
 		/// <summary>
 		/// Draw method called when the game is at the Title Screen
 		/// </summary>
