@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +25,8 @@ namespace LumberjackFantasy
         private List<Bear> bears;
         private List<PickUp> collectibles;
         private List<Texture2D> pickupTextures;
+		private int XOffset;
+		private int YOffset;
         LoadState loadState = new LoadState();
 
         //properties --------------------------------------------------------------------
@@ -36,15 +38,38 @@ namespace LumberjackFantasy
         public Tile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng)
         {
             pickupTextures = pickups;
-            loadTile(toLoad, treeTexture, bearTexture, rng);
+            LoadTile(toLoad, treeTexture, bearTexture, rng);
         }
         //methods -----------------------------------------------------------------------
 
         //method to load in tile information to be called in constructor
-        public void loadTile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, Random rng)
+        public void LoadTile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, Random rng, Quadrent quadrent)
         {
-            // Create the data structures
-            trees = new List<Tree>();
+			
+			switch (quadrent)
+			{
+				case (Quadrent.UL):
+					XOffset = 0;
+					YOffset = 0;
+					break;
+				case (Quadrent.UR):
+					XOffset = 896;
+					YOffset = 0;
+					break;
+				case (Quadrent.BL):
+					XOffset = 0;
+					YOffset = 896;
+					break;
+				case (Quadrent.BR):
+					XOffset = 896;
+					YOffset = 896;
+					break;
+			}
+
+
+
+			// Create the data structures
+			trees = new List<Tree>();
             collectibles = new List<PickUp>();
             StreamReader load;
 

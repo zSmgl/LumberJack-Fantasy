@@ -57,18 +57,18 @@ namespace LumberjackFantasy
 		public void Draw(SpriteBatch spriteBatch, Texture2D[] textures)
 		{
 			//UL
-			spriteBatch.Draw(getTexture(Quadrent.UL, 9999, textures), upperLeftRect, Color.White);
+			spriteBatch.Draw(GetTexture(Quadrent.UL, 9999, textures), upperLeftRect, Color.White);
 			//UR
-			spriteBatch.Draw(getTexture(Quadrent.UR, 9999, textures), upperRightRect, Color.White);
+			spriteBatch.Draw(GetTexture(Quadrent.UR, 9999, textures), upperRightRect, Color.White);
 			//BL
-			spriteBatch.Draw(getTexture(Quadrent.BL, 9999, textures), lowerLeftRect, Color.White);
+			spriteBatch.Draw(GetTexture(Quadrent.BL, 9999, textures), lowerLeftRect, Color.White);
 			//BR
-			spriteBatch.Draw(getTexture(Quadrent.BR, 9999, textures), lowerRightRect, Color.White);
+			spriteBatch.Draw(GetTexture(Quadrent.BR, 9999, textures), lowerRightRect, Color.White);
 
 		}
 
 		//returns the texture for each "quadrent"
-		public Texture2D getTexture(Quadrent quadrent, int selection, Texture2D[] textures)
+		public Texture2D GetTexture(Quadrent quadrent, int selection, Texture2D[] textures)
 		{
 			Texture2D texture;
 			//currently overridden to be test bois

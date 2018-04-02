@@ -185,19 +185,19 @@ namespace LumberjackFantasy
 			// Adds Speed to the Velocity Manager Based on the Current Keys Pressed
 			if (currentKB.IsKeyDown(Keys.W) == true)
 			{
-				velocityManager.addVelocity(0, -1 * (pCurrent.MaxSpeed / 4));
+				velocityManager.AddVelocity(0, -1 * (pCurrent.MaxSpeed / 4));
 			}
 			if (currentKB.IsKeyDown(Keys.S) == true)
 			{
-				velocityManager.addVelocity(0, (pCurrent.MaxSpeed / 4));
+				velocityManager.AddVelocity(0, (pCurrent.MaxSpeed / 4));
 			}
 			if (currentKB.IsKeyDown(Keys.A) == true)
 			{
-				velocityManager.addVelocity(-1 * (pCurrent.MaxSpeed / 4), 0);
+				velocityManager.AddVelocity(-1 * (pCurrent.MaxSpeed / 4), 0);
 			}
 			if (currentKB.IsKeyDown(Keys.D) == true)
 			{
-				velocityManager.addVelocity((pCurrent.MaxSpeed / 4), 0);
+				velocityManager.AddVelocity((pCurrent.MaxSpeed / 4), 0);
 			}
 
 			// Sets the new Sprite Location & Player Field of Vision
