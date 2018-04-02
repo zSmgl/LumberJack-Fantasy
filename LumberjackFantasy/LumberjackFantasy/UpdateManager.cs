@@ -259,7 +259,7 @@ namespace LumberjackFantasy
                 {
                     velocityManager.Decelerate(1);
                 }
-				velocityManager.addVelocity(0, -1 * (pCurrent.MaxSpeed / 16));
+				velocityManager.AddVelocity(0, -1 * (pCurrent.MaxSpeed / 16));
 			}
 			if (currentKB.IsKeyDown(Keys.S) == true)
 			{
@@ -267,7 +267,7 @@ namespace LumberjackFantasy
                 {
                     velocityManager.Decelerate(1);
                 }
-                velocityManager.addVelocity(0, (pCurrent.MaxSpeed / 16));
+                velocityManager.AddVelocity(0, (pCurrent.MaxSpeed / 16));
 			}
             if (currentKB.IsKeyDown(Keys.S) == true && currentKB.IsKeyDown(Keys.W) == true)
             {
@@ -283,11 +283,11 @@ namespace LumberjackFantasy
                 {
                     velocityManager.Decelerate(0);
                 }
-                velocityManager.addVelocity(-1 * (pCurrent.MaxSpeed / 16), 0);
+                velocityManager.AddVelocity(-1 * (pCurrent.MaxSpeed / 16), 0);
 			}
 			if (currentKB.IsKeyDown(Keys.D) == true)
 			{
-				velocityManager.addVelocity((pCurrent.MaxSpeed / 16), 0);
+				velocityManager.AddVelocity((pCurrent.MaxSpeed / 16), 0);
                 if (velocityManager.VelocityX < 0)
                 {
                     velocityManager.Decelerate(0);
@@ -524,7 +524,7 @@ namespace LumberjackFantasy
 			// Formula: Adds speed to the velocity manager thats is BETWEEN! -1/2 of it's potential max speed and 1/2 is potential max speed
 			// in both the x and y direction of the bear, randomly creating movement for the bear that could be super fast, or super slow.
 			// Tip: Changing the (/2) is the easiest way to adjust this value.
-			velocityManager.addVelocity(rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2, rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2);
+			velocityManager.AddVelocity(rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2, rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2);
 
 			// Sets the new Sprite Location & Player Field of Vision
 			bearsCurrent[i].ObjectCollisionBox = velocityManager.UpdatePosition(bearsCurrent[i].ObjectCollisionBox);
