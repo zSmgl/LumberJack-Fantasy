@@ -35,10 +35,10 @@ namespace LumberjackFantasy
         public List<PickUp> Collectibles { get { return collectibles; } }
 
         //constructor -------------------------------------------------------------------
-        public Tile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng)
+        public Tile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent)
         {
             pickupTextures = pickups;
-            LoadTile(toLoad, treeTexture, bearTexture, rng);
+            LoadTile(toLoad, treeTexture, bearTexture, rng, quadrent);
         }
         //methods -----------------------------------------------------------------------
 
