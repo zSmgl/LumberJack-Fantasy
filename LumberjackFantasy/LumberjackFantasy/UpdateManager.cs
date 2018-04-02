@@ -49,7 +49,7 @@ namespace LumberjackFantasy
 		public void UpdateGameScreen()
 		{           
 			UpdatePlayer();
-			updateCamera(pCurrent);
+			UpdateCamera(pCurrent);
             UpdateAllBears();
 			//UpdateAttacks();
 			RemoveStuffFromStoredLists();
@@ -904,7 +904,7 @@ namespace LumberjackFantasy
 
 
         // -------------------------------------------------------------------------- Camera Logic ---------------------------------------------------------------------------
-        public void updateCamera(Player player)
+        public void UpdateCamera(Player player)
         {
             camera.updatePosition(player.ObjectCollisionBox);
             foreach (Tree thisTree in treesCurrent)
