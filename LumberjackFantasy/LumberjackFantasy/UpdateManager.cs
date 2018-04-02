@@ -228,16 +228,17 @@ namespace LumberjackFantasy
 			UpdatePlayerAnimations(oldPos);
 
             // temp code to check if player has pressing keys to move. runs after updating all the movement.
-
+            // Do not delete this. may use in future.  FAIL-SAFE TO DEACCELERATION STUFF
+            /*
             var keys = currentKB.GetPressedKeys();
 
-            // Do not delete this. may use in future. 
-            
+          
             if (keys.Length == 0)
             {
                 pCurrent.SpeedX = 0;
                 pCurrent.SpeedY = 0;
             }
+            */
             
             
 
