@@ -106,8 +106,8 @@ namespace LumberjackFantasy
 
                                 trees.Add(new Tree
                                     (
-                                      Int32.Parse(split[0]),
-                                      Int32.Parse(split[1]),
+                                      Int32.Parse(split[0])+XOffset,
+                                      Int32.Parse(split[1]) + YOffset,
                                       Int32.Parse(split[2]),
                                       Int32.Parse(split[3]),
                                       treeTexture,
@@ -121,8 +121,8 @@ namespace LumberjackFantasy
                             case LoadState.bear:
                                 bears.Add(new Bear
                                     (
-                                    Int32.Parse(split[0]),
-                                    Int32.Parse(split[1]),
+                                    Int32.Parse(split[0]) + XOffset,
+                                    Int32.Parse(split[1]) + YOffset,
                                     Int32.Parse(split[2]),
 									Int32.Parse(split[3]),
 									bearTexture,
@@ -139,8 +139,8 @@ namespace LumberjackFantasy
 							case LoadState.pickUp:
                                 collectibles.Add(new PickUp
                                         (
-                                        Int32.Parse(split[1]),
-                                        Int32.Parse(split[2]),
+                                        Int32.Parse(split[1]) + XOffset,
+                                        Int32.Parse(split[2]) + YOffset,
                                         Int32.Parse(split[3]),
                                         Int32.Parse(split[4]),
                                         pickupTextures[Int32.Parse(split[0])],

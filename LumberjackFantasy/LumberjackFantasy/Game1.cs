@@ -11,7 +11,14 @@ namespace LumberjackFantasy
 	/// </summary>
 	
 		//gamestate enum to track the games current state
-		enum GameState { start, pause, gameLoop, gameOver, exit}
+		enum GameState
+		{
+			start,
+			pause,
+			gameLoop,
+			gameOver,
+			exit
+		}
 	public class Game1 : Game
 	{
 		GraphicsDeviceManager graphics;
@@ -74,13 +81,14 @@ namespace LumberjackFantasy
             starterBackground = Content.Load<Texture2D>("starterBackground");
 
             //Texture Loading
+
             //Player Creation
             testTiles = new List<Texture2D>();
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
             player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
-            rng = new Random();
-            LoadTile();
-            //aTestedTile = new Tile("testTile.txt", playerTexture, playerTexture, testTiles, rng);
+            //rng = new Random();
+            //LoadTile();
+            aTestedTile = new Tile("testTile.txt", playerTexture, playerTexture, testTiles, rng, Quadrent.UL);
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
