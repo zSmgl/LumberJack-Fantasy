@@ -47,7 +47,6 @@ namespace LumberjackFantasy
 		{
 
 			UpdatePlayer();
-			UpdatePickUps();
 			UpdateAllBears();
 			//UpdateAttacks();
 			RemoveStuffFromStoredLists();
@@ -227,6 +226,10 @@ namespace LumberjackFantasy
 
 			UpdatePlayerAnimations(oldPos);
 
+            // 4 - Update PickUps
+
+            UpdatePickUps();
+
             // temp code to check if player has pressing keys to move. runs after updating all the movement.
             // Do not delete this. may use in future.  FAIL-SAFE TO DEACCELERATION STUFF
             /*
@@ -375,7 +378,8 @@ namespace LumberjackFantasy
 			{
                 // Makes the player and trees collision no longer occur and sets all player rectangles equally offset
                 pCurrent.ObjectCollisionBox = new Rectangle(pCurrent.PosX + adjustPosValues[0], pCurrent.PosY + adjustPosValues[1], pCurrent.Width, pCurrent.Height);
-                pCurrent.PlayerVision = new Rectangle(pCurrent.PlayerVision.X + adjustPosValues[0], pCurrent.PlayerVision.Y + adjustPosValues[1], pCurrent.Width, pCurrent.Height);
+                pCurrent.PlayerVision = new Rectangle(pCurrent.PlayerVision.X + adjustPosValues[0], pCurrent.PlayerVision.Y + adjustPosValues[1], 
+                    pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
 
                 // Changes the speed to 0 in the direction of which a potential collision has now occured. 
                 if (adjustPosValues[0] != 0)
@@ -454,13 +458,17 @@ namespace LumberjackFantasy
 
 			if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
 			{
-				// Makes the bear and trees collision no longer occur and sets all bear rectangles equally offset
-				bearsCurrent[i].ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
-				bearsCurrent[i].BearVision.Offset(adjustPosValues[0], adjustPosValues[1]);
-				bearsCurrent[i].FieldOfAttack.Offset(adjustPosValues[0], adjustPosValues[1]);
+                // Makes the bear and trees collision no longer occur and sets all bear rectangles equally offset
+                bearsCurrent[i].ObjectCollisionBox = new Rectangle(bearsCurrent[i].PosX + adjustPosValues[0], bearsCurrent[i].PosY + adjustPosValues[1], bearsCurrent[i].Width, bearsCurrent[i].Height);
 
-				// Changes the speed to 0 in the X and/or Y direction of which a potential collision has now occured. 
-				if (adjustPosValues[0] != 0)
+                bearsCurrent[i].BearVision = new Rectangle(bearsCurrent[i].BearVision.X + adjustPosValues[0], bearsCurrent[i].BearVision.Y + adjustPosValues[1], 
+                    bearsCurrent[i].BearVision.Width, bearsCurrent[i].BearVision.Height);
+
+                bearsCurrent[i].FieldOfAttack = new Rectangle(bearsCurrent[i].FieldOfAttack.X + adjustPosValues[0], bearsCurrent[i].FieldOfAttack.Y + adjustPosValues[1],
+                    bearsCurrent[i].FieldOfAttack.Width, bearsCurrent[i].FieldOfAttack.Height);
+
+                // Changes the speed to 0 in the X and/or Y direction of which a potential collision has now occured. 
+                if (adjustPosValues[0] != 0)
 				{
 					bearsCurrent[i].SpeedX = 0;
 				}
