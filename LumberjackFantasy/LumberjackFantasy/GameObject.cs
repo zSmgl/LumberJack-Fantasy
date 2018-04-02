@@ -110,7 +110,10 @@ namespace LumberjackFantasy
         /// <param name="sb"></param>
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(objectTexture, objectCollisionBox, Color.White);
+            if (onScreen)
+            {
+                sb.Draw(objectTexture, objectCollisionBox, Color.White);
+            }
         }
 
     }
