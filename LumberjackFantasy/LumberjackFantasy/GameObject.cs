@@ -20,6 +20,7 @@ namespace LumberjackFantasy
         // Fields - Numbers
 
         protected bool onScreen;    // determines if an object is on the screen or not.
+        protected bool uPScreen; // determines if a gameobject is on the UScreen or not. 
         protected int width;    // scale by which object width is drawn
         protected int height;   // scale by which object height is drawn
 
@@ -87,6 +88,12 @@ namespace LumberjackFantasy
             set { onScreen = value; }
         }
 
+        public bool UPScreen
+        {
+            get { return uPScreen; }
+            set { uPScreen = value; }
+        }
+
 		/// <summary>
 		/// Constructor for GameObject
 		/// </summary>
@@ -110,7 +117,7 @@ namespace LumberjackFantasy
         /// <param name="sb"></param>
         public virtual void Draw(SpriteBatch sb)
         {
-            if (onScreen)
+            if (onScreen == true)
             {
                 sb.Draw(objectTexture, objectCollisionBox, Color.White);
             }
