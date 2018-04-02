@@ -228,7 +228,7 @@ namespace LumberjackFantasy
 
             // 4 - Update PickUps
 
-            UpdatePickUps();
+            //UpdatePickUps();
 
             // temp code to check if player has pressing keys to move. runs after updating all the movement.
             // Do not delete this. may use in future.  FAIL-SAFE TO DEACCELERATION STUFF
@@ -642,27 +642,28 @@ namespace LumberjackFantasy
 		/// </summary>
 		public void UpdatePickUps()
 		{
-			foreach (PickUp thisPickup in pickUpsCurrent)
-			{
-				if (thisPickup.ObjectCollisionBox.Intersects(pCurrent.ObjectCollisionBox))
+				foreach (PickUp thisPickup in pickUpsCurrent)
 				{
-					thisPickup.ItemState = ItemState.Retrieved;
-					switch (thisPickup.PickupType)
+					if (thisPickup.ObjectCollisionBox.Intersects(pCurrent.ObjectCollisionBox))
 					{
-						case PickupType.Apple:
-							pCurrent.Health += 1;
-							break;
+						thisPickup.ItemState = ItemState.Retrieved;
+						switch (thisPickup.PickupType)
+						{
+							case PickupType.Apple:
+								pCurrent.Health += 1;
+								break;
 
-						case PickupType.MapleSyrup:
-							pCurrent.LevelScore += 45;
-							break;
+							case PickupType.MapleSyrup:
+								pCurrent.LevelScore += 45;
+								break;
 
-						case PickupType.Shotgun:
-							//put open season code here
-							break;
+							case PickupType.Shotgun:
+								//put open season code here
+								break;
+						}
 					}
 				}
-			}
+			
 		}
 
 
