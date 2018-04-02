@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bear.cs" />
+    <Compile Include="Camera.cs" />
     <Compile Include="CollisionManager.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />

@@ -20,11 +20,12 @@ namespace LumberjackFantasy
 														// Key = i && Value = Bear  So... attackingBears[3].BearProperty is = to the 3rd bear that should be in Current Bears but
 														// is held in the dictionary. This will then need to be returned to the proper place in the bearsCurrent List.
 		private List<Tree> treesCurrent;                // Holds all of the treesInTheGame
-		private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
+        private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
 		private MouseState currentMS;                   // Holds the current Mouse State
 		private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
+        private Camera camera;                          // Holds the cameras positions
 
 		VelocityManager velocityManager = new VelocityManager(0);
 		CollisionManager collisionManager = new CollisionManager();
@@ -36,6 +37,7 @@ namespace LumberjackFantasy
 		{
 			LoadMenus(start, exit);
 			Random rng = new Random();
+            camera = new Camera(10); //instantiate the camera, 10 is a placeholder value
 		}
 
 		// --------------------------------------------------------------------- Universal Updates and Draws for Screen State ------------------------------------------------------
@@ -44,10 +46,10 @@ namespace LumberjackFantasy
 		/// Update method called when the game is actually being played
 		/// </summary>
 		public void UpdateGameScreen()
-		{
-
+		{           
 			UpdatePlayer();
-			UpdateAllBears();
+			updateCamera(pCurrent);
+            UpdateAllBears();
 			//UpdateAttacks();
 			RemoveStuffFromStoredLists();
 
@@ -871,6 +873,73 @@ namespace LumberjackFantasy
 			}
 			return false;
 		}
+
+
+        // -------------------------------------------------------------------------- Camera Logic ---------------------------------------------------------------------------
+        public void updateCamera(Player player)
+        {
+            camera.updatePosition(player.ObjectCollisionBox);
+            foreach (Tree thisTree in treesCurrent)
+            {
+				if (camera.isDrawn(thisTree.ObjectCollisionBox)) //checks if needs to be drawn
+				{
+					thisTree.OnScreen = true;
+				}
+				else
+				{
+					thisTree.OnScreen = false;
+				}
+
+				if(camera.isUpdating(thisTree.ObjectCollisionBox)) //checks if needs to be updated
+				{
+					thisTree.UPScreen = true;
+				}
+				else
+				{
+					thisTree.UPScreen = false;
+				}
+            }
+            foreach (Bear thisBear in bearsCurrent)
+            {
+				if (camera.isDrawn(thisBear.ObjectCollisionBox)) //checks if needs to be drawn
+				{
+					thisBear.OnScreen = true;
+				}
+				else
+				{
+					thisBear.OnScreen = false;
+				}
+
+				if (camera.isUpdating(thisBear.ObjectCollisionBox)) //checks if needs to be updated
+				{
+					thisBear.UPScreen = true;
+				}
+				else
+				{
+					thisBear.UPScreen = false;
+				}
+			}
+            foreach (PickUp thisPickup in pickUpsCurrent)
+            {
+				if (camera.isDrawn(thisPickup.ObjectCollisionBox)) //checks if needs to be drawn
+				{
+					thisPickup.OnScreen = true;
+				}
+				else
+				{
+					thisPickup.OnScreen = false;
+				}
+
+				if (camera.isUpdating(thisPickup.ObjectCollisionBox)) //checks if needs to be updated
+				{
+					thisPickup.UPScreen = true;
+				}
+				else
+				{
+					thisPickup.UPScreen = false;
+				}
+			}
+        }
 	}
 }
 
