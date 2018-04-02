@@ -34,7 +34,8 @@ namespace LumberjackFantasy
         Texture2D starterBackground;
         Texture2D startButton;
 		Texture2D exitButton;
-
+		Texture2D camera;
+		int frameskip = 0;
         KeyboardState kb = new KeyboardState();
         KeyboardState previousKbstate = new KeyboardState();
 
@@ -92,7 +93,8 @@ namespace LumberjackFantasy
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
-			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton);
+			camera = Content.Load<Texture2D>("cam");
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton, camera);
 
 			
 		}
@@ -136,6 +138,7 @@ namespace LumberjackFantasy
                     //does bears and movement etc
                     updateManager.UpdateGameScreenFields(player1, aTestedTile.Trees, kb, previousKbstate);
                     updateManager.UpdatePlayer();
+					updateManager.UpdateCamera();
                     player1 = updateManager.ReturnPlayer();
 					break;
 
@@ -170,8 +173,16 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameLoop:
-                    spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
-					updateManager.DrawGame(spriteBatch);
+					if (frameskip == 0)
+					{
+						frameskip = 1;
+					}
+					else
+					{
+						spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+						updateManager.DrawGame(spriteBatch);
+						//updateManager.camera.DrawCam(spriteBatch);
+					}
 					break;
 
 				case GameState.gameOver:
