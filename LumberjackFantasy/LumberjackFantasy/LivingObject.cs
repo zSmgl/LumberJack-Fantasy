@@ -59,9 +59,9 @@ namespace LumberjackFantasy
         //methods -----------------------------------------------------------------------
 
         //inherited draw method
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Vector2 camera)
         {
-            base.Draw(sb);
+            base.Draw(sb, camera);
         }
 
     }

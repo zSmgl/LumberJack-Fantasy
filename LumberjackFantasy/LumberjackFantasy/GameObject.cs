@@ -108,6 +108,8 @@ namespace LumberjackFantasy
             this.height = height;
             this.objectTexture = objectTexture;
             objectCollisionBox = new Rectangle(x, y, width, height);
+            onScreen = false;
+            uPScreen = false;
 
         }
 
@@ -115,11 +117,13 @@ namespace LumberjackFantasy
         /// Draws the Game Object to the Screen
         /// </summary>
         /// <param name="sb"></param>
-        public virtual void Draw(SpriteBatch sb)
+        public virtual void Draw(SpriteBatch sb, Vector2 cameraPos)
         {
-            if (onScreen == true)
+            if (onScreen)
             {
-                sb.Draw(objectTexture, objectCollisionBox, Color.White);
+                sb.Draw(objectTexture, 
+                    new Rectangle(objectCollisionBox.X - Convert.ToInt32(cameraPos.X), objectCollisionBox.Y - Convert.ToInt32(cameraPos.Y), 
+                    objectCollisionBox.Width, objectCollisionBox.Height) , Color.White);
             }
         }
 
