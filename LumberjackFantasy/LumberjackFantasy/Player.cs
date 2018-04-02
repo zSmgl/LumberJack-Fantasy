@@ -87,6 +87,14 @@ namespace LumberjackFantasy
             playerVision = new Rectangle(x - visionStandard, y - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
         }
 
+        //old Player
+        public Player (Player p)
+            : base(p.PosX, p.PosY, p.Width, p.Height, p.objectTexture, p.MaxHealth, p.MaxSpeed)
+        {
+            this.visionStandard = p.visionStandard;
+            playerVision = new Rectangle(p.PosX - visionStandard, p.PosY - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
+        }
+
 
 
         /// <summary>
@@ -95,18 +103,13 @@ namespace LumberjackFantasy
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
+            //Base Draw Method for Base Build
+            base.Draw(sb);
+
             // Draw method for vision field incase we need to see it
             // This includes sending a texture for the vision texutre. Essentially just a black box.
             // sb.Draw(blackTexture, playerVision, Color.White)
         }
-
-		/// <summary>
-		/// Takes the player's current location, direction and current weapon to render and update attacks. To be called 
-		/// </summary>
-		public void UpdatePlayer()
-		{
-			
-		}
 
     }
 }

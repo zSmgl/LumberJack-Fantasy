@@ -3,8 +3,9 @@
     "",
     "\\LumberjackFantasy",
     "\\LumberjackFantasy\\LumberjackFantasy",
-    "\\LumberjackFantasy\\LumberjackFantasy\\Content"
+    "\\LumberjackFantasy\\LumberjackFantasy\\Content",
+    "\\LumberjackFantasy\\LumberjackFantasy\\Content\\Tiles"
   ],
-  "SelectedNode": "\\LumberjackFantasy\\LumberjackFantasy\\UpdateManager.cs",
+  "SelectedNode": "\\LumberjackFantasy\\LumberjackFantasy\\WorldTile.cs",
   "PreviewInSolutionExplorer": false
 }

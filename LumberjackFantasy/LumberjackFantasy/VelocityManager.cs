@@ -92,5 +92,40 @@ namespace LumberjackFantasy
                 velocityY = maxSpeed * -1;
             }
         }
+
+        //code to decelerate based on directionality
+        public void Decelerate(int xOrY)
+        {
+            if (xOrY == 0)
+            {
+                if (velocityX > Convert.ToInt32(0.5 * maxSpeed))
+                {
+                    velocityX -= Convert.ToInt32(0.5 * maxSpeed);
+                }
+                else if (velocityX < -1 * Convert.ToInt32(0.5 * maxSpeed))
+                {
+                    velocityX += Convert.ToInt32(0.5 * maxSpeed);
+                }  
+                else
+                {
+                    velocityX = 0;
+                }                
+            }
+            else
+            {
+                if (velocityY > Convert.ToInt32(0.5 * maxSpeed))
+                {
+                    velocityY -= Convert.ToInt32(0.5 * maxSpeed);
+                }
+                else if (velocityY < -1 * Convert.ToInt32(0.5 * maxSpeed))
+                {
+                    velocityY += Convert.ToInt32(0.5 * maxSpeed);
+                }
+                else
+                {
+                    velocityY = 0;
+                }
+            }
+        }
     }
 }

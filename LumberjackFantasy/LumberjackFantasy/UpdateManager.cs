@@ -11,13 +11,20 @@ namespace LumberjackFantasy
 {
 	class UpdateManager
 	{
-		private GameTime gameTime;           // Holds the current GameTime
-		private Player pCurrent;             // Holds the player's values
-		private List<Bear> bearsCurrent;     // Holds all of the bears in the game
-		private List<Tree> treesCurrent;     // Holds all of the treesInTheGame
-		private List<PickUp> pickUpsCurrent; // Holds all the pickups in the game
-		private KeyboardState currentKB;     // Holds the current Kb State
-		private KeyboardState previousKB;    // Holds the previous Kb State (if needed)
+		private Random rng;                             // Random Number Generator used for bears and bear speeds.
+		private ScreenManager menu;
+		private GameTime gameTime;                      // Holds the current GameTime
+		private Player pCurrent;                        // Holds the player's values
+		private List<Bear> bearsCurrent;                // Holds all of the bears in the game
+		private Dictionary<int, Bear> attackingBears;   // Simplified dictionary that holds attacking bears & their int in the list
+														// Key = i && Value = Bear  So... attackingBears[3].BearProperty is = to the 3rd bear that should be in Current Bears but
+														// is held in the dictionary. This will then need to be returned to the proper place in the bearsCurrent List.
+		private List<Tree> treesCurrent;                // Holds all of the treesInTheGame
+		private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
+		private KeyboardState currentKB;                // Holds the current Kb State
+		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
+		private MouseState currentMS;                   // Holds the current Mouse State
+		private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
 
 		VelocityManager velocityManager = new VelocityManager(0);
 		CollisionManager collisionManager = new CollisionManager();
@@ -25,12 +32,13 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>
-		public UpdateManager()
+		public UpdateManager(Texture2D start, Texture2D exit)
 		{
-
+			LoadMenus(start, exit);
+			Random rng = new Random();
 		}
 
-		// --------------------------------------------------------------------- Universal Updates for Screen State ------------------------------------------------------
+		// --------------------------------------------------------------------- Universal Updates and Draws for Screen State ------------------------------------------------------
 
 		/// <summary>
 		/// Update method called when the game is actually being played
@@ -49,9 +57,52 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Update method called when the game is at the Title Screen
 		/// </summary>
-		public void UpdateTitleScreen()
+		public GameState UpdateTitleScreen()
 		{
+			currentMS = Mouse.GetState();
+			GameState toReturn = GameState.start;
 
+			menu.StartHover = isHovering(menu.StartButton);
+			menu.ExitHover = isHovering(menu.ExitButton);
+			if (currentMS.LeftButton == ButtonState.Pressed)
+			{
+				if (menu.StartHover)
+				{
+					toReturn = GameState.gameLoop;
+				}
+				else if (menu.ExitHover)
+				{
+					toReturn = GameState.exit;
+				}
+			}
+			previousMS = currentMS;
+			return toReturn;
+		}
+
+		/// <summary>
+		/// Draw method called when the game is at the Title Screen
+		/// </summary>
+		public void DrawTitleScreen(SpriteBatch spriteBatch)
+		{
+			menu.DrawStartScreen(spriteBatch);
+
+			if (menu.StartHover)
+			{
+				menu.DrawStartHover(spriteBatch);
+			}
+			else
+			{
+				menu.DrawStartButton(spriteBatch);
+			}
+
+			if (menu.ExitHover)
+			{
+				menu.DrawExitHover(spriteBatch);
+			}
+			else
+			{
+				menu.DrawExitButton(spriteBatch);
+			}
 		}
 
 		/// <summary>
@@ -79,13 +130,12 @@ namespace LumberjackFantasy
 		/// <param name="bears"> the bears List</param>
 		/// <param name="trees"> the trees List</param>
 		/// <param name="pickUps"> the pickUps List</param>
-		public void UpdateGameScreenFields(Player p, List<Bear> bears, List<Tree> trees, List<PickUp> pickUps, GameTime gameTime)
+		public void UpdateGameScreenFields(Player p, List<Tree> treesCurrent, KeyboardState currentKB, KeyboardState previousKB)
 		{
-			this.gameTime = gameTime;
-			pCurrent = p;
-			bearsCurrent = bears;
-			treesCurrent = trees;
-			pickUpsCurrent = pickUps;
+            this.treesCurrent = treesCurrent;
+            this.currentKB = currentKB;
+            this.previousKB = previousKB;
+            pCurrent = p;
 		}
 
 		public void UpdateTitleScreenFields()
@@ -102,6 +152,11 @@ namespace LumberjackFantasy
 		{
 
 		}
+
+        public Player ReturnPlayer()
+        {
+            return pCurrent;
+        }
 
 		/// <summary>
 		/// Determines stuff to remove from Lists (Tree, Bear, PickUp)
@@ -158,7 +213,7 @@ namespace LumberjackFantasy
 
 			// 0 - Saves player's UnAdjusted State to be compared to through-out Update Player
 
-			Player oldPos = pCurrent;
+			Player oldPos = new Player(pCurrent);
 
 			// 1 - Finds Players "Un-Collided" Position with new Speed 
 
@@ -172,10 +227,25 @@ namespace LumberjackFantasy
 
 			UpdatePlayerAnimations(oldPos);
 
+            // temp code to check if player has pressing keys to move. runs after updating all the movement.
+            // Do not delete this. may use in future.  FAIL-SAFE TO DEACCELERATION STUFF
+            /*
+            var keys = currentKB.GetPressedKeys();
+
+          
+            if (keys.Length == 0)
+            {
+                pCurrent.SpeedX = 0;
+                pCurrent.SpeedY = 0;
+            }
+            */
+            
+            
 
 
 
-		}
+
+        }
 
 		/// <summary>
 		/// Calculates the new position of the Player & Field of Vision, and updates the Players current Speed in X and Y Directions
@@ -185,23 +255,55 @@ namespace LumberjackFantasy
 			// Adds Speed to the Velocity Manager Based on the Current Keys Pressed
 			if (currentKB.IsKeyDown(Keys.W) == true)
 			{
-				velocityManager.AddVelocity(0, -1 * (pCurrent.MaxSpeed / 4));
+                if (velocityManager.VelocityY > 0)
+                {
+                    velocityManager.Decelerate(1);
+                }
+				velocityManager.addVelocity(0, -1 * (pCurrent.MaxSpeed / 16));
 			}
 			if (currentKB.IsKeyDown(Keys.S) == true)
 			{
-				velocityManager.AddVelocity(0, (pCurrent.MaxSpeed / 4));
+                if (velocityManager.VelocityY < 0)
+                {
+                    velocityManager.Decelerate(1);
+                }
+                velocityManager.addVelocity(0, (pCurrent.MaxSpeed / 16));
 			}
+            if (currentKB.IsKeyDown(Keys.S) == true && currentKB.IsKeyDown(Keys.W) == true)
+            {
+                velocityManager.VelocityY = 0;
+            }
+            if (currentKB.IsKeyDown(Keys.W) != true && currentKB.IsKeyDown(Keys.S) != true)
+            {
+                velocityManager.Decelerate(1);
+            }
 			if (currentKB.IsKeyDown(Keys.A) == true)
 			{
-				velocityManager.AddVelocity(-1 * (pCurrent.MaxSpeed / 4), 0);
+                if (velocityManager.VelocityX > 0)
+                {
+                    velocityManager.Decelerate(0);
+                }
+                velocityManager.addVelocity(-1 * (pCurrent.MaxSpeed / 16), 0);
 			}
 			if (currentKB.IsKeyDown(Keys.D) == true)
 			{
-				velocityManager.AddVelocity((pCurrent.MaxSpeed / 4), 0);
-			}
+				velocityManager.addVelocity((pCurrent.MaxSpeed / 16), 0);
+                if (velocityManager.VelocityX < 0)
+                {
+                    velocityManager.Decelerate(0);
+                }
+            }
+            if (currentKB.IsKeyDown(Keys.A) == true && currentKB.IsKeyDown(Keys.D) == true)
+            {
+                velocityManager.VelocityY = 0;
+            }
+            if (currentKB.IsKeyDown(Keys.A) != true && currentKB.IsKeyDown(Keys.D) != true)
+            {
+                velocityManager.Decelerate(0);
+            }
 
-			// Sets the new Sprite Location & Player Field of Vision
-			pCurrent.ObjectCollisionBox = velocityManager.UpdatePosition(pCurrent.ObjectCollisionBox);
+            // Sets the new Sprite Location & Player Field of Vision
+            pCurrent.ObjectCollisionBox = velocityManager.UpdatePosition(pCurrent.ObjectCollisionBox);
 			pCurrent.PlayerVision = velocityManager.UpdatePosition(pCurrent.PlayerVision);
 
 			// Updates the Current Speed of the Player within the Player from the Calculated speed in Players VM
@@ -271,12 +373,12 @@ namespace LumberjackFantasy
 
 			if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
 			{
-				// Makes the player and trees collision no longer occur and sets all player rectangles equally offset
-				pCurrent.ObjectCollisionBox.Offset(adjustPosValues[0], adjustPosValues[1]);
-				pCurrent.PlayerVision.Offset(adjustPosValues[0], adjustPosValues[1]);
+                // Makes the player and trees collision no longer occur and sets all player rectangles equally offset
+                pCurrent.ObjectCollisionBox = new Rectangle(pCurrent.PosX + adjustPosValues[0], pCurrent.PosY + adjustPosValues[1], pCurrent.Width, pCurrent.Height);
+                pCurrent.PlayerVision = new Rectangle(pCurrent.PlayerVision.X + adjustPosValues[0], pCurrent.PlayerVision.Y + adjustPosValues[1], pCurrent.Width, pCurrent.Height);
 
-				// Changes the speed to 0 in the direction of which a potential collision has now occured. 
-				if (adjustPosValues[0] != 0)
+                // Changes the speed to 0 in the direction of which a potential collision has now occured. 
+                if (adjustPosValues[0] != 0)
 				{
 					pCurrent.SpeedX = 0;
 				}
@@ -311,9 +413,16 @@ namespace LumberjackFantasy
 
 				Bear oldPos = bearsCurrent[i];
 
-				// 1 - Finds Bears "Un-Collided" Position with new Speed 
+				// 1 - Compares Old Bear to New Bear and Decideds New Bear's Type of Movement. - Increments Timers for Statationary / Looking Accordingly.
 
-				BearMovement();
+				// FIRST - DECIDES TO INCREMENT TIMER IF UPDATED PLAYERVISION BOX DOESN'T INTERACT WITH BEAR FIELD OF VISION
+				// SECOND - DETERMINES THE NEW STATE OF THE BEAR
+				// THIRD - DECIDES ON THE MOVEMENT OF THE NEW BEAR AND TO RESET TIMERS BASED ON OLD AND NEW STATE
+				// TYPES OF MOVEMENT: FOLLOW()  - Determines the path from the bear to the player in the quickest way
+				//                    LOOKING() - Determines the random path which the bear will walk for the bear's timer
+				// OTHER FUNCTIONS:   Bear.ResetTimer() - Will reset all the timers within the bear. (Timer for how long to stay still, and how long it should walk)
+
+				BearMovement(oldPos, i);
 
 				// 2 - Check for Collisions with Trees in Game. Adjust Speed and Pos Accordingly if needed.
 
@@ -350,7 +459,7 @@ namespace LumberjackFantasy
 				bearsCurrent[i].BearVision.Offset(adjustPosValues[0], adjustPosValues[1]);
 				bearsCurrent[i].FieldOfAttack.Offset(adjustPosValues[0], adjustPosValues[1]);
 
-				// Changes the speed to 0 in the direction of which a potential collision has now occured. 
+				// Changes the speed to 0 in the X and/or Y direction of which a potential collision has now occured. 
 				if (adjustPosValues[0] != 0)
 				{
 					bearsCurrent[i].SpeedX = 0;
@@ -405,6 +514,117 @@ namespace LumberjackFantasy
 			{
 				bearsCurrent[i].BearDirection = oldPos.BearDirection;
 			}
+		}
+
+		/// <summary>
+		/// Determines how the bear is currently looking (wandering) around in a random way
+		/// </summary>
+		public void Looking(int i)
+		{
+			// Formula: Adds speed to the velocity manager thats is BETWEEN! -1/2 of it's potential max speed and 1/2 is potential max speed
+			// in both the x and y direction of the bear, randomly creating movement for the bear that could be super fast, or super slow.
+			// Tip: Changing the (/2) is the easiest way to adjust this value.
+			velocityManager.addVelocity(rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2, rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2);
+
+			// Sets the new Sprite Location & Player Field of Vision
+			bearsCurrent[i].ObjectCollisionBox = velocityManager.UpdatePosition(bearsCurrent[i].ObjectCollisionBox);
+			bearsCurrent[i].BearVision = velocityManager.UpdatePosition(bearsCurrent[i].BearVision);
+			bearsCurrent[i].FieldOfAttack = velocityManager.UpdatePosition(bearsCurrent[i].FieldOfAttack);
+
+			// Updates the Current Speed of the Player within the Player from the Calculated speed in Players VM
+			bearsCurrent[i].SpeedX = velocityManager.VelocityX;
+			bearsCurrent[i].SpeedY = velocityManager.VelocityY;
+		}
+		/// <summary>
+		/// Used for the bear to follow the player
+		/// </summary>
+		public void FollowPlayer()
+		{
+
+		}
+
+		public void BearMovement(Bear oldBear, int i)
+		{
+
+			//Determines the bear's state
+			if (pCurrent.PlayerVision.Intersects(bearsCurrent[i].BearVision) == true)
+			{
+				bearsCurrent[i].BearState = BearState.following;
+				// SINCE THE BEAR @ I IN THE LIST IS FOLLOWING THE PLAYER, THIS MEANS THE BEAR COULD POTENTIALLY ATTACK THE PLAYER. 
+				attackingBears[i] = bearsCurrent[i];
+			}
+			else
+			{
+				if (oldBear.BearState == BearState.stationary)
+				{
+					bearsCurrent[i].WhenToMoveCounter += gameTime.ElapsedGameTime.TotalSeconds;
+				}
+				else if (oldBear.BearState == BearState.looking)
+				{
+					bearsCurrent[i].TimeOfMovementCounter += gameTime.ElapsedGameTime.TotalSeconds;
+				}
+
+
+				if (oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter == bearsCurrent[i].WhenToMoveLimiter)
+				{
+					bearsCurrent[i].BearState = BearState.looking;
+				}
+				else if (oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter != bearsCurrent[i].WhenToMoveLimiter)
+				{
+					bearsCurrent[i].BearState = BearState.stationary;
+				}
+				else if (oldBear.BearState == BearState.looking && bearsCurrent[i].TimeOfMovementCounter == bearsCurrent[i].TimeOfMovementCounter)
+				{
+					bearsCurrent[i].BearState = BearState.stationary;
+				}
+				else if (oldBear.BearState == BearState.looking && bearsCurrent[i].TimeOfMovementCounter != bearsCurrent[i].TimeOfMovementCounter)
+				{
+					bearsCurrent[i].BearState = BearState.looking;
+				}
+				else if (oldBear.BearState == BearState.following)
+				{
+					bearsCurrent[i].BearState = BearState.stationary;
+				}
+
+
+
+			}
+
+
+			if (oldBear.BearState == BearState.stationary && bearsCurrent[i].BearState == BearState.looking)
+			{
+				Looking(i);
+			}
+			else if (oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.looking)
+			{
+				Looking(i);
+			}
+			else if (oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.stationary)
+			{
+				// Sets speed of bear to 0 since movement has now reset. 
+				bearsCurrent[i].SpeedX = 0;
+				bearsCurrent[i].SpeedY = 0;
+
+				bearsCurrent[i].ResetBearTimers(rng);
+			}
+			else if (oldBear.BearState == BearState.following && bearsCurrent[i].BearState == BearState.following)
+			{
+				FollowPlayer();
+			}
+			else if (oldBear.BearState == BearState.stationary && bearsCurrent[i].BearState == BearState.following)
+			{
+				// Sets speed of velocity manager back to 
+				bearsCurrent[i].ResetBearTimers(rng);
+				FollowPlayer();
+			}
+			else if (oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.following)
+			{
+				bearsCurrent[i].ResetBearTimers(rng);
+				FollowPlayer();
+			}
+
+
+
 		}
 
 		// ------------------------------------------------------------------- Pickup Specific Methods ---------------------------------------------------------------------
@@ -626,7 +846,22 @@ namespace LumberjackFantasy
 			}
 		}
 
+		// ---------------------------------------------------------------------------- Menus Logic -----------------------------------------------------------------------
+		//loadmenu command to create the screenmanager to be called in loadContent, method is in its test state as not all textures are created
+		public void LoadMenus(Texture2D startButton, Texture2D exitButton)
+		{
+			menu = new ScreenManager(startButton, exitButton);
+		}
 
+		//command to see if a button is being hovered over
+		public bool isHovering(Rectangle box)
+		{
+			if (box.Contains(currentMS.Position))
+			{
+				return true;
+			}
+			return false;
+		}
 	}
 }
 

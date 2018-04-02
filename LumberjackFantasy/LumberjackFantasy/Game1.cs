@@ -11,13 +11,28 @@ namespace LumberjackFantasy
 	/// </summary>
 	
 		//gamestate enum to track the games current state
-		enum GameState { start, pause, gameLoop, gameOver}
+		enum GameState { start, pause, gameLoop, gameOver, exit}
 	public class Game1 : Game
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		List<Texture2D> testTiles;
 		List<WorldTile> worldTile;
+
+        Random rng;
+
+        Tile aTestedTile;
+
+        Texture2D playerTexture;
+        Texture2D starterBackground;
+        Texture2D startButton;
+		Texture2D exitButton;
+
+        KeyboardState kb = new KeyboardState();
+        KeyboardState previousKbstate = new KeyboardState();
+
+        Player player1;
+        UpdateManager updateManager;
 		GameState gameState;
 
 		public Game1()
@@ -36,9 +51,13 @@ namespace LumberjackFantasy
 		{
 			// TODO: Add your initialization logic here
 			worldTile = new List<WorldTile>();
-			
+			graphics.PreferredBackBufferWidth = 896;
+			graphics.PreferredBackBufferHeight = 896;
+			graphics.ApplyChanges();
+
 			base.Initialize();
 			gameState = GameState.start;
+            
 		}
 
 		/// <summary>
@@ -49,10 +68,25 @@ namespace LumberjackFantasy
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+            //temporary test loadmenu, to keep code short once all textures are made will load into a list, then the loadmenu will call members of that list instead of directly loading
+            
+            //Starter Background Variables for Base Build
+            starterBackground = Content.Load<Texture2D>("starterBackground");
 
-			LoadTile();
+            //Texture Loading
+            //Player Creation
+            testTiles = new List<Texture2D>();
+            playerTexture = Content.Load<Texture2D>("lumberjackFront");
+            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
+            rng = new Random();
+            LoadTile();
+            aTestedTile = new Tile("testTile.txt", playerTexture, playerTexture, testTiles, rng);
 
-			// TODO: use this.Content to load your game content here
+            startButton = Content.Load<Texture2D>("startButton");
+			exitButton = Content.Load<Texture2D>("exitButton");
+			updateManager = new UpdateManager(startButton, exitButton);
+
+			
 		}
 
 		/// <summary>
@@ -74,20 +108,35 @@ namespace LumberjackFantasy
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			// TODO: Add your update logic here
-			switch (gameState)
+            previousKbstate = kb;
+            kb = Keyboard.GetState();
+
+            // TODO: Add your update logic here
+            switch (gameState)
 			{
 				case GameState.start:
+                    
+					this.IsMouseVisible = true;
+					gameState = updateManager.UpdateTitleScreen();
 					break;
 
 				case GameState.pause:
+					//show menu
 					break;
 
 				case GameState.gameLoop:
-
+                    //does bears and movement etc
+                    updateManager.UpdateGameScreenFields(player1, aTestedTile.Trees, kb, previousKbstate);
+                    updateManager.UpdatePlayer();
+                    player1 = updateManager.ReturnPlayer();
 					break;
 
 				case GameState.gameOver:
+					//kill u
+					break;
+
+				case GameState.exit:
+					this.Exit();
 					break;
 			}
 			base.Update(gameTime);
@@ -106,12 +155,20 @@ namespace LumberjackFantasy
 			switch (gameState)
 			{
 				case GameState.start:
+					updateManager.DrawTitleScreen(spriteBatch);
 					break;
 
 				case GameState.pause:
 					break;
 
 				case GameState.gameLoop:
+                    spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+                    player1.Draw(spriteBatch);
+                    for(int i = 0; i < aTestedTile.Trees.Count; i++)
+                    {
+                        Tree t = aTestedTile.Trees[i];
+                        t.Draw(spriteBatch);
+                    }
 					break;
 
 				case GameState.gameOver:
@@ -128,10 +185,10 @@ namespace LumberjackFantasy
 		//can be extended for extra textures
 		public void LoadTile()
 		{
-			testTiles.Add(Content.Load<Texture2D>("bgP1"));
-			testTiles.Add(Content.Load<Texture2D>("bgP2"));
-			testTiles.Add(Content.Load<Texture2D>("bgP3"));
-			testTiles.Add(Content.Load<Texture2D>("bgP4"));
+			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP1"));
+			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP2"));
+			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP3"));
+			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP4"));
 		}
 
 	}

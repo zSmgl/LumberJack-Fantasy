@@ -24,5 +24,9 @@ namespace LumberjackFantasy
         }
 
         //methods -----------------------------------------------------------------------
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+        }
     }
 }
