@@ -25,7 +25,7 @@ namespace LumberjackFantasy
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
 		private MouseState currentMS;                   // Holds the current Mouse State
 		private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
-        private Camera camera;                          // Holds the cameras positions
+        public Camera camera;                          // Holds the cameras positions
 
 		VelocityManager velocityManager = new VelocityManager(0);
         CollisionManager collisionManager;
@@ -33,12 +33,12 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>
-		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D start, Texture2D exit)
+		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D start, Texture2D exit, Texture2D camera)
 		{
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
 			LoadMenus(start, exit);
 			Random rng = new Random();
-            camera = new Camera(10); //instantiate the camera, 10 is a placeholder value
+            this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 		}
 
 		// --------------------------------------------------------------------- Universal Updates and Draws for Screen State ------------------------------------------------------
@@ -48,10 +48,10 @@ namespace LumberjackFantasy
 		/// </summary>
 		public void UpdateGameScreen()
 		{           
-			UpdatePlayer();
-			UpdateCamera(pCurrent);
+			UpdatePlayer();			
             UpdateAllBears();
 			//UpdateAttacks();
+			UpdateCamera();
 			RemoveStuffFromStoredLists();
 
 		}
@@ -88,29 +88,38 @@ namespace LumberjackFantasy
 		{
 			//draw player
 			pCurrent.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
-			
+
 			//draws all trees on screen
-			foreach (Tree thisObject in treesCurrent)
+			if (treesCurrent != null)
 			{
-				if (thisObject.OnScreen)
+				foreach (Tree thisObject in treesCurrent)
 				{
-					thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+					if (thisObject.OnScreen)
+					{
+						thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+					}
 				}
 			}
 			//draw all bears on screen
-			foreach (Bear thisObject in bearsCurrent)
+			if (bearsCurrent != null)
 			{
-				if (thisObject.OnScreen)
+				foreach (Bear thisObject in bearsCurrent)
 				{
-					thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+					if (thisObject.OnScreen)
+					{
+						thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+					}
 				}
 			}
 			//draw all pickups on screen
-			foreach (PickUp thisObject in pickUpsCurrent)
+			if (pickUpsCurrent != null)
 			{
-				if (thisObject.OnScreen)
+				foreach (PickUp thisObject in pickUpsCurrent)
 				{
-					thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+					if (thisObject.OnScreen)
+					{
+						thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+					}
 				}
 			}
 
@@ -957,67 +966,76 @@ namespace LumberjackFantasy
 
 
         // -------------------------------------------------------------------------- Camera Logic ---------------------------------------------------------------------------
-        public void UpdateCamera(Player player)
+        public void UpdateCamera()
         {
-            camera.updatePosition(player.ObjectCollisionBox);
-            foreach (Tree thisTree in treesCurrent)
-            {
-				if (camera.isDrawn(thisTree.ObjectCollisionBox)) //checks if needs to be drawn
+            camera.UpdatePosition(pCurrent.ObjectCollisionBox);
+			if (treesCurrent != null)
+			{
+				foreach (Tree thisTree in treesCurrent)
 				{
-					thisTree.OnScreen = true;
-				}
-				else
-				{
-					thisTree.OnScreen = false;
-				}
+					if (camera.IsDrawn(thisTree.ObjectCollisionBox)) //checks if needs to be drawn
+					{
+						thisTree.OnScreen = true;
+					}
+					else
+					{
+						thisTree.OnScreen = false;
+					}
 
-				if(camera.isUpdating(thisTree.ObjectCollisionBox)) //checks if needs to be updated
-				{
-					thisTree.UPScreen = true;
-				}
-				else
-				{
-					thisTree.UPScreen = false;
-				}
-            }
-            foreach (Bear thisBear in bearsCurrent)
-            {
-				if (camera.isDrawn(thisBear.ObjectCollisionBox)) //checks if needs to be drawn
-				{
-					thisBear.OnScreen = true;
-				}
-				else
-				{
-					thisBear.OnScreen = false;
-				}
-
-				if (camera.isUpdating(thisBear.ObjectCollisionBox)) //checks if needs to be updated
-				{
-					thisBear.UPScreen = true;
-				}
-				else
-				{
-					thisBear.UPScreen = false;
+					if (camera.IsUpdating(thisTree.ObjectCollisionBox)) //checks if needs to be updated
+					{
+						thisTree.UPScreen = true;
+					}
+					else
+					{
+						thisTree.UPScreen = false;
+					}
 				}
 			}
-            foreach (PickUp thisPickup in pickUpsCurrent)
-            {
-				if (camera.isDrawn(thisPickup.ObjectCollisionBox)) //checks if needs to be drawn
+			if (bearsCurrent != null)
+			{
+				foreach (Bear thisBear in bearsCurrent)
 				{
-					thisPickup.OnScreen = true;
-				}
-				else
-				{
-					thisPickup.OnScreen = false;
-				}
+					if (camera.IsDrawn(thisBear.ObjectCollisionBox)) //checks if needs to be drawn
+					{
+						thisBear.OnScreen = true;
+					}
+					else
+					{
+						thisBear.OnScreen = false;
+					}
 
-				if (camera.isUpdating(thisPickup.ObjectCollisionBox)) //checks if needs to be updated
-				{
-					thisPickup.UPScreen = true;
+					if (camera.IsUpdating(thisBear.ObjectCollisionBox)) //checks if needs to be updated
+					{
+						thisBear.UPScreen = true;
+					}
+					else
+					{
+						thisBear.UPScreen = false;
+					}
 				}
-				else
+			}
+			if (pickUpsCurrent != null)
+			{
+				foreach (PickUp thisPickup in pickUpsCurrent)
 				{
-					thisPickup.UPScreen = false;
+					if (camera.IsDrawn(thisPickup.ObjectCollisionBox)) //checks if needs to be drawn
+					{
+						thisPickup.OnScreen = true;
+					}
+					else
+					{
+						thisPickup.OnScreen = false;
+					}
+
+					if (camera.IsUpdating(thisPickup.ObjectCollisionBox)) //checks if needs to be updated
+					{
+						thisPickup.UPScreen = true;
+					}
+					else
+					{
+						thisPickup.UPScreen = false;
+					}
 				}
 			}
         }

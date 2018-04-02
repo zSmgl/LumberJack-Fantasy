@@ -23,63 +23,71 @@ namespace LumberjackFantasy
         private Rectangle onScreen; //rectangle hitbox to determine if something needs to be drawn
         private Rectangle upScreen; //rectangle hitbox to determine if something needs to be updated
         private int visionStandard; //offset integer for how large the upScreen should be
+		private Texture2D camTexture;
 
         //properties --------------------------------------------------------------------
         public Rectangle CameraPosition { get { return onScreen; } }
+		public Texture2D CamTexture { get { return camTexture; } set { camTexture = value; } }
         //constructor -------------------------------------------------------------------
-        public Camera(int standard)
+        public Camera(int standard, Texture2D texture)
         {
+			camTexture = texture;
             visionStandard = standard;
             onScreen = new Rectangle(0, 0, 896, 896);
             upScreen = new Rectangle(0 - visionStandard, 0 - visionStandard, 896 + (2 * visionStandard), 896 + (2 * visionStandard));
         }
         //methods -----------------------------------------------------------------------
-        public bool isDrawn(Rectangle position) //method to check if collides with upScreen
+        public bool IsDrawn(Rectangle position) //method to check if collides with upScreen
         {
-            if (onScreen.Contains(position))
+			if (onScreen.Intersects(position))
             {
                 return true;
             }        
                 return false;           
         }
-        public bool isUpdating(Rectangle position) //method to check if collides with upScreen
+        public bool IsUpdating(Rectangle position) //method to check if collides with upScreen
         {
-            if(upScreen.Contains(position))
+            if(upScreen.Intersects(position))
             {
                 return true;
             }
             return false;
         }
 
-        public void updatePosition(Rectangle player)//updates the cameras position
+        public void UpdatePosition(Rectangle player)//updates the cameras position
         {
 
-            //sets onscreen location based on player
-            onScreen.X = player.Center.X - 448;
-            onScreen.Y = player.Center.Y - 448;
+			//sets onscreen location based on player
+			onScreen = new Rectangle(player.Center.X - 448, player.Center.Y - 448, 896, 896);
+            
 
             //prevents onscreen from leaving the game map
             if (onScreen.X < 0)
             {
-                onScreen.X = 0;
-            }
+				onScreen = new Rectangle(0, onScreen.Y, 896, 896);
+			}
             if (onScreen.X > 896)
             {
-                onScreen.X = 896;
-            }
+				onScreen = new Rectangle(896, onScreen.Y, 896, 896);
+			}
             if (onScreen.Y < 0)
             {
-                onScreen.Y = 0;
-            }
+				onScreen = new Rectangle(onScreen.X, 0, 896, 896);
+			}
             if (onScreen.Y > 896)
             {
-                onScreen.Y = 896;
-            }
+				onScreen = new Rectangle(onScreen.X , 896, 896, 896);
+			}
 
             //places the update hitbox
             upScreen.X = onScreen.X - visionStandard;
             upScreen.Y = onScreen.Y - visionStandard;
         }
+
+		public void DrawCam(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(camTexture, onScreen, Color.White);
+		}
 
     }
 }
