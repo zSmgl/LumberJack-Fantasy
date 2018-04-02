@@ -431,8 +431,8 @@ namespace LumberjackFantasy
 				}
 			}
 
-            /*
-            // Changes adjustPosValues to absolute values;
+            
+            // Changes adjustPosValues to fixed values of placement if tries to go off screen;
             adjustPosValues = collisionManager.StayOnScreen(pCurrent);
 
             // gets new Absolute X and Y cords 
@@ -440,12 +440,29 @@ namespace LumberjackFantasy
             if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
             {
                 // X value is changed and Y is not
-                if (adjustPosValues[0] != 0 || adjustPosValues[1] == 0)
-                pCurrent.ObjectCollisionBox = new Rectangle(adjustPosValues[0], pCurrent.PosY, pCurrent.Width, pCurrent.Height);
-                pCurrent.PlayerVision = new Rectangle(adjustPo
-                    pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
+                if (adjustPosValues[0] != 0 && adjustPosValues[1] == 0)
+                {
 
-                // Changes the speed to 0 in the direction of which a potential collision has now occured. 
+
+                    pCurrent.ObjectCollisionBox = new Rectangle(adjustPosValues[0], pCurrent.PosY, pCurrent.Width, pCurrent.Height);
+                    pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
+                        pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
+                }
+                // Y value is changed and X is not
+                else if (adjustPosValues[0] == 0 && adjustPosValues[1] != 0)
+                {
+                    pCurrent.ObjectCollisionBox = new Rectangle(pCurrent.PosX, adjustPosValues[1], pCurrent.Width, pCurrent.Height);
+                    pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
+                        pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
+                }
+                // Both X value and Y value have changed
+                else if((adjustPosValues[0] != 0 && adjustPosValues[1] != 0))
+                {
+                    pCurrent.ObjectCollisionBox = new Rectangle(adjustPosValues[0], adjustPosValues[1], pCurrent.Width, pCurrent.Height);
+                    pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
+                        pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
+                }
+               // Changes the speed to 0 in the direction of which a potential collision has now occured. 
                 if (adjustPosValues[0] != 0)
                 {
                     pCurrent.SpeedX = 0;
@@ -456,7 +473,7 @@ namespace LumberjackFantasy
                 }
             }
 
-            */
+            
         }
 
 

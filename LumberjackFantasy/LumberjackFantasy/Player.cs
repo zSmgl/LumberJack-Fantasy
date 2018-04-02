@@ -77,6 +77,11 @@ namespace LumberjackFantasy
             set { playerDirection = value; }
         }
 
+        public int VisionStandard
+        {
+            get { return visionStandard; }
+        }
+
         // Constructor --------------------
 
         public Player (int x, int y, int width, int height, Texture2D objectTexture, int maxH, int maxS, int visionStandard)
