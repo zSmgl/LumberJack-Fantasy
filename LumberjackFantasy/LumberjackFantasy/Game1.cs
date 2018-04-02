@@ -92,7 +92,7 @@ namespace LumberjackFantasy
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
-			updateManager = new UpdateManager(startButton, exitButton);
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton);
 
 			
 		}

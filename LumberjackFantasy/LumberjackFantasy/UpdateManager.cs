@@ -27,13 +27,14 @@ namespace LumberjackFantasy
 		private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
 
 		VelocityManager velocityManager = new VelocityManager(0);
-		CollisionManager collisionManager = new CollisionManager();
+        CollisionManager collisionManager;
 
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>
-		public UpdateManager(Texture2D start, Texture2D exit)
+		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D start, Texture2D exit)
 		{
+            collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
 			LoadMenus(start, exit);
 			Random rng = new Random();
 		}
@@ -218,7 +219,7 @@ namespace LumberjackFantasy
 
 			UpdatePlayerMovement();
 
-			// 2 - Check for Collisions with Trees in Game. Adjust Speed and Pos Accordingly if needed.
+			// 2 - Check for Collisions with Trees in Game. Check for collision with side of screen. Adjust Speed and Pos Accordingly if needed.
 
 			UpdatePlayerPosition(oldPos);
 
@@ -391,7 +392,34 @@ namespace LumberjackFantasy
 					pCurrent.SpeedY = 0;
 				}
 			}
-		}
+
+            /*
+            // Changes adjustPosValues to absolute values;
+            adjustPosValues = collisionManager.StayOnScreen(pCurrent);
+
+            // gets new Absolute X and Y cords 
+
+            if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
+            {
+                // X value is changed and Y is not
+                if (adjustPosValues[0] != 0 || adjustPosValues[1] == 0)
+                pCurrent.ObjectCollisionBox = new Rectangle(adjustPosValues[0], pCurrent.PosY, pCurrent.Width, pCurrent.Height);
+                pCurrent.PlayerVision = new Rectangle(adjustPo
+                    pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
+
+                // Changes the speed to 0 in the direction of which a potential collision has now occured. 
+                if (adjustPosValues[0] != 0)
+                {
+                    pCurrent.SpeedX = 0;
+                }
+                if (adjustPosValues[1] != 0)
+                {
+                    pCurrent.SpeedY = 0;
+                }
+            }
+
+            */
+        }
 
 
 		// -------------------------------------------------------------------------- Bear Specific Methods ------------------------------------------------------------

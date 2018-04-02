@@ -12,10 +12,23 @@ namespace LumberjackFantasy
 {
 	class CollisionManager
 	{
+        // Fields
+        
+        private int levelWidthMax;     // Holds the Max width of a level  
+        private int levelHeightMax;    // Holds the Max height of a level
 
-		public CollisionManager()
+        /// <summary>
+        /// Passes in the Size of the Screen and multiples it by the SquareRoot of the total number of tiles a level is generated with.
+        /// (If 9 tiles, should change constant to 3, etc)
+        /// </summary>
+        /// <param name="screenWidthMax"></param>
+        /// <param name="screenHeightMax"></param>
+		public CollisionManager(int screenWidthMax, int screenHeightMax)
 		{
+            // THIS ONLY WORKS AS THE SIZE OF THE SCREEN IS SET TO THE SIZE OF THE TILE
 
+            levelHeightMax = screenHeightMax*2;
+            levelWidthMax = screenWidthMax*2;
 		}
 
 		/// <summary>
@@ -178,10 +191,57 @@ namespace LumberjackFantasy
 			return posValues;
 		}
 
+        /// <summary>
+        /// This method is used for both bears and players. It assures a moving object stays on the screen and doesn't move off.
+        /// </summary>
+        /// <param name="objCurrent"></param>
+        public int[] StayOnScreen(GameObject obj)
+        {
+            // Math Bottom and Right Border: 
+            // If the Pixel the Object is Drawn at Plus the Total Pixels the Object Takes Up >= The Side of Screen
+            // Then draw it at the opppisite Screen Place
+            // Think Point + Vector >= A Certain Point
 
-		//bearbox colider
-		//Not meant to be used for anything other than checking if bears should attack.
-		public bool BearboxCollider(Bear bear, Player player)
+            // Math Top and Left Border:
+            // If the Pixel the Object is Drawn > The Side of Screen
+            // Then Draw it at oppisite screen place !Minus it's total width or height
+            // Think Point + Vector >= A Certain Point
+
+            int newX = 0;
+            int newY = 0;
+
+            // Bottom border
+            if (obj.PosY + obj.Height >= levelHeightMax)
+            {
+                newY = obj.PosY = levelHeightMax - obj.Height; ;
+            }
+
+            // Right border
+            if (obj.PosX + obj.Width >= levelWidthMax)
+            {
+                newX = levelWidthMax - obj.Width;
+            }
+
+            // Top border
+            if (obj.PosY <= 0)
+            {
+                newY = 1;
+            }
+
+            // Left Border
+            if (obj.PosX <= 0)
+            {
+                newX = 1;
+            }
+
+
+            int[] posValues = new int[] { newX, newY };
+            return posValues;
+        }
+
+        //bearbox colider
+        //Not meant to be used for anything other than checking if bears should attack.
+        public bool BearboxCollider(Bear bear, Player player)
 		{
 			Rectangle bearBox = new Rectangle(bear.Location, bear.Size); // Size and Location have been added to GameObjects to ease creation
 			if (bearBox.Intersects(player.ObjectCollisionBox))
