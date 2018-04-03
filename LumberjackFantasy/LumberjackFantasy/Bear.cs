@@ -65,6 +65,20 @@ namespace LumberjackFantasy
 
         // Properties ------------------------------------------------------------------
 
+        /// <summary>
+        /// Field of Attack Standard
+        /// </summary>
+        public int FoAStandard
+        {
+            get { return fieldOfAttackStandard; }
+        }
+
+        public int VisionStandard
+        {
+            get { return visionStandard; }
+        }
+
+
         public BearState BearState
         {
             get { return bearState; }
