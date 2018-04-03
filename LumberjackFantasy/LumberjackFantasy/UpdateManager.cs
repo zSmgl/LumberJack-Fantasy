@@ -16,16 +16,13 @@ namespace LumberjackFantasy
 		private GameTime gameTime;                      // Holds the current GameTime
 		private Player pCurrent;                        // Holds the player's values
 		private List<Bear> bearsCurrent;                // Holds all of the bears in the game
-		private Dictionary<int, Bear> attackingBears;   // Simplified dictionary that holds attacking bears & their int in the list
-														// Key = i && Value = Bear  So... attackingBears[3].BearProperty is = to the 3rd bear that should be in Current Bears but
-														// is held in the dictionary. This will then need to be returned to the proper place in the bearsCurrent List.
 		private List<Tree> treesCurrent;                // Holds all of the treesInTheGame
         private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
 		private MouseState currentMS;                   // Holds the current Mouse State
 		private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
-        public Camera camera;                          // Holds the cameras positions
+        public Camera camera;                           // Holds the cameras positions
 
 		VelocityManager velocityManager = new VelocityManager(0);
         CollisionManager collisionManager;
@@ -41,17 +38,17 @@ namespace LumberjackFantasy
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 		}
 
-		// --------------------------------------------------------------------- Universal Updates and Draws for Screen State ------------------------------------------------------
+		// --------------------------------------------------------------------- Universal Updates and Draws for  Screen State ------------------------------------------------------
 
 		/// <summary>
 		/// Update method called when the game is actually being played
 		/// </summary>
 		public void UpdateGameScreen()
 		{           
-			UpdatePlayer();			
+			UpdatePlayer();
+            UpdateCamera();
             UpdateAllBears();
 			//UpdateAttacks();
-			UpdateCamera();
 			RemoveStuffFromStoredLists();
 
 		}
@@ -415,6 +412,9 @@ namespace LumberjackFantasy
 		/// <param name="oldPos"></param>
 		public void UpdatePlayerPosition(Player oldPos)
 		{
+
+            // -- Collision With Trees --
+
 			// @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
 
 			int[] adjustPosValues = collisionManager.PosAdjust(pCurrent, oldPos, treesCurrent);
@@ -440,38 +440,49 @@ namespace LumberjackFantasy
 				}
 			}
 
-            
+            // -- MAKE IT STAY ON SCREEN -- 
+
             // Changes adjustPosValues to fixed values of placement if tries to go off screen;
             adjustPosValues = collisionManager.StayOnScreen(pCurrent);
 
             // gets new Absolute X and Y cords 
 
+            // Only Adjusts Cords if the object has touched the side of the screen
+
+            // Four Cases: A ) X & Y == 0 (nothing changes, nothing needs to run)
+            // B) X Changes, Y doesnt == X speed needs set to 0 and all rectangles need changed
+            // C) Y changes, X doesnt == Y speed needs set to 0 and all rectangles need changed
+            // D) IT ALL DAMN CHANGES (x && y both change, both speeds set to 0, both x and y cords of all rectangles need changed)
+
             if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
             {
+                
                 // X value is changed and Y is not
                 if (adjustPosValues[0] != 0 && adjustPosValues[1] == 0)
                 {
-
-
+                    // Position
                     pCurrent.ObjectCollisionBox = new Rectangle(adjustPosValues[0], pCurrent.PosY, pCurrent.Width, pCurrent.Height);
-                    pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
-                        pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
                 }
                 // Y value is changed and X is not
                 else if (adjustPosValues[0] == 0 && adjustPosValues[1] != 0)
                 {
+                    // Position
                     pCurrent.ObjectCollisionBox = new Rectangle(pCurrent.PosX, adjustPosValues[1], pCurrent.Width, pCurrent.Height);
-                    pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
-                        pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
                 }
                 // Both X value and Y value have changed
                 else if((adjustPosValues[0] != 0 && adjustPosValues[1] != 0))
                 {
+                    // Position
                     pCurrent.ObjectCollisionBox = new Rectangle(adjustPosValues[0], adjustPosValues[1], pCurrent.Width, pCurrent.Height);
-                    pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
-                        pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
                 }
-               // Changes the speed to 0 in the direction of which a potential collision has now occured. 
+
+                // Player vision based on new Position
+                pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
+                    pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
+
+                // Changes X speed if it had to be modified along the X axis
+                // Changes Y speed if it had to be modified along the Y axis.
+
                 if (adjustPosValues[0] != 0)
                 {
                     pCurrent.SpeedX = 0;
@@ -496,40 +507,44 @@ namespace LumberjackFantasy
 		{
 			for (int i = 0; i < bearsCurrent.Count; i++)
 			{
-				// Creates a Bear Velocity Manager
-				velocityManager = new VelocityManager(bearsCurrent[i].MaxSpeed)
-				{
-					// Sets the current X and Y speed
-					VelocityX = bearsCurrent[i].SpeedX,
-					VelocityY = bearsCurrent[i].SpeedY
-				};
+                // ONLY UPDATES BEARS THAT ARE NOW INTERSECTING WITH THE UPSREEN. THIS CUTS DOWN THE TOTAL AMOUNT OF UPDATING THAT NEEDS TO OCCUR
+                // THIS ALSO MAKES IT SO WE ARNT CHECKING COLLISIONS FOR EVERY DAMN BEAR IN THE GAME. AMEN!
+                if (bearsCurrent[i].UPScreen == true)
+                {
+                    // Creates a Bear Velocity Manager
+                    velocityManager = new VelocityManager(bearsCurrent[i].MaxSpeed)
+                    {
+                        // Sets the current X and Y speed
+                        VelocityX = bearsCurrent[i].SpeedX,
+                        VelocityY = bearsCurrent[i].SpeedY
+                    };
 
 
-				// 0 - Saves bears UnAdjusted State to be compared to through-out UpdateAllBears
+                    // 0 - Saves bears UnAdjusted State to be compared to through-out UpdateAllBears
 
-				Bear oldPos = bearsCurrent[i];
+                    Bear oldPos = bearsCurrent[i];
 
-				// 1 - Compares Old Bear to New Bear and Decideds New Bear's Type of Movement. - Increments Timers for Statationary / Looking Accordingly.
+                    // 1 - Compares Old Bear to New Bear and Decideds New Bear's Type of Movement. - Increments Timers for Statationary / Looking Accordingly.
 
-				// FIRST - DECIDES TO INCREMENT TIMER IF UPDATED PLAYERVISION BOX DOESN'T INTERACT WITH BEAR FIELD OF VISION
-				// SECOND - DETERMINES THE NEW STATE OF THE BEAR
-				// THIRD - DECIDES ON THE MOVEMENT OF THE NEW BEAR AND TO RESET TIMERS BASED ON OLD AND NEW STATE
-				// TYPES OF MOVEMENT: FOLLOW()  - Determines the path from the bear to the player in the quickest way
-				//                    LOOKING() - Determines the random path which the bear will walk for the bear's timer
-				// OTHER FUNCTIONS:   Bear.ResetTimer() - Will reset all the timers within the bear. (Timer for how long to stay still, and how long it should walk)
+                    // FIRST - DECIDES TO INCREMENT TIMER IF UPDATED PLAYERVISION BOX DOESN'T INTERACT WITH BEAR FIELD OF VISION
+                    // SECOND - DETERMINES THE NEW STATE OF THE BEAR
+                    // THIRD - DECIDES ON THE MOVEMENT OF THE NEW BEAR AND TO RESET TIMERS BASED ON OLD AND NEW STATE
+                    // TYPES OF MOVEMENT: FOLLOW()  - Determines the path from the bear to the player in the quickest way
+                    //                    LOOKING() - Determines the random path which the bear will walk for the bear's timer
+                    // OTHER FUNCTIONS:   Bear.ResetTimer() - Will reset all the timers within the bear. (Timer for how long to stay still, and how long it should walk)
 
-				BearMovement(oldPos, i);
+                    BearMovement(oldPos, i);
 
-				// 2 - Check for Collisions with Trees in Game. Adjust Speed and Pos Accordingly if needed.
+                    // 2 - Check for Collisions with Trees in Game. Adjust Speed and Pos Accordingly if needed.
 
-				UpdateBearsPosition(oldPos, i);
+                    UpdateBearsPosition(oldPos, i);
 
-				// 3 - Updates the Animations of the bear
+                    // 3 - Updates the Animations of the bear
 
-				UpdateBearAnimation(oldPos, i);
+                    UpdateBearAnimation(oldPos, i);
 
 
-
+                }
 			}
 
 		}
@@ -541,9 +556,12 @@ namespace LumberjackFantasy
 		/// <param name="i">The # of bear from it's list</param>
 		public void UpdateBearsPosition(Bear oldPos, int i)
 		{
-			// @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
 
-			int[] adjustPosValues = collisionManager.PosAdjust(bearsCurrent[i], oldPos, treesCurrent);
+            // -- Collision With Trees --
+
+            // @ pos 0 = X Value Adjust, @ pos 1 = Y Value Adjust
+
+            int[] adjustPosValues = collisionManager.PosAdjust(bearsCurrent[i], oldPos, treesCurrent);
 
 			// If any sort of adjustment value was found, then the object collided with something.
 			// If no adjustment was found, then nothing needs to be offset and the speed doesnt need to be adjusted
@@ -569,7 +587,72 @@ namespace LumberjackFantasy
 					bearsCurrent[i].SpeedY = 0;
 				}
 			}
-		}
+
+            // -- MAKE IT STAY ON SCREEN --
+
+            // Changes adjustPosValues to fixed values of placement if tries to go off screen;
+            adjustPosValues = collisionManager.StayOnScreen(bearsCurrent[i]);
+
+            // gets new Absolute X and Y cords 
+
+            // Only Adjusts Cords if the object has touched the side of the screen
+
+            // Four Cases: A ) X & Y == 0 (nothing changes, nothing needs to run)
+            // B) X Changes, Y doesnt == X speed needs set to 0 and all rectangles need changed
+            // C) Y changes, X doesnt == Y speed needs set to 0 and all rectangles need changed
+            // D) IT ALL DAMN CHANGES (x && y both change, both speeds set to 0, both x and y cords of all rectangles need changed)
+
+            if (adjustPosValues[0] != 0 || adjustPosValues[1] != 0)
+            {
+
+                // X value is changed and Y is not
+                if (adjustPosValues[0] != 0 && adjustPosValues[1] == 0)
+                {
+
+                    // Position
+                    bearsCurrent[i].ObjectCollisionBox = new Rectangle(adjustPosValues[0], bearsCurrent[i].PosY, 
+                        bearsCurrent[i].Width, bearsCurrent[i].Height);
+                }
+                // Y value is changed and X is not
+                else if (adjustPosValues[0] == 0 && adjustPosValues[1] != 0)
+                {
+                    // Position
+                    bearsCurrent[i].ObjectCollisionBox = new Rectangle(bearsCurrent[i].PosX, adjustPosValues[1],
+                        bearsCurrent[i].Width, bearsCurrent[i].Height);
+                }
+                // Both X value and Y value have changed
+                else if ((adjustPosValues[0] != 0 && adjustPosValues[1] != 0))
+                {
+                    // Position
+                    bearsCurrent[i].ObjectCollisionBox = new Rectangle(adjustPosValues[0], adjustPosValues[1],
+                        bearsCurrent[i].Width, bearsCurrent[i].Height);
+                }
+
+                // Vision Rectangle based on new Position
+                bearsCurrent[i].BearVision = new Rectangle(bearsCurrent[i].ObjectCollisionBox.X - bearsCurrent[i].VisionStandard,
+                    bearsCurrent[i].ObjectCollisionBox.Y - bearsCurrent[i].VisionStandard,
+                    bearsCurrent[i].BearVision.Width, bearsCurrent[i].BearVision.Height);
+
+                // Field of Attack based on new Position
+                bearsCurrent[i].FieldOfAttack = new Rectangle(bearsCurrent[i].ObjectCollisionBox.X - bearsCurrent[i].FoAStandard,
+                    bearsCurrent[i].ObjectCollisionBox.Y - bearsCurrent[i].FoAStandard,
+                    bearsCurrent[i].FieldOfAttack.Width, bearsCurrent[i].FieldOfAttack.Height);
+
+                // Changes X speed if it had to be modified along the X axis
+                // Changes Y speed if it had to be modified along the Y axis.
+
+                if (adjustPosValues[0] != 0)
+                {
+                    pCurrent.SpeedX = 0;
+                }
+                if (adjustPosValues[1] != 0)
+                {
+                    pCurrent.SpeedY = 0;
+                }
+            }
+
+
+        }
 
 		/// <summary>
 		/// Updates the Bear's direction enum to be properly set. Used to determine what animation of Bear should be drawn
@@ -650,8 +733,6 @@ namespace LumberjackFantasy
 			if (pCurrent.PlayerVision.Intersects(bearsCurrent[i].BearVision) == true)
 			{
 				bearsCurrent[i].BearState = BearState.following;
-				// SINCE THE BEAR @ I IN THE LIST IS FOLLOWING THE PLAYER, THIS MEANS THE BEAR COULD POTENTIALLY ATTACK THE PLAYER. 
-				attackingBears[i] = bearsCurrent[i];
 			}
 			else
 			{
