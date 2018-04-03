@@ -36,8 +36,10 @@ namespace LumberjackFantasy
         {
 			camTexture = texture;
             visionStandard = standard;
+			bearMax = 0;
             onScreen = new Rectangle(0, 0, 896, 896);
             upScreen = new Rectangle(0 - visionStandard, 0 - visionStandard, 896 + (2 * visionStandard), 896 + (2 * visionStandard));
+			coScreen = new Rectangle(upScreen.X - bearMax, upScreen.Y - bearMax, upScreen.Width + (2 * bearMax), upScreen.Height + (2 * bearMax));
         }
         //methods -----------------------------------------------------------------------
         public bool IsDrawn(Rectangle position) //method to check if collides with upScreen
@@ -93,9 +95,12 @@ namespace LumberjackFantasy
 			}
 
             //places the update hitbox
-            upScreen.X = onScreen.X - visionStandard;
-            upScreen.Y = onScreen.Y - visionStandard;
-        }
+            upScreen = new Rectangle(onScreen.X - visionStandard, onScreen.Y - visionStandard, 896 + (2 * visionStandard), 896 + (2 * visionStandard));
+
+			//places the coScreen hitbox
+			coScreen = new Rectangle(upScreen.X - bearMax, upScreen.Y - bearMax, upScreen.Width + (2 * bearMax), upScreen.Height + (2 * bearMax));
+
+		}
 
 		public void DrawCam(SpriteBatch spriteBatch)
 		{
