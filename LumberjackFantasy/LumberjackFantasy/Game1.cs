@@ -138,7 +138,7 @@ namespace LumberjackFantasy
                     //does bears and movement etc
                     updateManager.UpdateGameScreenFields(player1, aTestedTile.Trees, kb, previousKbstate);
                     updateManager.UpdatePlayer();
-					updateManager.UpdateCamera();
+					updateManager.UpdateCamera();					
                     player1 = updateManager.ReturnPlayer();
 					break;
 
@@ -181,6 +181,7 @@ namespace LumberjackFantasy
 					{
 						spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
 						updateManager.DrawGame(spriteBatch);
+						updateManager.camera.DrawCam(spriteBatch);
 						//updateManager.camera.DrawCam(spriteBatch);
 					}
 					break;

@@ -16,13 +16,15 @@ namespace LumberjackFantasy
         ///has its own sub class to distinguish from other objects
 
         //fields ------------------------------------------------------------------------
+		private bool colliding;
+
         //properties --------------------------------------------------------------------
-        
+        public bool Colliding {get {return colliding;} set {colliding = value;}}
         //constructor
         public Tree(int x, int y, int width, int height, Texture2D objectTexture, int maxH, int maxS) 
             : base(x, y, width, height, objectTexture, maxH, maxS)
         {
-
+			colliding = false;
         }
 
         //methods -----------------------------------------------------------------------

@@ -1071,6 +1071,15 @@ namespace LumberjackFantasy
 					{
 						thisTree.UPScreen = false;
 					}
+					
+					if (camera.IsColliding(thisTree.ObjectCollisionBox)) //checks if things can collide with it
+					{
+						thisTree.Colliding = true;
+					}
+					else
+					{
+						thisTree.Colliding = false;
+					}
 				}
 			}
 			if (bearsCurrent != null)

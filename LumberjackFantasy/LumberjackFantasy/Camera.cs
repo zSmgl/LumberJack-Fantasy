@@ -22,10 +22,13 @@ namespace LumberjackFantasy
         //fields ------------------------------------------------------------------------
         private Rectangle onScreen; //rectangle hitbox to determine if something needs to be drawn
         private Rectangle upScreen; //rectangle hitbox to determine if something needs to be updated
+		private Rectangle coScreen; //rectangle hitbox to determine if trees need to run collisions
         private int visionStandard; //offset integer for how large the upScreen should be
+		private int bearMax; //value based on bear speed to determine collisionScreen
 		private Texture2D camTexture;
 
         //properties --------------------------------------------------------------------
+		public int BearMax {get {return bearMax;} set {bearMax = value;} }
         public Rectangle CameraPosition { get { return onScreen; } }
 		public Texture2D CamTexture { get { return camTexture; } set { camTexture = value; } }
         //constructor -------------------------------------------------------------------
@@ -45,6 +48,7 @@ namespace LumberjackFantasy
             }        
                 return false;           
         }
+
         public bool IsUpdating(Rectangle position) //method to check if collides with upScreen
         {
             if(upScreen.Intersects(position))
@@ -53,6 +57,15 @@ namespace LumberjackFantasy
             }
             return false;
         }
+
+		public bool IsColliding(Rectangle position) //method to check if trees collide with coScreen
+		{
+			if (coScreen.Intersects(position))
+				{
+				return true;
+				}
+			return false;
+		}
 
         public void UpdatePosition(Rectangle player)//updates the cameras position
         {
