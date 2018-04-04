@@ -21,6 +21,7 @@ namespace LumberjackFantasy
 
         Texture2D playerTexture;
         Texture2D starterBackground;
+        Texture2D startScreenBackground;
         Texture2D startButton;
 		Texture2D exitButton;
 
@@ -74,9 +75,11 @@ namespace LumberjackFantasy
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
             player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
 
+            startScreenBackground = Content.Load<Texture2D>("titleScreenBackground");
+
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
-			updateManager = new UpdateManager(startButton, exitButton);
+			updateManager = new UpdateManager(startButton, exitButton, startScreenBackground);
 			//LoadTile(); -- BROKEN WON'T FIX
 
 			

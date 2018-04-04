@@ -58,15 +58,19 @@ namespace LumberjackFantasy
 
         //Constructor
 
-        public ScreenManager(Texture2D start, Texture2D exit)
+        public ScreenManager(Texture2D start, Texture2D exit, Texture2D ssBG)
         {
+            startScreenBackground = ssBG;
+            ssBGPos.X = 0;
+            ssBGPos.Y = 0;
+
             startButton = start;
 			startHover = false;
-            sbPos.X = 400;
-            sbPos.Y = 200;
+            sbPos.X = 287;
+            sbPos.Y = 300;
 
             exitButton = exit;
-            ebPos.X = 400;
+            ebPos.X = 287;
             ebPos.Y = 600;
 			exitHover = false;
         }
@@ -140,7 +144,7 @@ namespace LumberjackFantasy
         {
             //Calls the parameter spritebatch and then draws
             //the background, title, and buttons
-            //spriteBatch.Draw(startScreenBackground, ssBGPos, Color.White);
+            spriteBatch.Draw(startScreenBackground, ssBGPos, Color.White);
             //spriteBatch.Draw(title, tPos, Color.White);
             
         }
