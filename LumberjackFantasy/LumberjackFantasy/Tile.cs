@@ -70,6 +70,7 @@ namespace LumberjackFantasy
 
 			// Create the data structures
 			trees = new List<Tree>();
+			bears = new List<Bear>();
             collectibles = new List<PickUp>();
             StreamReader load;
 
