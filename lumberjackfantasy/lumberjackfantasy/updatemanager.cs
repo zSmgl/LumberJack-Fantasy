@@ -167,6 +167,13 @@ namespace LumberjackFantasy
 
 		// ----------------------------------------------------------------------- Add / Remove Stuff from Lists ---------------------------------------------------------
 
+
+            public void NextLevel(Player p, List<Tree> trees, List<Bear> bears)
+        {
+            pCurrent = p;
+            treesCurrent = trees;
+            bearsCurrent = bears;
+        }
 		/// <summary>
 		/// Sets the neccessary fields for when the game is in Update Game Screen
 		/// </summary>
@@ -174,12 +181,11 @@ namespace LumberjackFantasy
 		/// <param name="bears"> the bears List</param>
 		/// <param name="trees"> the trees List</param>
 		/// <param name="pickUps"> the pickUps List</param>
-		public void UpdateGameScreenFields(Player p, List<Tree> treesCurrent, KeyboardState currentKB, KeyboardState previousKB)
+		public void UpdateGameScreenFields(KeyboardState currentKB, KeyboardState previousKB, GameTime gameTime)
 		{
-            this.treesCurrent = treesCurrent;
             this.currentKB = currentKB;
             this.previousKB = previousKB;
-            pCurrent = p;
+            this.gameTime = gameTime;
 		}
 
 		public void UpdateTitleScreenFields()

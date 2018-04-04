@@ -28,8 +28,6 @@ namespace LumberjackFantasy
 
         Random rng;
 
-        Tile aTestedTile;
-
         Texture2D playerTexture;
         Texture2D starterBackground;
         Texture2D startButton;
@@ -89,8 +87,7 @@ namespace LumberjackFantasy
             player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
             //rng = new Random();
             //LoadTile();
-            aTestedTile = new Tile("tile_1.txt", playerTexture, playerTexture, testTiles, rng, Quadrent.UL);
-			
+
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
 			camera = Content.Load<Texture2D>("cam");
@@ -136,10 +133,10 @@ namespace LumberjackFantasy
 
 				case GameState.gameLoop:
                     //does bears and movement etc
-                    updateManager.UpdateGameScreenFields(player1, aTestedTile.Trees, kb, previousKbstate);
+                    updateManager.UpdateGameScreenFields(kb, previousKbstate, gameTime);
                     updateManager.UpdatePlayer();
-					updateManager.UpdateCamera();					
-                    player1 = updateManager.ReturnPlayer();
+					updateManager.UpdateCamera();
+                    //updateManager.UpdateAllBears();
 					break;
 
 				case GameState.gameOver:
