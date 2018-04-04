@@ -30,10 +30,10 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>
-		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D start, Texture2D exit, Texture2D camera)
+		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D start, Texture2D exit, Texture2D camera, Texture2D ssBG)
 		{
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
-			LoadMenus(start, exit);
+			LoadMenus(start, exit, ssBG);
 			Random rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 		}
@@ -1036,9 +1036,9 @@ namespace LumberjackFantasy
 
 		// ---------------------------------------------------------------------------- Menus Logic -----------------------------------------------------------------------
 		//loadmenu command to create the screenmanager to be called in loadContent, method is in its test state as not all textures are created
-		public void LoadMenus(Texture2D startButton, Texture2D exitButton)
+		public void LoadMenus(Texture2D startButton, Texture2D exitButton, Texture2D ssBG)
 		{
-			menu = new ScreenManager(startButton, exitButton);
+			menu = new ScreenManager(startButton, exitButton, ssBG);
 		}
 
 		//command to see if a button is being hovered over

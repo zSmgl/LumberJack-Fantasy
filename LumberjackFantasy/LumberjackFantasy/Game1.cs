@@ -29,6 +29,7 @@ namespace LumberjackFantasy
         Random rng;
 
         Texture2D playerTexture;
+        Texture2D startScreenBackground;
         Texture2D starterBackground;
         Texture2D startButton;
 		Texture2D exitButton;
@@ -80,7 +81,7 @@ namespace LumberjackFantasy
             starterBackground = Content.Load<Texture2D>("starterBackground");
 
             //Texture Loading
-
+            startScreenBackground = Content.Load<Texture2D>("startScreenBackground");
             //Player Creation
             testTiles = new List<Texture2D>();
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
@@ -91,7 +92,7 @@ namespace LumberjackFantasy
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
 			camera = Content.Load<Texture2D>("cam");
-			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton, camera);
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton, camera, startScreenBackground);
 
 			
 		}
