@@ -89,7 +89,7 @@ namespace LumberjackFantasy
             player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
             //rng = new Random();
             //LoadTile();
-            aTestedTile = new Tile("testTile.txt", playerTexture, playerTexture, testTiles, rng, Quadrent.UL);
+            aTestedTile = new Tile("tile_1.txt", playerTexture, playerTexture, testTiles, rng, Quadrent.UL);
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
