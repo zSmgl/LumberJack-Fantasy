@@ -95,6 +95,7 @@ namespace LumberjackFantasy
 			exitButton = Content.Load<Texture2D>("exitButton");
 			camera = Content.Load<Texture2D>("cam");
 			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton, camera);
+            updateManager.NextLevel(player1, aTestedTile.Trees, aTestedTile.Bears);
 
 			
 		}
@@ -136,10 +137,10 @@ namespace LumberjackFantasy
 
 				case GameState.gameLoop:
                     //does bears and movement etc
-                    updateManager.UpdateGameScreenFields(player1, aTestedTile.Trees, kb, previousKbstate);
+                    updateManager.UpdateGameScreenFields(kb, previousKbstate, gameTime);
                     updateManager.UpdatePlayer();
-					updateManager.UpdateCamera();					
-                    player1 = updateManager.ReturnPlayer();
+					updateManager.UpdateCamera();
+                    //updateManager.UpdateAllBears();
 					break;
 
 				case GameState.gameOver:
