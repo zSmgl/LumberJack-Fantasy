@@ -40,14 +40,23 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Update method called when the game is actually being played
 		/// </summary>
-		public void UpdateGameScreen()
-		{           
+		public GameState UpdateGameScreen()
+		{
+			GameState toreturn = GameState.gameLoop;
 			UpdatePlayer();
             UpdateCamera();
             UpdateAllBears();
 			//UpdateAttacks();
 			RemoveStuffFromStoredLists();
-
+			if (pCurrent.Health <= 0)
+			{
+				toreturn = GameState.gameOver;
+			}
+			if (currentKB.IsKeyDown(Keys.P))
+			{
+				toreturn = GameState.pause;
+			}
+			return toreturn;
 		}
 
 		///<summary>

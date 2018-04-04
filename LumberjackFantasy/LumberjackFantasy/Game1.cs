@@ -134,6 +134,7 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.pause:
+					gameState = screenManager.UpdatePauseScreen();
 					//show menu
 					break;
 
@@ -143,10 +144,16 @@ namespace LumberjackFantasy
                     updateManager.UpdatePlayer();
 					updateManager.UpdateCamera();
                     //updateManager.UpdateAllBears();
+
+					/* line of code that
+					 gameState = updateManager.UpdateGameScreen
+					 */
 					break;
 
 				case GameState.gameOver:
-					//kill u
+					//display score
+
+					gameState = GameState.start;
 					break;
 
 				case GameState.exit:

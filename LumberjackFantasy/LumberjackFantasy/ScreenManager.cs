@@ -20,6 +20,8 @@ namespace LumberjackFantasy
         private ScreenPosManager menu; // holds the position of everything for each menu
         private MouseState currentMS;                   // Holds the current Mouse State
         private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
+		private KeyboardState currentKB;				// Holds the current keyboard State
+		private KeyboardState previousKB;				// Holds the previous keyboard state (if needed)
 
         public ScreenManager(Texture2D start, Texture2D exit, Texture2D ssBG)
         {
@@ -56,9 +58,25 @@ namespace LumberjackFantasy
         /// <summary>
         /// Update Method called when the game is at a Pause Screen
         /// </summary>
-        public void UpdatePauseScreen()
+        public GameState UpdatePauseScreen()
         {
+			currentMS = Mouse.GetState();
+			currentKB = Keyboard.GetState();
+			GameState toReturn = GameState.pause;
 
+			if (currentKB.IsKeyDown(Keys.P)) //put in or here for if button is clicked
+			{
+				toReturn = GameState.gameLoop;
+			}
+
+			if (currentKB.IsKeyDown(Keys.E)) //change to when button is pushed
+			{
+				toReturn = GameState.start;
+			}
+
+			previousKB = currentKB;
+			previousMS = currentMS;
+			return toReturn;
         }
 
         /// <summary>
