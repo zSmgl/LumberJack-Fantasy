@@ -11,7 +11,14 @@ namespace LumberjackFantasy
 	/// </summary>
 	
 		//gamestate enum to track the games current state
-		enum GameState { start, pause, gameLoop, gameOver, exit}
+		enum GameState
+		{
+			start,
+			pause,
+			gameLoop,
+			gameOver,
+			exit
+		}
 	public class Game1 : Game
 	{
 		GraphicsDeviceManager graphics;
@@ -19,12 +26,14 @@ namespace LumberjackFantasy
 		List<Texture2D> testTiles;
 		List<WorldTile> worldTile;
 
+        Random rng;
+
         Texture2D playerTexture;
         Texture2D starterBackground;
-        Texture2D startScreenBackground;
         Texture2D startButton;
 		Texture2D exitButton;
-
+		Texture2D camera;
+		int frameskip = 0;
         KeyboardState kb = new KeyboardState();
         KeyboardState previousKbstate = new KeyboardState();
 
@@ -71,16 +80,18 @@ namespace LumberjackFantasy
             starterBackground = Content.Load<Texture2D>("starterBackground");
 
             //Texture Loading
+
             //Player Creation
+            testTiles = new List<Texture2D>();
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
             player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
-
-            startScreenBackground = Content.Load<Texture2D>("titleScreenBackground");
+            //rng = new Random();
+            //LoadTile();
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
-			updateManager = new UpdateManager(startButton, exitButton, startScreenBackground);
-			//LoadTile(); -- BROKEN WON'T FIX
+			camera = Content.Load<Texture2D>("cam");
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton, camera);
 
 			
 		}
@@ -111,6 +122,7 @@ namespace LumberjackFantasy
             switch (gameState)
 			{
 				case GameState.start:
+                    
 					this.IsMouseVisible = true;
 					gameState = updateManager.UpdateTitleScreen();
 					break;
@@ -121,9 +133,10 @@ namespace LumberjackFantasy
 
 				case GameState.gameLoop:
                     //does bears and movement etc
-                    updateManager.UpdateGameScreenFields(player1, kb, previousKbstate);
+                    updateManager.UpdateGameScreenFields(kb, previousKbstate, gameTime);
                     updateManager.UpdatePlayer();
-                    player1 = updateManager.ReturnPlayer();
+					updateManager.UpdateCamera();
+                    //updateManager.UpdateAllBears();
 					break;
 
 				case GameState.gameOver:
@@ -157,8 +170,17 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameLoop:
-                    spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
-                    player1.Draw(spriteBatch);
+					if (frameskip == 0)
+					{
+						frameskip = 1;
+					}
+					else
+					{
+						spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+						updateManager.DrawGame(spriteBatch);
+						updateManager.camera.DrawCam(spriteBatch);
+						//updateManager.camera.DrawCam(spriteBatch);
+					}
 					break;
 
 				case GameState.gameOver:

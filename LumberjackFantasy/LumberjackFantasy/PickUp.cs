@@ -47,7 +47,7 @@ namespace LumberjackFantasy
 			set { itemState = value; }
 		}
 
-        //temp space
+        //constructor
         public PickUp(int x, int y, int width, int height, Texture2D objectTexture, int type) 
             : base(x, y, width, height, objectTexture)
         {

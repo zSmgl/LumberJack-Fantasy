@@ -69,7 +69,7 @@ namespace LumberjackFantasy
         }
 
         //addVelocity which changes the current velocities instead of setting them
-        public void addVelocity(int velX, int velY)
+        public void AddVelocity(int velX, int velY)
         {
             velocityX += velX;
             velocityY += velY;

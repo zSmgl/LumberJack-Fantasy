@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
+using System.Collections;
 
 namespace LumberjackFantasy
 {
@@ -34,18 +35,32 @@ namespace LumberjackFantasy
 
 
 		//random object removed in favor of random selection of tiles in the tile class
-		public WorldTile(int upLeft, int upRight, int dwnLeft, int dwnRight)
+		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups)
 		{
-			upperLeft = upLeft;
-			upperRight = upRight;
-			lowerLeft = dwnLeft;
-			lowerRight = dwnRight;
-		
+			rng = new Random();
+
+			upperLeft = rng.Next(0, 19);
+			upperRight = rng.Next(0, 19);
+			lowerLeft = rng.Next(0, 19);
+			lowerRight = rng.Next(0, 19);
+
 
 			upperLeftRect = new Rectangle(0, 0, 896, 896);
 			upperRightRect = new Rectangle(896, 0, 896, 896);
 			lowerLeftRect = new Rectangle(0, 896, 896, 896);
 			lowerRightRect = new Rectangle(896, 896, 896, 896);
+
+			LoadTiles("tile_" + upperLeft, treeTexture, bearTexture, pickups, rng, Quadrent.UL);
+			LoadTiles("tile_" + upperRight, treeTexture, bearTexture, pickups, rng, Quadrent.UR);
+			LoadTiles("tile_" + lowerLeft, treeTexture, bearTexture, pickups, rng, Quadrent.BL);
+			LoadTiles("tile_" + lowerRight, treeTexture, bearTexture, pickups, rng, Quadrent.BR);
+
+		}
+
+
+		public void LoadTiles(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent)
+		{
+			Tile tile = new Tile(toLoad, treeTexture, bearTexture, pickups, rng, quadrent);
 		}
 
 
@@ -54,21 +69,26 @@ namespace LumberjackFantasy
 
 		//Tiles are 896x896.
 		//Bobby Will Remember This
-		public void Draw(SpriteBatch spriteBatch, Texture2D[] textures)
+		public void Draw(SpriteBatch spriteBatch, Texture2D textures)
 		{
+
+			//put this in if you need it back
+			//GetTexture(Quadrent.UL, 9999, textures)
 			//UL
-			spriteBatch.Draw(getTexture(Quadrent.UL, 9999, textures), upperLeftRect, Color.White);
+			spriteBatch.Draw(textures, upperLeftRect, Color.White);
 			//UR
-			spriteBatch.Draw(getTexture(Quadrent.UR, 9999, textures), upperRightRect, Color.White);
+			spriteBatch.Draw(textures, upperRightRect, Color.White);
 			//BL
-			spriteBatch.Draw(getTexture(Quadrent.BL, 9999, textures), lowerLeftRect, Color.White);
+			spriteBatch.Draw(textures, lowerLeftRect, Color.White);
 			//BR
-			spriteBatch.Draw(getTexture(Quadrent.BR, 9999, textures), lowerRightRect, Color.White);
+			spriteBatch.Draw(textures, lowerRightRect, Color.White);
 
 		}
 
+
+		/*
 		//returns the texture for each "quadrent"
-		public Texture2D getTexture(Quadrent quadrent, int selection, Texture2D[] textures)
+		public Texture2D GetTexture(Quadrent quadrent, int selection, Texture2D[] textures)
 		{
 			Texture2D texture;
 			//currently overridden to be test bois
@@ -107,7 +127,7 @@ namespace LumberjackFantasy
 			return texture;
 		}
 
-
+	*/
 
 
 

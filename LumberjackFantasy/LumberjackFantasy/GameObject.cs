@@ -18,12 +18,9 @@ namespace LumberjackFantasy
         // The path is held in both individual int fields and a Rectangle Field that can be updated to be the same as the modified int fields.
 
         // Fields - Numbers
-		// Could be changed in the future to make use of rectangle instead of posX and posY
 
-        /// <summary>
-        /// Starting posX of Object
-        /// </summary>
-
+        protected bool onScreen;    // determines if an object is on the screen or not.
+        protected bool uPScreen; // determines if a gameobject is on the UScreen or not. 
         protected int width;    // scale by which object width is drawn
         protected int height;   // scale by which object height is drawn
 
@@ -85,6 +82,18 @@ namespace LumberjackFantasy
 			get { return new Point(width, height); }
 		}
 
+        public bool OnScreen
+        {
+            get { return onScreen; }
+            set { onScreen = value; }
+        }
+
+        public bool UPScreen
+        {
+            get { return uPScreen; }
+            set { uPScreen = value; }
+        }
+
 		/// <summary>
 		/// Constructor for GameObject
 		/// </summary>
@@ -99,6 +108,8 @@ namespace LumberjackFantasy
             this.height = height;
             this.objectTexture = objectTexture;
             objectCollisionBox = new Rectangle(x, y, width, height);
+            onScreen = false;
+            uPScreen = false;
 
         }
 
@@ -106,9 +117,14 @@ namespace LumberjackFantasy
         /// Draws the Game Object to the Screen
         /// </summary>
         /// <param name="sb"></param>
-        public virtual void Draw(SpriteBatch sb)
+        public virtual void Draw(SpriteBatch sb, Vector2 cameraPos)
         {
-            sb.Draw(objectTexture, objectCollisionBox, Color.White);
+            if (onScreen)
+            {
+                sb.Draw(objectTexture, 
+                    new Rectangle(objectCollisionBox.X - Convert.ToInt32(cameraPos.X), objectCollisionBox.Y - Convert.ToInt32(cameraPos.Y), 
+                    objectCollisionBox.Width, objectCollisionBox.Height) , Color.White);
+            }
         }
 
     }

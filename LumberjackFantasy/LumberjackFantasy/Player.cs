@@ -77,6 +77,11 @@ namespace LumberjackFantasy
             set { playerDirection = value; }
         }
 
+        public int VisionStandard
+        {
+            get { return visionStandard; }
+        }
+
         // Constructor --------------------
 
         public Player (int x, int y, int width, int height, Texture2D objectTexture, int maxH, int maxS, int visionStandard)
@@ -85,6 +90,16 @@ namespace LumberjackFantasy
             levelScore = 0;
             this.visionStandard = visionStandard;
             playerVision = new Rectangle(x - visionStandard, y - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
+            onScreen = true;
+            uPScreen = true;
+        }
+
+        //old Player
+        public Player (Player p)
+            : base(p.PosX, p.PosY, p.Width, p.Height, p.objectTexture, p.MaxHealth, p.MaxSpeed)
+        {
+            this.visionStandard = p.visionStandard;
+            playerVision = new Rectangle(p.PosX - visionStandard, p.PosY - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
         }
 
 
@@ -93,10 +108,10 @@ namespace LumberjackFantasy
         /// Draw's the player to the screen. Can also draw the visionBox if set correctly
         /// </summary>
         /// <param name="sb"></param>
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, Vector2 camera)
         {
             //Base Draw Method for Base Build
-            base.Draw(sb);
+            base.Draw(sb, camera);
 
             // Draw method for vision field incase we need to see it
             // This includes sending a texture for the vision texutre. Essentially just a black box.
