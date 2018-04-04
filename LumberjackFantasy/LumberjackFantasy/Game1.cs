@@ -41,6 +41,7 @@ namespace LumberjackFantasy
         Player player1;
         UpdateManager updateManager;
         ScreenManager screenManager;
+		ScoreboardManager scoreBoardManager;
 		GameState gameState;
 
 		public Game1()
@@ -62,6 +63,7 @@ namespace LumberjackFantasy
 			graphics.PreferredBackBufferWidth = 896;
 			graphics.PreferredBackBufferHeight = 896;
 			graphics.ApplyChanges();
+			scoreBoardManager = new ScoreboardManager();
 
 			base.Initialize();
 			gameState = GameState.start;
@@ -145,12 +147,20 @@ namespace LumberjackFantasy
 					/* line of code that
 					 gameState = updateManager.UpdateGameScreen
 					 */
+					 if (gameState == GameState.gameOver)
+					 {
+						scoreBoardManager.CurrentScore = updateManager.ReturnScore();
+					 }
 					break;
 
 				case GameState.gameOver:
 					//display score
 
-					gameState = GameState.start;
+					gameState = scoreBoardManager.UpdateGameover();
+					if (gameState == GameState.start)
+					{
+						scoreBoardManager.CurrentScore = 0;
+					}
 					break;
 
 				case GameState.exit:
