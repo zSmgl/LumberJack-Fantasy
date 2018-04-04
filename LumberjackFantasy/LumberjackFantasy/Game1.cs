@@ -28,8 +28,6 @@ namespace LumberjackFantasy
 
         Random rng;
 
-        Tile aTestedTile;
-
         Texture2D playerTexture;
         Texture2D starterBackground;
         Texture2D startButton;
@@ -89,13 +87,11 @@ namespace LumberjackFantasy
             player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
             //rng = new Random();
             //LoadTile();
-            aTestedTile = new Tile("testTile.txt", playerTexture, playerTexture, testTiles, rng, Quadrent.UL);
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
 			camera = Content.Load<Texture2D>("cam");
 			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton, camera);
-            updateManager.NextLevel(player1, aTestedTile.Trees, aTestedTile.Bears);
 
 			
 		}
