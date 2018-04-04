@@ -40,6 +40,7 @@ namespace LumberjackFantasy
 
         Player player1;
         UpdateManager updateManager;
+        ScreenManager screenManager;
 		GameState gameState;
 
 		public Game1()
@@ -79,23 +80,24 @@ namespace LumberjackFantasy
             
             //Starter Background Variables for Base Build
             starterBackground = Content.Load<Texture2D>("starterBackground");
-
-            //Texture Loading
             startScreenBackground = Content.Load<Texture2D>("startScreenBackground");
-            //Player Creation
             testTiles = new List<Texture2D>();
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
-            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
             //rng = new Random();
             //LoadTile();
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
 			camera = Content.Load<Texture2D>("cam");
-			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton, camera, startScreenBackground);
 
-			
-		}
+            // Managers 
+
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera);
+            screenManager = new ScreenManager(startButton, exitButton, startScreenBackground);
+            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
+
+
+        }
 
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
@@ -125,10 +127,11 @@ namespace LumberjackFantasy
 				case GameState.start:
                     
 					this.IsMouseVisible = true;
-					gameState = updateManager.UpdateTitleScreen();
+					gameState = screenManager.UpdateTitleScreen();
 					break;
 
 				case GameState.pause:
+					gameState = screenManager.UpdatePauseScreen();
 					//show menu
 					break;
 
@@ -138,10 +141,16 @@ namespace LumberjackFantasy
                     updateManager.UpdatePlayer();
 					updateManager.UpdateCamera();
                     //updateManager.UpdateAllBears();
+
+					/* line of code that
+					 gameState = updateManager.UpdateGameScreen
+					 */
 					break;
 
 				case GameState.gameOver:
-					//kill u
+					//display score
+
+					gameState = GameState.start;
 					break;
 
 				case GameState.exit:
@@ -164,7 +173,7 @@ namespace LumberjackFantasy
 			switch (gameState)
 			{
 				case GameState.start:
-					updateManager.DrawTitleScreen(spriteBatch);
+					screenManager.DrawTitleScreen(spriteBatch);
 					break;
 
 				case GameState.pause:
