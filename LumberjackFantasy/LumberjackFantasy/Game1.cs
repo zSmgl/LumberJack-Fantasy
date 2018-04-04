@@ -80,13 +80,9 @@ namespace LumberjackFantasy
             
             //Starter Background Variables for Base Build
             starterBackground = Content.Load<Texture2D>("starterBackground");
-
-            //Texture Loading
             startScreenBackground = Content.Load<Texture2D>("startScreenBackground");
-            //Player Creation
             testTiles = new List<Texture2D>();
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
-            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
             //rng = new Random();
             //LoadTile();
 
@@ -98,9 +94,10 @@ namespace LumberjackFantasy
 
 			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera);
             screenManager = new ScreenManager(startButton, exitButton, startScreenBackground);
+            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
 
-			
-		}
+
+        }
 
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
