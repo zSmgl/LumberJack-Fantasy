@@ -40,6 +40,7 @@ namespace LumberjackFantasy
 
         Player player1;
         UpdateManager updateManager;
+        ScreenManager screenManager;
 		GameState gameState;
 
 		public Game1()
@@ -92,7 +93,11 @@ namespace LumberjackFantasy
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
 			camera = Content.Load<Texture2D>("cam");
-			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, startButton, exitButton, camera, startScreenBackground);
+
+            // Managers 
+
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera);
+            screenManager = new ScreenManager(startButton, exitButton, startScreenBackground);
 
 			
 		}
@@ -125,7 +130,7 @@ namespace LumberjackFantasy
 				case GameState.start:
                     
 					this.IsMouseVisible = true;
-					gameState = updateManager.UpdateTitleScreen();
+					gameState = screenManager.UpdateTitleScreen();
 					break;
 
 				case GameState.pause:
@@ -164,7 +169,7 @@ namespace LumberjackFantasy
 			switch (gameState)
 			{
 				case GameState.start:
-					updateManager.DrawTitleScreen(spriteBatch);
+					screenManager.DrawTitleScreen(spriteBatch);
 					break;
 
 				case GameState.pause:
