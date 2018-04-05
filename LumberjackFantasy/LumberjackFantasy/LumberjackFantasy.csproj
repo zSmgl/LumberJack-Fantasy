@@ -47,6 +47,8 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="LivingObject.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="NodeManager.cs" />
     <Compile Include="OpenSeasonManager.cs" />
     <Compile Include="PickUp.cs" />
     <Compile Include="Player.cs" />

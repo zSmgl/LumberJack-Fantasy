@@ -12,7 +12,6 @@ namespace LumberjackFantasy
 	class UpdateManager
 	{
 		private Random rng;                             // Random Number Generator used for bears and bear speeds.
-		private ScreenPosManager menu;
 		private GameTime gameTime;                      // Holds the current GameTime
 		private Player pCurrent;                        // Holds the player's values
 		private List<Bear> bearsCurrent;                // Holds all of the bears in the game
