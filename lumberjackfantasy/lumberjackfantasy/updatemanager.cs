@@ -426,6 +426,10 @@ namespace LumberjackFantasy
             
         }
 
+		public int ReturnScore() //method that returns player score
+		{
+			return pCurrent.TotalScore;
+		}
 
 		// -------------------------------------------------------------------------- Bear Specific Methods ------------------------------------------------------------
 
