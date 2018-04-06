@@ -131,7 +131,7 @@ namespace LumberjackFantasy
 			{
 				case GameState.start:
                     
-					this.IsMouseVisible = true;
+					this.IsMouseVisible = true;					
 					gameState = screenManager.UpdateTitleScreen();
 					break;
 
@@ -207,7 +207,7 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameOver:
-					scoreBoardManager.DrawGameOver(spriteBatch);
+					scoreBoardManager.DrawGameOver(spriteBatch, spriteFont);
 					break;
 			}
 

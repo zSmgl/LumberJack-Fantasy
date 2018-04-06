@@ -36,38 +36,47 @@ namespace LumberjackFantasy
 		//constructor -------------------------------------------------------------------
 		public ScoreboardManager()
 		{
+			scoreNames = new List<string>();
+			highScores = new List<int>();
 			scoreState = ScoreState.loading;
 			prevPressed = new bool[256];
-			characterLocations = new Vector2[] { new Vector2(298, 448), new Vector2(448, 448), new Vector2(746, 448) };
+			characterLocations = new Vector2[] { new Vector2(298, 448), new Vector2(298, 448), new Vector2(448, 448) };
+			playerName = "--";
 		}
 			//methods -----------------------------------------------------------------------
 			public GameState UpdateGameover() //method for updating the gameover screen
 			{
 				GameState toReturn = GameState.gameOver;
 				currentKB = Keyboard.GetState();
-				switch (scoreState)
-				{
-					case ScoreState.loading:
-						LoadScores();
-						index = TestHighScore();
-						if (index == 10)
-						{
-							scoreState = ScoreState.viewScore;
-						}
-						else
-						{
-							scoreState = ScoreState.getName;
-						}
+			switch (scoreState)
+			{
+				case ScoreState.loading:
+					LoadScores();
+					index = TestHighScore();
+					if (index == 10)
+					{
+						scoreState = ScoreState.viewScore;
+					}
+					else
+					{
+						scoreState = ScoreState.getName;
+					}
 
-						break;
+					break;
 
-					case ScoreState.getName:
-						GetName();
+				case ScoreState.getName:
+					if (playerName.Length != 3)
+					{ 
+					GetName();
+					}
+					else
+					{
 						scoreNames.Insert(index, playerName);
 						highScores.Insert(index, currentScore);
 						scoreNames.RemoveAt(10);
 						highScores.RemoveAt(10);
 						scoreState = ScoreState.saving;
+					}
 						break;
 
 					case ScoreState.saving:
@@ -95,21 +104,6 @@ namespace LumberjackFantasy
 					break;
 
 				case ScoreState.getName:
-					if (playerName != null)
-					{
-						if (playerName.Length == 1)
-						{
-							spriteBatch.DrawString(spriteFont, playerName[0].ToString(), characterLocations[0], Color.Firebrick);
-						}
-						if (playerName.Length == 2)
-						{
-							spriteBatch.DrawString(spriteFont, playerName[1].ToString(), characterLocations[1], Color.Firebrick);
-						}
-						if (playerName.Length == 3)
-						{
-							spriteBatch.DrawString(spriteFont, playerName[2].ToString(), characterLocations[2], Color.Firebrick);
-						}
-					}
 					break;
 
 				case ScoreState.saving:
@@ -122,7 +116,7 @@ namespace LumberjackFantasy
 
 			public void LoadScores() //method to load in the current high score list
 			{
-				StreamReader toLoad = new StreamReader("High Score.txt");
+				StreamReader toLoad = new StreamReader("High_Scores.txt");
 				try
 				{
 					string line = null;
@@ -146,7 +140,7 @@ namespace LumberjackFantasy
 
 			public void SaveScores()
 			{
-				StreamWriter saveScore = new StreamWriter("High Score.txt");
+				StreamWriter saveScore = new StreamWriter("High_Scores.txt");
 				try
 				{
 					for (int count = 0; count < 10; count++)
@@ -167,6 +161,8 @@ namespace LumberjackFantasy
 			public int TestHighScore() //method to see where to place the new score in on a return of 10 it is not high enough.
 			{
 				int count = 0;
+			if (highScores != null)
+			{
 				foreach (int thisScore in highScores)
 				{
 					if (currentScore > thisScore)
@@ -175,21 +171,19 @@ namespace LumberjackFantasy
 					}
 					count++;
 				}
-
+			}
 				return count;
 			}
 
 			public void GetName() //method that saves players name
 			{
-				while (playerName.Length < 3)
+				Keys[] currentPressed = currentKB.GetPressedKeys();
+				foreach (Keys key in currentPressed)
 				{
-					Keys[] currentPressed = currentKB.GetPressedKeys();
-					foreach (Keys key in currentPressed)
-					{
 						if (prevPressed[(int)key] == false && key >= Keys.A && key <= Keys.Z)
 						{
 							char inputKey = (char)key;
-							if (playerName == null)
+							if (playerName == "--")
 							{
 								playerName = inputKey.ToString();
 							}
@@ -198,20 +192,14 @@ namespace LumberjackFantasy
 								playerName = playerName + inputKey.ToString();
 							}
 						}
-					}
 				}
-
-			}
-
-
-
-			public bool SinglePress(Keys key)
-			{
-				if (currentKB.IsKeyDown(key) == true && (previousKB.IsKeyDown(key) != true))
+				System.Array.Clear(prevPressed, 0, prevPressed.Length);
+				foreach(Keys key in currentPressed)
 				{
-					return true;
+					prevPressed[(int)key] = true;
 				}
-				return false;
+				
+
 			}
 
 		}
