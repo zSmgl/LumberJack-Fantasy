@@ -24,6 +24,11 @@ namespace LumberjackFantasy
 
 		//methods -----------------------------------------------------------------------
 
+        public void FindPath()
+        {
+
+        }
+
 
 	}
 }
