@@ -32,6 +32,14 @@ namespace LumberjackFantasy
 		private Rectangle upperRightRect;
 		private Rectangle lowerLeftRect;
 		private Rectangle lowerRightRect;
+		private List<Tile> tiles;
+
+		//that stuff that lets you access things
+		public List<Tile> Tiles
+		{
+			get { return tiles; }
+			set { tiles = value; }
+		}
 
 
 		//random object removed in favor of random selection of tiles in the tile class
@@ -50,17 +58,18 @@ namespace LumberjackFantasy
 			lowerLeftRect = new Rectangle(0, 896, 896, 896);
 			lowerRightRect = new Rectangle(896, 896, 896, 896);
 
-			LoadTiles("tile_" + upperLeft, treeTexture, bearTexture, pickups, rng, Quadrent.UL);
-			LoadTiles("tile_" + upperRight, treeTexture, bearTexture, pickups, rng, Quadrent.UR);
-			LoadTiles("tile_" + lowerLeft, treeTexture, bearTexture, pickups, rng, Quadrent.BL);
-			LoadTiles("tile_" + lowerRight, treeTexture, bearTexture, pickups, rng, Quadrent.BR);
+			tiles.Add(LoadTiles("tile_" + upperLeft, treeTexture, bearTexture, pickups, rng, Quadrent.UL));
+			tiles.Add(LoadTiles("tile_" + upperRight, treeTexture, bearTexture, pickups, rng, Quadrent.UR));
+			tiles.Add(LoadTiles("tile_" + lowerLeft, treeTexture, bearTexture, pickups, rng, Quadrent.BL));
+			tiles.Add(LoadTiles("tile_" + lowerRight, treeTexture, bearTexture, pickups, rng, Quadrent.BR));
 
 		}
 
 
-		public void LoadTiles(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent)
+		public Tile LoadTiles(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent)
 		{
 			Tile tile = new Tile(toLoad, treeTexture, bearTexture, pickups, rng, quadrent);
+			return tile;
 		}
 
 
