@@ -47,11 +47,16 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="LivingObject.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="NodeManager.cs" />
+    <Compile Include="OpenSeasonManager.cs" />
     <Compile Include="PickUp.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScoreboardManager.cs" />
     <Compile Include="ScreenManager.cs" />
+    <Compile Include="ScreenPosManager.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="UpdateManager.cs" />

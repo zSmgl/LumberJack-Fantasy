@@ -12,7 +12,6 @@ namespace LumberjackFantasy
 	class UpdateManager
 	{
 		private Random rng;                             // Random Number Generator used for bears and bear speeds.
-		private ScreenManager menu;
 		private GameTime gameTime;                      // Holds the current GameTime
 		private Player pCurrent;                        // Holds the player's values
 		private List<Bear> bearsCurrent;                // Holds all of the bears in the game
@@ -20,8 +19,6 @@ namespace LumberjackFantasy
         private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
-		private MouseState currentMS;                   // Holds the current Mouse State
-		private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
         public Camera camera;                           // Holds the cameras positions
 
 		VelocityManager velocityManager = new VelocityManager(0);
@@ -30,10 +27,9 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>
-		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D start, Texture2D exit, Texture2D camera)
+		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera)
 		{
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
-			LoadMenus(start, exit);
 			Random rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 		}
@@ -43,39 +39,23 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Update method called when the game is actually being played
 		/// </summary>
-		public void UpdateGameScreen()
-		{           
+		public GameState UpdateGameScreen()
+		{
+			GameState toreturn = GameState.gameLoop;
 			UpdatePlayer();
             UpdateCamera();
             UpdateAllBears();
 			//UpdateAttacks();
 			RemoveStuffFromStoredLists();
-
-		}
-
-		/// <summary>
-		/// Update method called when the game is at the Title Screen
-		/// </summary>
-		public GameState UpdateTitleScreen()
-		{
-			currentMS = Mouse.GetState();
-			GameState toReturn = GameState.start;
-
-			menu.StartHover = IsHovering(menu.StartButton);
-			menu.ExitHover = IsHovering(menu.ExitButton);
-			if (currentMS.LeftButton == ButtonState.Pressed)
+			if (pCurrent.Health <= 0)
 			{
-				if (menu.StartHover)
-				{
-					toReturn = GameState.gameLoop;
-				}
-				else if (menu.ExitHover)
-				{
-					toReturn = GameState.exit;
-				}
+				toreturn = GameState.gameOver;
 			}
-			previousMS = currentMS;
-			return toReturn;
+			if (currentKB.IsKeyDown(Keys.P))
+			{
+				toreturn = GameState.pause;
+			}
+			return toreturn;
 		}
 
 		///<summary>
@@ -123,48 +103,6 @@ namespace LumberjackFantasy
 
 		}
 
-		/// <summary>
-		/// Draw method called when the game is at the Title Screen
-		/// </summary>
-		public void DrawTitleScreen(SpriteBatch spriteBatch)
-		{
-			menu.DrawStartScreen(spriteBatch);
-
-			if (menu.StartHover)
-			{
-				menu.DrawStartHover(spriteBatch);
-			}
-			else
-			{
-				menu.DrawStartButton(spriteBatch);
-			}
-
-			if (menu.ExitHover)
-			{
-				menu.DrawExitHover(spriteBatch);
-			}
-			else
-			{
-				menu.DrawExitButton(spriteBatch);
-			}
-		}
-
-		/// <summary>
-		/// Update Method called when the game is at a Pause Screen
-		/// </summary>
-		public void UpdatePauseScreen()
-		{
-
-		}
-
-		/// <summary>
-		/// Update Method called when the game is at a Game Over Screen
-		/// </summary>
-		public void UpdateEndGameScreen()
-		{
-
-		}
-
 		// ----------------------------------------------------------------------- Add / Remove Stuff from Lists ---------------------------------------------------------
 
 
@@ -186,21 +124,6 @@ namespace LumberjackFantasy
             this.currentKB = currentKB;
             this.previousKB = previousKB;
             this.gameTime = gameTime;
-		}
-
-		public void UpdateTitleScreenFields()
-		{
-
-		}
-
-		public void UpdatePauseScreenFields()
-		{
-
-		}
-
-		public void UpdateEndGameScreenFields()
-		{
-
 		}
 
         public Player ReturnPlayer()
@@ -502,6 +425,10 @@ namespace LumberjackFantasy
             
         }
 
+		public int ReturnScore() //method that returns player score
+		{
+			return pCurrent.TotalScore;
+		}
 
 		// -------------------------------------------------------------------------- Bear Specific Methods ------------------------------------------------------------
 
@@ -1033,25 +960,6 @@ namespace LumberjackFantasy
 				}
 			}
 		}
-
-		// ---------------------------------------------------------------------------- Menus Logic -----------------------------------------------------------------------
-		//loadmenu command to create the screenmanager to be called in loadContent, method is in its test state as not all textures are created
-		public void LoadMenus(Texture2D startButton, Texture2D exitButton)
-		{
-			menu = new ScreenManager(startButton, exitButton);
-		}
-
-		//command to see if a button is being hovered over
-		public bool IsHovering(Rectangle box)
-		{
-			if (box.Contains(currentMS.Position))
-			{
-				return true;
-			}
-			return false;
-		}
-
-
         // -------------------------------------------------------------------------- Camera Logic ---------------------------------------------------------------------------
         public void UpdateCamera()
         {

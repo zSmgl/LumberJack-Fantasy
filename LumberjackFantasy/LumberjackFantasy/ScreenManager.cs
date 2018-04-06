@@ -7,201 +7,147 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace LumberjackFantasy
 {
     class ScreenManager
     {
-        //No difficulty button put in yet
-        //Game Screen Background currently commented
-        //out since tile generation draws the background
+        //The purpose of this class is to handle all the updates of each Screen State (other than the playing game.)
+        // This means the Menu, Pause, and End Screen
 
-        //Fields
-        //Texture Fields
-        private Texture2D startScreenBackground;
-        private Texture2D title;
-        private Texture2D startButton;
-        private Texture2D exitButton;
-        private Texture2D health;
-        private Texture2D hiScore;
-        //private Texture2D gameScreenBackground;
-        private Texture2D playerPortrait;
-        private Texture2D gameOverScreenBackground;
-        private Texture2D menuReturnButton;
-        private Texture2D pauseScreenBackground;
+        // Fields
 
-        //Vector Fields
-        private Vector2 ssBGPos;
-        private Vector2 tPos;
-        private Vector2 sbPos;
-        private Vector2 ebPos;
-        private Vector2 hPos;
-        private Vector2 hsPos;
-        //private Vector2 gsBGPos;
-        private Vector2 ppPos;
-        private Vector2 gosBGPos;
-        private Vector2 mrbPos;
-        private Vector2 psBGPos;
+        private ScreenPosManager menu; // holds the position of everything for each menu
+        private MouseState currentMS;                   // Holds the current Mouse State
+        private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
+		private KeyboardState currentKB;				// Holds the current keyboard State
+		private KeyboardState previousKB;				// Holds the previous keyboard state (if needed)
 
-		//bool fields for whether the button is currently hovered
-		private bool startHover;
-		private bool exitHover;
-		private bool returnHover;
-
-        //property rectangles for button hitboxes
-        public Rectangle StartButton { get { return new Rectangle((int)sbPos.X, (int)sbPos.Y, startButton.Width, startButton.Height); } }
-        public Rectangle ExitButton { get { return new Rectangle((int)ebPos.X, (int)ebPos.Y, exitButton.Width, exitButton.Height); } }
-        public Rectangle MenuReturnButton { get { return new Rectangle((int)mrbPos.X, (int)mrbPos.Y, menuReturnButton.Width, menuReturnButton.Height); } }
-
-		//properties to get and set being hovered
-		public bool StartHover { get { return startHover; } set { startHover = value; } }
-		public bool ExitHover { get { return exitHover; } set { exitHover = value; } }
-
-        //Constructor
-
-        public ScreenManager(Texture2D start, Texture2D exit)
+        public ScreenManager(Texture2D start, Texture2D exit, Texture2D ssBG)
         {
-            startButton = start;
-			startHover = false;
-            sbPos.X = 400;
-            sbPos.Y = 200;
-
-            exitButton = exit;
-            ebPos.X = 400;
-            ebPos.Y = 600;
-			exitHover = false;
-        }
-        //REMINDER: Game screen background removed from parameters
-		
-        public ScreenManager(Texture2D ssBG, Texture2D t, Texture2D sb, Texture2D eb,
-            Texture2D h, Texture2D hs, Texture2D pp,
-            Texture2D gosBG, Texture2D mrb, Texture2D psBG)
-        {
-            //Vector Positions are filler for now
-            //Start Screen
-            startScreenBackground = ssBG;
-            ssBGPos.X = 0;
-            ssBGPos.Y = 0;
-
-            //Title
-            title = t;
-            tPos.X = 0;
-            tPos.Y = 0;
-
-            //Start Button
-            startButton = sb;
-            sbPos.X = 0;
-            sbPos.Y = 0;
-			startHover = false;
-
-            //Exit Button
-            exitButton = eb;
-            ebPos.X = 0;
-            ebPos.Y = 0;
-			exitHover = false;
-
-            //Health
-            health = h;
-            hPos.X = 0;
-            hPos.Y = 0;
-
-            //HiScore
-            hiScore = hs;
-            hsPos.X = 0;
-            hsPos.Y = 0;
-
-            //Game Screen Background
-            //gameScreenBackground = gsBG;
-            //gsBGPos.X = 0;
-            //gsBGPos.Y = 0;
-
-            //Player Portrait
-            playerPortrait = pp;
-            ppPos.X = 0;
-            ppPos.Y = 0;
-
-            //Game Over Screen Background
-            gameOverScreenBackground = gosBG;
-            gosBGPos.X = 0;
-            gosBGPos.Y = 0;
-
-            //Menu Return Button
-            menuReturnButton = mrb;
-            mrbPos.X = 0;
-            mrbPos.Y = 0;
-
-            //Pause Screen Background
-            pauseScreenBackground = psBG;
-            psBGPos.X = 0;
-            psBGPos.Y = 0;
-        }
-		
-        //Methods
-        public void DrawStartScreen(SpriteBatch spriteBatch)
-        {
-            //Calls the parameter spritebatch and then draws
-            //the background, title, and buttons
-            //spriteBatch.Draw(startScreenBackground, ssBGPos, Color.White);
-            //spriteBatch.Draw(title, tPos, Color.White);
-            
+            LoadMenus(start, exit, ssBG);
         }
 
-        public void DrawStartButton(SpriteBatch spriteBatch)
+        // ------------------------------------------------------------------- UPDATE METHODS FOR GAMESCREENS ---------------------------------------------------------------------
+
+        /// <summary>
+		/// Update method called when the game is at the Title Screen
+		/// </summary>
+		public GameState UpdateTitleScreen()
         {
-            //draws the start button
-            spriteBatch.Draw(startButton, sbPos, Color.White);
+            currentMS = Mouse.GetState();
+            GameState toReturn = GameState.start;
+
+            menu.StartHover = IsHovering(menu.StartButton);
+            menu.ExitHover = IsHovering(menu.ExitButton);
+            if (currentMS.LeftButton == ButtonState.Pressed)
+            {
+                if (menu.StartHover)
+                {
+                    toReturn = GameState.gameLoop;
+                }
+                else if (menu.ExitHover)
+                {
+                    toReturn = GameState.exit;
+                }
+            }
+            previousMS = currentMS;
+            return toReturn;
         }
 
-        public void DrawStartHover(SpriteBatch spriteBatch)
+        /// <summary>
+        /// Update Method called when the game is at a Pause Screen
+        /// </summary>
+        public GameState UpdatePauseScreen()
         {
-            //draws hovered over start button
-            spriteBatch.Draw(startButton, sbPos, Color.Firebrick);
+			currentMS = Mouse.GetState();
+			currentKB = Keyboard.GetState();
+			GameState toReturn = GameState.pause;
+
+			if (currentKB.IsKeyDown(Keys.P)) //put in or here for if button is clicked
+			{
+				toReturn = GameState.gameLoop;
+			}
+
+			if (currentKB.IsKeyDown(Keys.E)) //change to when button is pushed
+			{
+				toReturn = GameState.start;
+			}
+
+			previousKB = currentKB;
+			previousMS = currentMS;
+			return toReturn;
         }
 
-        public void DrawExitButton(SpriteBatch spriteBatch)
+        /// <summary>
+        /// Update Method called when the game is at a Game Over Screen
+        /// </summary>
+        public void UpdateEndGameScreen()
         {
-            //draws the exit button
-            spriteBatch.Draw(exitButton, ebPos, Color.White);
+
         }
 
-        public void DrawExitHover(SpriteBatch spriteBatch)
+
+
+        // ----------------------------------------------------------------------- UPDATE SCREEN !FIELDS! METHODS ---------------------------------------------------------
+        public void UpdateTitleScreenFields()
         {
-            //draws the hovered over exit button
-            spriteBatch.Draw(exitButton, ebPos, Color.Firebrick);
+
         }
 
-        public void DrawMenuReturnButton(SpriteBatch spriteBatch)
+        public void UpdatePauseScreenFields()
         {
-            //draws the menu return button
-            spriteBatch.Draw(menuReturnButton, mrbPos, Color.White);
+
         }
 
-        public void DrawMenuReturnHover(SpriteBatch spriteBatch)
+        public void UpdateEndGameScreenFields()
         {
-            //draws the hovered over menu return button
-            spriteBatch.Draw(menuReturnButton, mrbPos, Color.Firebrick);
+
+        }
+        // ---------------------------------------------------------------------------- Menus Logic -----------------------------------------------------------------------
+        //loadmenu command to create the screenmanager to be called in loadContent, method is in its test state as not all textures are created
+        public void LoadMenus(Texture2D startButton, Texture2D exitButton, Texture2D ssBG)
+        {
+            menu = new ScreenPosManager(startButton, exitButton, ssBG);
         }
 
-        public void DrawGameScreenElements(SpriteBatch spriteBatch)
+        //command to see if a button is being hovered over
+        public bool IsHovering(Rectangle box)
         {
-            //Draws the in-game screen UI elements
-            spriteBatch.Draw(health, hPos, Color.White);
-            spriteBatch.Draw(hiScore, hsPos, Color.White);
-            spriteBatch.Draw(playerPortrait, ppPos, Color.White);
+            if (box.Contains(currentMS.Position))
+            {
+                return true;
+            }
+            return false;
         }
 
-        public void DrawGameOverScreen(SpriteBatch spriteBatch)
+        // ---------------------------------------------------------------------------- DRAW SCREENS METHODS ------------------------------------------------------------
+
+        /// <summary>
+        /// Draw method called when the game is at the Title Screen
+        /// </summary>
+        public void DrawTitleScreen(SpriteBatch spriteBatch)
         {
-            //Draws GameOver Screen and buttons
-            spriteBatch.Draw(gameOverScreenBackground, gosBGPos, Color.White);
-            
-            
+            menu.DrawStartScreen(spriteBatch);
+
+            if (menu.StartHover)
+            {
+                menu.DrawStartHover(spriteBatch);
+            }
+            else
+            {
+                menu.DrawStartButton(spriteBatch);
+            }
+
+            if (menu.ExitHover)
+            {
+                menu.DrawExitHover(spriteBatch);
+            }
+            else
+            {
+                menu.DrawExitButton(spriteBatch);
+            }
         }
 
-        public void DrawPauseScreen(SpriteBatch spriteBatch)
-        {
-            //Draw Pause Screen and Buttons
-            spriteBatch.Draw(pauseScreenBackground, psBGPos, Color.White);
-            
-        }
     }
 }
