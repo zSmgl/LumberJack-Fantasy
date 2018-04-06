@@ -25,6 +25,41 @@ namespace LumberjackFantasy
 
         public void SetGraph()
         {
+            int x = 0;
+            int y = 0;
+
+            // Creates all the tiles needed to fill a 1024 x 1024 space
+
+            for (int i = 0; i < graphSize; i++) // Columns
+            {
+                for (int j = 0; j < graphSize; j++) // Rows
+                {
+                    graph[i, j] = new Location(x, y, tileConstant); // Creates a new Location Tile that is 16x16 at the correct x or y position.
+                    x += tileConstant;
+                }
+                y += tileConstant;
+            }
+
+            // Sets each tiles proper adjacent tiles. 
+            for (int i = 0; i < graphSize; i++)
+            {
+                for (int j = 0; j < graphSize; j++)
+                {
+                    Location current = graph[i, j];
+
+                    // Determine what do along edges of the tile set vs in the middle of the tile set to set up adacentTiles property correctly
+                    // for each tile
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adj the x and y of every tile in the graph with the screen. 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void GraphAdj(int x, int y)
+        {
 
         }
     }

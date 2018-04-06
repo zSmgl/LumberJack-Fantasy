@@ -46,9 +46,9 @@ namespace LumberjackFantasy
 			locked = false;
 			adjacentNodes = new Location[8]; //array of nodes, beginning at top left to clockwise in naming.
 		}
-		public Location(int x, int y, int height, int width)
+		public Location(int x, int y, int heightAndWidth)
 		{
-			pos = new Rectangle(x,y,height,width);
+			pos = new Rectangle(x,y,heightAndWidth,heightAndWidth);
 			IsPassable();
 			toUpdate = false;
 			locked = false;
