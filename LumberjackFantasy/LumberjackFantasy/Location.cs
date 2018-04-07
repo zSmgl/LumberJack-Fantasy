@@ -23,7 +23,7 @@ namespace LumberjackFantasy
 		private bool toUpdate;          // Holds whether or not the node needs to be checked based on Camera's UpScreen Rectangle
 		private bool locked;			// Tells the updateManager whether adjacent nodes need to be checked
 		private Rectangle pos;	// Holds the position of the node
-		private Location[] adjacentNodes;	// Array of nodes, beginning at top left to clockwise in naming.
+		private Location[] adjacentLocations;	// Array of nodes, beginning at top left to clockwise in naming.
         private Location parent;            // The node of which this one should be pathed too. 
         private int gScore;             // The movement cost (in # of Nodess) from start point to curret square
                                         // G is calculated from taking it from it's parent and adding 1.
@@ -35,7 +35,7 @@ namespace LumberjackFantasy
 		public bool Locked { get { return locked; }  set { locked = value; } }
         public Location Parent { get { return parent; } set { parent = value; } }
 		public Rectangle Pos { get { return pos; } }
-		public Location[] AdjacentNodes { get { return AdjacentNodes; } }
+		public Location[] AdjacentLocations { get { return adjacentLocations; } set { adjacentLocations = value; } }
 
 		//constructor -------------------------------------------------------------------
 		public Location(Rectangle pos)
@@ -44,7 +44,7 @@ namespace LumberjackFantasy
 			IsPassable();
 			toUpdate = false;
 			locked = false;
-			adjacentNodes = new Location[8]; //array of nodes, beginning at top left to clockwise in naming.
+			adjacentLocations = new Location[8]; //array of nodes, beginning at top left to clockwise in naming.
 		}
 		public Location(int x, int y, int heightAndWidth)
 		{
@@ -52,7 +52,7 @@ namespace LumberjackFantasy
 			IsPassable();
 			toUpdate = false;
 			locked = false;
-			adjacentNodes = new Location[8]; //array of nodes, beginning at top left to clockwise in naming.
+			adjacentLocations = new Location[8]; //array of nodes, beginning at top left to clockwise in naming.
         }
 
 		//methods -----------------------------------------------------------------------
