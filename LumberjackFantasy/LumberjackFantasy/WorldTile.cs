@@ -69,7 +69,7 @@ namespace LumberjackFantasy
 
 
 		//random object removed in favor of random selection of tiles in the tile class
-		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, UpdateManager updateManager)
+		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups)
 		{
 			rng = new Random();
 
