@@ -33,6 +33,7 @@ namespace LumberjackFantasy
 		private Rectangle lowerLeftRect;
 		private Rectangle lowerRightRect;
 		private List<Tile> tiles;
+		private UpdateManager udManager;
 
 		//that stuff that lets you access things
 		public List<Tile> Tiles
@@ -43,9 +44,10 @@ namespace LumberjackFantasy
 
 
 		//random object removed in favor of random selection of tiles in the tile class
-		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups)
+		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, UpdateManager updateManager)
 		{
 			rng = new Random();
+			udManager = updateManager;
 
 			upperLeft = rng.Next(0, 19);
 			upperRight = rng.Next(0, 19);
@@ -68,7 +70,7 @@ namespace LumberjackFantasy
 
 		public Tile LoadTiles(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent)
 		{
-			Tile tile = new Tile(toLoad, treeTexture, bearTexture, pickups, rng, quadrent);
+			Tile tile = new Tile(toLoad, treeTexture, bearTexture, pickups, rng, quadrent, udManager);
 			return tile;
 		}
 

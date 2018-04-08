@@ -24,6 +24,25 @@ namespace LumberjackFantasy
 		VelocityManager velocityManager = new VelocityManager(0);
         CollisionManager collisionManager;
 
+		// Properties
+		public List<Bear> BearsCurrent
+		{
+			get { return bearsCurrent; }
+			set { bearsCurrent = value; }
+		}
+		public List<Tree> TreesCurrent
+		{
+			get { return treesCurrent; }
+			set { treesCurrent = value; }
+		}
+		public List<PickUp> PickUpsCurrent
+		{
+			get { return pickUpsCurrent; }
+			set { pickUpsCurrent = value; }
+		}
+
+
+
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>

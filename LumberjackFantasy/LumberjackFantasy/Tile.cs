@@ -27,16 +27,15 @@ namespace LumberjackFantasy
         private List<Texture2D> pickupTextures;
 		private int XOffset;
 		private int YOffset;
+		private UpdateManager udManager;
         LoadState loadState = new LoadState();
 
-        //properties --------------------------------------------------------------------
-        public List<Tree> Trees { get { return trees; } }
-        public List<Bear> Bears { get { return bears; } }
-        public List<PickUp> Collectibles { get { return collectibles; } }
+    
 
         //constructor -------------------------------------------------------------------
-        public Tile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent)
+        public Tile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent, UpdateManager update)
         {
+			udManager = update;
             pickupTextures = pickups;
             LoadTile(toLoad, treeTexture, bearTexture, rng, quadrent);
         }
@@ -69,9 +68,7 @@ namespace LumberjackFantasy
 
 
 			// Create the data structures
-			trees = new List<Tree>();
-			bears = new List<Bear>();
-            collectibles = new List<PickUp>();
+		
             StreamReader load;
 
             load = new StreamReader(toLoad);
@@ -103,9 +100,9 @@ namespace LumberjackFantasy
                         switch (loadState)
                         {
                             case LoadState.tree:
-                                
 
-                                trees.Add(new Tree
+
+								udManager.TreesCurrent.Add(new Tree
                                     (
                                       Int32.Parse(split[0])+XOffset,
                                       Int32.Parse(split[1]) + YOffset,
@@ -120,7 +117,7 @@ namespace LumberjackFantasy
                                 break;
 
                             case LoadState.bear:
-                                bears.Add(new Bear
+								udManager.BearsCurrent.Add(new Bear
                                     (
                                     Int32.Parse(split[0]) + XOffset,
                                     Int32.Parse(split[1]) + YOffset,
@@ -138,7 +135,7 @@ namespace LumberjackFantasy
                                 break;
 
 							case LoadState.pickUp:
-                                collectibles.Add(new PickUp
+                                udManager.PickUpsCurrent.Add(new PickUp
                                         (
                                         Int32.Parse(split[1]) + XOffset,
                                         Int32.Parse(split[2]) + YOffset,
