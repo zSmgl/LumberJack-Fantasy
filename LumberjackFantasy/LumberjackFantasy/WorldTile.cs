@@ -34,10 +34,34 @@ namespace LumberjackFantasy
 		private Rectangle lowerLeftRect;
 		private Rectangle lowerRightRect;
 		private List<Tile> tiles;
-		private UpdateManager udManager;
+        private List<Bear> worldBears;
+        private List<Tree> worldTrees;
+        private List<PickUp> worldPickups;
 
-		//that stuff that lets you access things
-		public List<Tile> Tiles
+        /// <summary>
+        /// List of every bear in a level
+        /// </summary>
+        public List<Bear> WorldBears
+        {
+            get { return worldBears; }
+        }
+        /// <summary>
+        /// List of every tree in a level
+        /// </summary>
+        public List<Tree> WorldTrees
+        {
+            get { return worldTrees; }
+        }
+        /// <summary>
+        /// List of every pickup in a level
+        /// </summary>
+        public List<PickUp> WorldPickUps
+        {
+            get { return worldPickups; }
+        }
+
+        //that stuff that lets you access things
+        public List<Tile> Tiles
 		{
 			get { return tiles; }
 			set { tiles = value; }
@@ -48,7 +72,6 @@ namespace LumberjackFantasy
 		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, UpdateManager updateManager)
 		{
 			rng = new Random();
-			udManager = updateManager;
 
 			upperLeft = rng.Next(0, 19);
 			upperRight = rng.Next(0, 19);
@@ -68,10 +91,15 @@ namespace LumberjackFantasy
 
 		}
 
+        public void SetWorldTileLists()
+        {
+            
+        }
+
 
 		public Tile LoadTiles(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent)
 		{
-			Tile tile = new Tile(toLoad, treeTexture, bearTexture, pickups, rng, quadrent, udManager);
+			Tile tile = new Tile(toLoad, treeTexture, bearTexture, pickups, rng, quadrent);
 			return tile;
 		}
 

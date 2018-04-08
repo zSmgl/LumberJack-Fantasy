@@ -227,5 +227,17 @@ namespace LumberjackFantasy
 			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP4"));
 		}
 
+        public void NewLevel()
+        {
+            /*
+            // Add in correct lists into updateManager based on current level
+            updateManager.BearsCurrent = worldTile[i].WorldBears;
+            updateManager.TreesCurrent = worldTile[i].WorldTrees;
+            updateManager.PickUpsCurrent = worldTile[i].WorldPickUps;
+
+            // Reset other shit in updateManager if need be by calling um.NextLevel watever thais may consist of. 
+            */
+        }
+
 	}
 }

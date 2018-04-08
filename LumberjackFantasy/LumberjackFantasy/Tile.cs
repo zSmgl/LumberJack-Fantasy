@@ -27,15 +27,26 @@ namespace LumberjackFantasy
         private List<Texture2D> pickupTextures;
 		private int XOffset;
 		private int YOffset;
-		private UpdateManager udManager;
         LoadState loadState = new LoadState();
 
-    
+        public List<Bear> BearsFromTile
+        {
+            get { return bears; }
+        }
+        public List<Tree> TreesFromTile
+        {
+            get { return trees; }
+        }
+        public List<PickUp> PickUpsFromTile
+        {
+            get { return collectibles; }
+        }
+
+
 
         //constructor -------------------------------------------------------------------
-        public Tile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent, UpdateManager update)
+        public Tile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent)
         {
-			udManager = update;
             pickupTextures = pickups;
             LoadTile(toLoad, treeTexture, bearTexture, rng, quadrent);
         }
@@ -102,7 +113,7 @@ namespace LumberjackFantasy
                             case LoadState.tree:
 
 
-								udManager.TreesCurrent.Add(new Tree
+                                trees.Add(new Tree
                                     (
                                       Int32.Parse(split[0])+XOffset,
                                       Int32.Parse(split[1]) + YOffset,
@@ -117,7 +128,7 @@ namespace LumberjackFantasy
                                 break;
 
                             case LoadState.bear:
-								udManager.BearsCurrent.Add(new Bear
+								bears.Add(new Bear
                                     (
                                     Int32.Parse(split[0]) + XOffset,
                                     Int32.Parse(split[1]) + YOffset,
@@ -135,7 +146,7 @@ namespace LumberjackFantasy
                                 break;
 
 							case LoadState.pickUp:
-                                udManager.PickUpsCurrent.Add(new PickUp
+                                collectibles.Add(new PickUp
                                         (
                                         Int32.Parse(split[1]) + XOffset,
                                         Int32.Parse(split[2]) + YOffset,
