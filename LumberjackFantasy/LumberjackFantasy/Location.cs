@@ -29,14 +29,8 @@ namespace LumberjackFantasy
                                         // G is calculated from taking it from it's parent and adding 1.
         private int hScore;             // Estimated cost from the current square to the destination square.
         private int fScore;             // g+h;
-
-        //properties --------------------------------------------------------------------
-        public int F { get { return fScore; } set { fScore = value; } }
-        public int G { get { return gScore; } set { gScore = value; } }
-        public int H { get { return hScore; } set { hScore = value; } }
-        public int X { get { return pos.X; }  set { pos = new Rectangle(value, pos.Y, pos.Width, pos.Height); } }
-        public int Y { get { return pos.Y; }  set { pos = new Rectangle(pos.X, value, pos.Width, pos.Height); } }
-        public bool Passable { get { return passable; } set { passable = value; } }
+		//properties --------------------------------------------------------------------
+		public bool Passable { get { return passable; } set { passable = value; } }
 		public bool ToUpdate { get { return ToUpdate; } set { ToUpdate = value; } }
 		public bool Locked { get { return locked; }  set { locked = value; } }
         public Location Parent { get { return parent; } set { parent = value; } }
