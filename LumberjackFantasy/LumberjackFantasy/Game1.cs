@@ -28,6 +28,7 @@ namespace LumberjackFantasy
 
         Random rng;
 
+		SpriteFont spriteFont;
         Texture2D playerTexture;
         Texture2D startScreenBackground;
         Texture2D starterBackground;
@@ -76,6 +77,8 @@ namespace LumberjackFantasy
 		/// </summary>
 		protected override void LoadContent()
 		{
+			//loads spritefont
+			spriteFont = Content.Load<SpriteFont>("spriteFont");
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
             //temporary test loadmenu, to keep code short once all textures are made will load into a list, then the loadmenu will call members of that list instead of directly loading
@@ -128,7 +131,7 @@ namespace LumberjackFantasy
 			{
 				case GameState.start:
                     
-					this.IsMouseVisible = true;
+					this.IsMouseVisible = true;					
 					gameState = screenManager.UpdateTitleScreen();
 					break;
 
@@ -204,6 +207,7 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameOver:
+					scoreBoardManager.DrawGameOver(spriteBatch, spriteFont);
 					break;
 			}
 
