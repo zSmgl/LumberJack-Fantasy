@@ -76,6 +76,7 @@ namespace LumberjackFantasy
         public int VisionStandard
         {
             get { return visionStandard; }
+            set { visionStandard = value; }
         }
 
 
