@@ -20,7 +20,9 @@ namespace LumberjackFantasy
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
 		private Graph pathGraph;                        // Holds all locations for pathing
-		private PathManager pM;						    // Manager that determines pathing for the bears. 
+		private PathManager pM;                         // Manager that determines pathing for the bears. 
+		private Rectangle[] healthCords;                  // Holds location of the helath hearts.
+		private Vector2 hsCord;							// Holds location of the high score
         public Camera camera;                           // Holds the cameras positions
 
 
@@ -56,6 +58,8 @@ namespace LumberjackFantasy
 			pM = new PathManager(pathGraph);
 			Random rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
+			healthCords = new Rectangle[3] {new Rectangle(40,40, 30, 30), new Rectangle(80,40,30,30), new Rectangle(120,40,30,30) };
+			hsCord = new Vector2(856, 40);
 		}
 
 		// --------------------------------------------------------------------- Universal Updates and Draws for  Screen State ------------------------------------------------------
@@ -85,7 +89,7 @@ namespace LumberjackFantasy
 		///<summary>
 		///Draw method called during the gameLoop
 		///</summary>
-		public void DrawGame(SpriteBatch spriteBatch)
+		public void DrawGame(SpriteBatch spriteBatch, SpriteFont spriteFont, Texture2D heartFull, Texture2D heartEmpty)
 		{
 			//draw player
 			pCurrent.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
@@ -124,6 +128,30 @@ namespace LumberjackFantasy
 				}
 			}
 
+			//draws highscore
+			spriteBatch.DrawString(spriteFont, pCurrent.TotalScore.ToString(), hsCord, Color.Firebrick);
+
+			//draws health
+			switch (pCurrent.Health)
+			{
+				case 3:
+					spriteBatch.Draw(heartFull, healthCords[0], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[1], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[2], Color.White);
+					break;
+
+				case 2:
+					spriteBatch.Draw(heartFull, healthCords[0], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[1], Color.White);
+					spriteBatch.Draw(heartEmpty, healthCords[2], Color.White);
+					break;
+
+				case 1:
+					spriteBatch.Draw(heartFull, healthCords[0], Color.White);
+					spriteBatch.Draw(heartEmpty, healthCords[1], Color.White);
+					spriteBatch.Draw(heartEmpty, healthCords[2], Color.White);
+					break;
+			}
 
 		}
 
