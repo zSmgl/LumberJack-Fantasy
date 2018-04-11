@@ -16,14 +16,13 @@ namespace LumberjackFantasy
         /// This line above me should be done in camera once I figure this shit out.
         /// </summary>
         /// 
-        // Logic - The Graph takes up 1024 by 1024 space whos midpoint is the same as the camera. Each Location (Tile) is 16 by 16.
-        // The square root of 1024 is 32. So instead of having 32  32 by 32 tiles fill the screen, I'm going to have 64 16*16 tiles do the exact
-        // Same thing. These values can be adjusted as needed. I just wanted ez numbers to work with. 
+        // Logic - The Graph takes up 1792 by 1792 space whos midpoint is the same as the camera. Each Location (Tile) is 16 by 16.
+        // 112 16 pixel tiles encompasses the entire map.
 
          
-        private int graphSize = 64;
+        private int graphSize = 112;
         private int tileConstant = 16;                   // The width and Height of a tile
-        private Location[,] graph = new Location[64,64]; // Creates a 64 by 64 Array of Location Data Types
+        private Location[,] graph = new Location[112,112]; // Creates a 112 by 112 Array of Location Data Types
 
 
         public Graph()
