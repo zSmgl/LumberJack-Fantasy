@@ -17,11 +17,12 @@ namespace LumberjackFantasy
         ///</summary>
 
         //fields ------------------------------------------------------------------------
-        public List<Location> openList;     // List of unchecked nodes
-        public List<Location> closedList;   // List of checked nodes
-        public Location current;
-        public Location start;
-        public Location target;
+        private List<Location> openList;     // List of unchecked nodes
+        private List<Location> closedList;   // List of checked nodes
+        private Location current;
+        private Location start;
+        private Location target;
+		private Graph upScreen;
         int g = 0;
 
 		//properties --------------------------------------------------------------------
@@ -29,6 +30,7 @@ namespace LumberjackFantasy
 		//constructor -------------------------------------------------------------------
         public PathManager()
         {
+			upScreen = new Graph("nullGraph");
         }
 
         //methods -----------------------------------------------------------------------
@@ -36,6 +38,18 @@ namespace LumberjackFantasy
         /// <summary>
         /// Reset fields for a new bear.
         /// </summary>
+		
+		public void FindCurrent(Bear bearSpace) // Method which tells the pathing manager what tiles currently contain the bear
+		{
+			List<Location> occupiedSpaces = new List<Location>();
+
+
+		}
+
+		public void FindPlayer(Player playerSpace) // Methood which tells the pathing manager where to find the player
+		{
+
+		}
         public void ResetForNewBear()
         {
             g = 0;

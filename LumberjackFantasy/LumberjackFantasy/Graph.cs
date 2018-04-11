@@ -23,6 +23,7 @@ namespace LumberjackFantasy
         private int graphSize = 112;
         private int tileConstant = 16;                   // The width and Height of a tile
         private Location[,] graph = new Location[112,112]; // Creates a 112 by 112 Array of Location Data Types
+		private List<Location> tilesToCheck;			   // List of important tiles
 
 		//properties
 		public Location[,] Tiles { get { return graph; } }
@@ -31,10 +32,23 @@ namespace LumberjackFantasy
             SetGraph();
             SetGraphLocAdjacents();
         }
-
+		public Graph(string unimportant)
+		{
+			//leaves an empty graph
+		}
         /// <summary>
         /// Creates empty LocationPlaces within the graph
         /// </summary>
+		/// 
+
+		public void ClearList() //Clears list of to Update Tiles
+		{
+			tilesToCheck.Clear();
+		}
+		public void UpdateTiles(Location toAdd) //Adds location to list of to update tiles
+		{
+			tilesToCheck.Add(toAdd);
+		}
         public void SetGraph()
         {
             int x = 0;
