@@ -15,6 +15,7 @@ namespace LumberjackFantasy
 		{
 			start,
 			pause,
+            loadLevel,
 			gameLoop,
 			gameOver,
 			exit
@@ -27,6 +28,7 @@ namespace LumberjackFantasy
 		List<WorldTile> worldTile;
 
         Random rng;
+        int level;
 
 		SpriteFont spriteFont;
         Texture2D playerTexture;
@@ -64,6 +66,7 @@ namespace LumberjackFantasy
 			graphics.PreferredBackBufferWidth = 896;
 			graphics.PreferredBackBufferHeight = 896;
 			graphics.ApplyChanges();
+            level = 0;
 			scoreBoardManager = new ScoreboardManager();
 
 			base.Initialize();
@@ -100,6 +103,12 @@ namespace LumberjackFantasy
 			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera);
             screenManager = new ScreenManager(startButton, exitButton, startScreenBackground);
             player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
+
+            // Makes a total of 5 levels
+            for(int i = 0; i < 5; i++)
+            {
+                worldTile.Add(new WorldTile(playerTexture, playerTexture, testTiles));
+            }
 
 
         }
@@ -140,7 +149,16 @@ namespace LumberjackFantasy
 					//show menu
 					break;
 
-				case GameState.gameLoop:
+
+                case GameState.loadLevel:
+                    updateManager.BearsCurrent = worldTile[level].WorldBears;
+                    updateManager.TreesCurrent = worldTile[level].WorldTrees;
+                    updateManager.PickUpsCurrent = worldTile[level].WorldPickUps;
+                    level++;
+                    gameState = GameState.gameLoop;
+                    break;
+
+                case GameState.gameLoop:
                     //does bears and movement etc
                     updateManager.UpdateGameScreenFields(kb, previousKbstate, gameTime);
                     updateManager.UpdatePlayer();

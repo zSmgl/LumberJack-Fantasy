@@ -89,11 +89,27 @@ namespace LumberjackFantasy
 			tiles.Add(LoadTiles("tile_" + lowerLeft, treeTexture, bearTexture, pickups, rng, Quadrent.BL));
 			tiles.Add(LoadTiles("tile_" + lowerRight, treeTexture, bearTexture, pickups, rng, Quadrent.BR));
 
+            SetWorldTileLists();
+
 		}
 
         public void SetWorldTileLists()
         {
-            
+            for(int i = 0; i < tiles.Count; i++)
+            {
+                foreach (Bear b in tiles[i].BearsFromTile)
+                {
+                    worldBears.Add(b);
+                }
+                foreach (PickUp p in tiles[i].PickUpsFromTile)
+                {
+                    worldPickups.Add(p);
+                }
+                foreach (Tree t in tiles[i].TreesFromTile)
+                {
+                    worldTrees.Add(t);
+                }
+            }
         }
 
 
