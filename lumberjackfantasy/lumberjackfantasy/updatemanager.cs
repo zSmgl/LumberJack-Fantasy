@@ -19,7 +19,9 @@ namespace LumberjackFantasy
         private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
+		private Graph pathGraph;						// Holds all locations for pathing
         public Camera camera;                           // Holds the cameras positions
+
 
 		VelocityManager velocityManager = new VelocityManager(0);
         CollisionManager collisionManager;
@@ -49,6 +51,7 @@ namespace LumberjackFantasy
 		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera)
 		{
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
+			pathGraph = new Graph();
 			Random rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 		}
@@ -1059,6 +1062,17 @@ namespace LumberjackFantasy
 					{
 						thisPickup.UPScreen = false;
 					}
+				}
+			}
+			foreach(Location thisTile in pathGraph.Tiles)
+			{
+				if (camera.IsUpdating(thisTile.Pos))
+				{
+					thisTile.ToUpdate = true;
+				}
+				else
+				{
+					thisTile.ToUpdate = false;
 				}
 			}
         }
