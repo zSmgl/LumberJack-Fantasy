@@ -97,7 +97,7 @@ namespace LumberjackFantasy
             //Starter Background Variables for Base Build
             starterBackground = Content.Load<Texture2D>("starterBackground");
             startScreenBackground = Content.Load<Texture2D>("startScreenBackground");
-            syrup = Content.Load<Texture2D>("syrup");
+            syrup = Content.Load<Texture2D>("Syrup");
             bear = Content.Load<Texture2D>("bearFront");
             apple = Content.Load<Texture2D>("redApple");
             shotgun = Content.Load<Texture2D>("shotgun");
