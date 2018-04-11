@@ -20,6 +20,7 @@ namespace LumberjackFantasy
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
 		private Graph pathGraph;						// Holds all locations for pathing
+        private PathManager pM = new PathManager();     // Manager that determines pathing for the bears. 
         public Camera camera;                           // Holds the cameras positions
 
 
