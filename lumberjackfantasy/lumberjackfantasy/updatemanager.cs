@@ -59,7 +59,7 @@ namespace LumberjackFantasy
 			Random rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 			healthCords = new Rectangle[3] {new Rectangle(40,40, 30, 30), new Rectangle(80,40,30,30), new Rectangle(120,40,30,30) };
-			hsCord = new Vector2(856, 40);
+			hsCord = new Vector2(777, 10);
 		}
 
 		// --------------------------------------------------------------------- Universal Updates and Draws for  Screen State ------------------------------------------------------
@@ -129,7 +129,7 @@ namespace LumberjackFantasy
 			}
 
 			//draws highscore
-			spriteBatch.DrawString(spriteFont, pCurrent.TotalScore.ToString(), hsCord, Color.Firebrick);
+			spriteBatch.DrawString(spriteFont, "Score\n" + pCurrent.TotalScore.ToString(), hsCord, Color.Firebrick);
 
 			//draws health
 			switch (pCurrent.Health)
@@ -158,11 +158,12 @@ namespace LumberjackFantasy
 		// ----------------------------------------------------------------------- Add / Remove Stuff from Lists ---------------------------------------------------------
 
 
-            public void NextLevel(Player p, List<Tree> trees, List<Bear> bears)
+            public void NextLevel(Player p, List<Tree> trees, List<Bear> bears, List<PickUp> pickUps)
         {
             pCurrent = p;
             treesCurrent = trees;
             bearsCurrent = bears;
+			pickUpsCurrent = pickUps;
         }
 		/// <summary>
 		/// Sets the neccessary fields for when the game is in Update Game Screen
