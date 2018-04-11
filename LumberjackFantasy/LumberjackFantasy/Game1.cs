@@ -37,6 +37,12 @@ namespace LumberjackFantasy
         Texture2D startButton;
 		Texture2D exitButton;
 		Texture2D camera;
+        Texture2D bear;
+        List<Texture2D> pickupsT;
+        Texture2D apple;
+        Texture2D shotgun;
+        Texture2D syrup;
+
 		int frameskip = 0;
         KeyboardState kb = new KeyboardState();
         KeyboardState previousKbstate = new KeyboardState();
@@ -89,6 +95,17 @@ namespace LumberjackFantasy
             //Starter Background Variables for Base Build
             starterBackground = Content.Load<Texture2D>("starterBackground");
             startScreenBackground = Content.Load<Texture2D>("startScreenBackground");
+            syrup = Content.Load<Texture2D>("syrup");
+            bear = Content.Load<Texture2D>("bearFront");
+            apple = Content.Load<Texture2D>("redApple");
+            shotgun = Content.Load<Texture2D>("shotgun");
+            // Load into pickups List
+            pickupsT = new List<Texture2D>();
+            pickupsT.Add(apple);
+            pickupsT.Add(syrup);
+            pickupsT.Add(shotgun);
+
+            
             testTiles = new List<Texture2D>();
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
             //rng = new Random();
@@ -107,7 +124,7 @@ namespace LumberjackFantasy
             // Makes a total of 5 levels
             for(int i = 0; i < 5; i++)
             {
-                worldTile.Add(new WorldTile(playerTexture, playerTexture, testTiles));
+                worldTile.Add(new WorldTile(playerTexture, bear, pickupsT));
             }
 
 
