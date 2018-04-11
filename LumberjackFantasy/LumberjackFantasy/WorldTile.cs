@@ -73,6 +73,9 @@ namespace LumberjackFantasy
 		{
 			rng = new Random();
 			tiles = new List<Tile>();
+			worldBears = new List<Bear>();
+			worldPickups = new List<PickUp>();
+			worldTrees = new List<Tree>();
 			upperLeft = rng.Next(0, 19);
 			upperRight = rng.Next(0, 19);
 			lowerLeft = rng.Next(0, 19);

@@ -47,6 +47,9 @@ namespace LumberjackFantasy
         //constructor -------------------------------------------------------------------
         public Tile(string toLoad, Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Random rng, Quadrent quadrent)
         {
+			trees = new List<Tree>();
+			bears = new List<Bear>();
+			collectibles = new List<PickUp>();
             pickupTextures = pickups;
             LoadTile(toLoad, treeTexture, bearTexture, rng, quadrent);
         }
