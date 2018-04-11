@@ -122,7 +122,7 @@ namespace LumberjackFantasy
                         graph[i, j].AdjacentLocations = new Location[] { null, null, null, graph[i + 1, j], graph[i + 1, j + 1], graph[i, j + 1], graph[i - 1, j + 1], graph[i - 1, j] };
                     }
                     // Bot Outside (No Corners)
-                    else if ((i > 0 && i < 111) && (j == 0))
+                    else if ((i > 0 && i < 111) && (j == 111))
                     {
                         graph[i, j].AdjacentLocations = new Location[] { graph[i - 1, j - 1], graph[i, j - 1], graph[i + 1, j - 1], graph[i + 1, j], null, null, null, graph[i - 1, j] };
                     }
