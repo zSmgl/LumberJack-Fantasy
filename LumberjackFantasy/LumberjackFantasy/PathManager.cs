@@ -43,13 +43,33 @@ namespace LumberjackFantasy
 		public void FindCurrent(Bear bearSpace) // Method which tells the pathing manager what tiles currently contain the bear
 		{
 			List<Location> occupiedSpaces = new List<Location>();
-
-
+			foreach (Location thisTile in upScreen.TilesToCheck)
+			{
+				if (bearSpace.ObjectCollisionBox.Intersects(thisTile.Pos))
+				{
+					occupiedSpaces.Add(thisTile);
+				}
+			}
+			if (occupiedSpaces != null)
+			{
+				start = occupiedSpaces[0];
+			}
 		}
 
-		public void FindPlayer(Player playerSpace) // Methood which tells the pathing manager where to find the player
+		public void FindTarget(Player playerSpace) // Methood which tells the pathing manager where to find the player
 		{
-
+			List<Location> occupiedSpaces = new List<Location>();
+			foreach (Location thisTile in upScreen.TilesToCheck)
+			{
+				if (playerSpace.ObjectCollisionBox.Intersects(thisTile.Pos))
+				{
+					occupiedSpaces.Add(thisTile);
+				}
+			}
+			if (occupiedSpaces != null)
+			{
+				target = occupiedSpaces[0];
+			}
 		}
         public void ResetForNewBear()
         {
@@ -135,7 +155,7 @@ namespace LumberjackFantasy
         /// Returns a list of potential locations
         /// </summary>
         /// <returns></returns>
-        static List<Location> GetWalkableAdjacentSquares()
+        public List<Location> GetWalkableAdjacentSquares()
         {
             var proposedLocations = new List<Location>();
             for (int i = 0; i < current.AdjacentLocations.Length; i++)
@@ -160,7 +180,7 @@ namespace LumberjackFantasy
         /// <param name="targetX"></param>
         /// <param name="targetY"></param>
         /// <returns></returns>
-        static int ComputeHScore()
+        public int ComputeHScore()
         {
             return Math.Abs(target.X - current.X) + Math.Abs(target.Y - current.Y);
         }

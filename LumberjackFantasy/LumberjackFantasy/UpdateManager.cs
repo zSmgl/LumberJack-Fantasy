@@ -19,8 +19,8 @@ namespace LumberjackFantasy
         private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
-		private Graph pathGraph;						// Holds all locations for pathing
-        private PathManager pM = new PathManager();     // Manager that determines pathing for the bears. 
+		private Graph pathGraph;                        // Holds all locations for pathing
+		private PathManager pM;						    // Manager that determines pathing for the bears. 
         public Camera camera;                           // Holds the cameras positions
 
 
@@ -53,6 +53,7 @@ namespace LumberjackFantasy
 		{
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
 			pathGraph = new Graph();
+			pM = new PathManager(pathGraph);
 			Random rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 		}

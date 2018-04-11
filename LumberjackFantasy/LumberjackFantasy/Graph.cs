@@ -27,6 +27,9 @@ namespace LumberjackFantasy
 
 		//properties
 		public Location[,] Tiles { get { return graph; } }
+		public List<Location> TilesToCheck { get { return tilesToCheck; } }
+
+		//constructor 
         public Graph()
         {
             SetGraph();
@@ -44,6 +47,10 @@ namespace LumberjackFantasy
 		public void ClearList() //Clears list of to Update Tiles
 		{
 			tilesToCheck.Clear();
+		}
+		public void UpdateTiles(Location toAdd) //Adds a tile to the list of to update tiles
+		{
+			tilesToCheck.Add(toAdd);
 		}
         public void SetGraph()
         {
@@ -65,6 +72,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Set's each Graph Location to it's adjecent Graph Location's Accordingly to be checked later on.
         /// </summary>
+		/// 
         public void SetGraphLocAdjacents()
         {
             // Sets each tiles proper adjacent tiles. 
