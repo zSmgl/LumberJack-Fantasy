@@ -46,150 +46,152 @@ namespace LumberjackFantasy
 
 			int adjustByX = 0;
 			int adjustByY = 0;
+			if (treeList != null)
+			{
+				foreach (Tree tree in treeList)
+				{
+					// Only Checks the trees in Colliding Box
+					if (tree.Colliding == true)
+					{
+						// Only Runs code 
+						if (objCurrent.ObjectCollisionBox.Intersects(tree.ObjectCollisionBox) == true)
+						{
 
-            foreach (Tree tree in treeList)
-            {
-                // Only Checks the trees in Colliding Box
-                if (tree.Colliding == true)
-                {
-                    // Only Runs code 
-                    if (objCurrent.ObjectCollisionBox.Intersects(tree.ObjectCollisionBox) == true)
-                    {
+							// Discovers Intersection Rectangle between object and the Tree
+							Rectangle intersectionRect = Rectangle.Intersect(objCurrent.ObjectCollisionBox, tree.ObjectCollisionBox);
 
-                        // Discovers Intersection Rectangle between object and the Tree
-                        Rectangle intersectionRect = Rectangle.Intersect(objCurrent.ObjectCollisionBox, tree.ObjectCollisionBox);
+							// Speed Y = units moved over Y space of time. Speed X = units moved over X space time. 
+							// tan(theta) = Units Y / Units X
 
-                        // Speed Y = units moved over Y space of time. Speed X = units moved over X space time. 
-                        // tan(theta) = Units Y / Units X
+							// This is in Radians
+							if (objCurrent.SpeedY != 0 && objCurrent.SpeedX != 0)
+							{
+								double tanAngle = Math.Atan((double)objCurrent.SpeedY / (double)objCurrent.SpeedX);
 
-                        // This is in Radians
-                        if (objCurrent.SpeedY != 0 && objCurrent.SpeedX != 0)
-                        {
-                            double tanAngle = Math.Atan((double)objCurrent.SpeedY / (double)objCurrent.SpeedX);
+								// Think proportion logic here. The Proportion of the object moving X over Y should be moved back out of the
+								// Tree based on the same angle. By finding the x2 or y2 proportion with the intersection Rect, then you can figure
+								// out the unknown proprtion. 
+								// Speed Y / Speed X = tan(theta) | tan(theta) == ( y2/ x2) | y2 or x2 is solved for based on the lesser value of intRect
+								// Solve for the unknown value is all this is doing. 
 
-                            // Think proportion logic here. The Proportion of the object moving X over Y should be moved back out of the
-                            // Tree based on the same angle. By finding the x2 or y2 proportion with the intersection Rect, then you can figure
-                            // out the unknown proprtion. 
-                            // Speed Y / Speed X = tan(theta) | tan(theta) == ( y2/ x2) | y2 or x2 is solved for based on the lesser value of intRect
-                            // Solve for the unknown value is all this is doing. 
+								// tan(theta) in radias = y/x
+								// x = y / tan
+								// y = x * tan
 
-                            // tan(theta) in radias = y/x
-                            // x = y / tan
-                            // y = x * tan
+								double x2 = 0;
+								double y2 = 0;
 
-                            double x2 = 0;
-                            double y2 = 0;
+								if (objCurrent.PosX < objOldPos.PosX && objCurrent.PosY < objOldPos.PosY)  // Obj Move Left and Up
+								{
+									if (intersectionRect.Height > intersectionRect.Width)
+									{
+										x2 = intersectionRect.Width;
+										y2 = x2 * tanAngle;
 
-                            if (objCurrent.PosX < objOldPos.PosX && objCurrent.PosY < objOldPos.PosY)  // Obj Move Left and Up
-                            {
-                                if (intersectionRect.Height > intersectionRect.Width)
-                                {
-                                    x2 = intersectionRect.Width;
-                                    y2 = x2 * tanAngle;
+									}
+									else if (intersectionRect.Width > intersectionRect.Height)
+									{
+										y2 = intersectionRect.Height;
+										x2 = y2 / tanAngle;
+									}
+									else
+									{
+										x2 = intersectionRect.Width;
+										y2 = intersectionRect.Height;
+									}
 
-                                }
-                                else if (intersectionRect.Width > intersectionRect.Height)
-                                {
-                                    y2 = intersectionRect.Height;
-                                    x2 = y2 / tanAngle;
-                                }
-                                else
-                                {
-                                    x2 = intersectionRect.Width;
-                                    y2 = intersectionRect.Height;
-                                }
+								}
+								else if (objCurrent.PosX > objOldPos.PosX && objCurrent.PosY < objOldPos.PosY) // Obj Move Right and Up
+								{
+									if (intersectionRect.Height > intersectionRect.Width) //
+									{
+										x2 = intersectionRect.Width * (-1);
+										y2 = x2 * tanAngle;
 
-                            }
-                            else if (objCurrent.PosX > objOldPos.PosX && objCurrent.PosY < objOldPos.PosY) // Obj Move Right and Up
-                            {
-                                if (intersectionRect.Height > intersectionRect.Width) //
-                                {
-                                    x2 = intersectionRect.Width * (-1);
-                                    y2 = x2 * tanAngle;
+									}
+									else if (intersectionRect.Width > intersectionRect.Height)
+									{
+										y2 = intersectionRect.Height;
+										x2 = y2 / tanAngle;
+									}
+									else
+									{
+										x2 = intersectionRect.Width * (-1);
+										y2 = intersectionRect.Height;
+									}
+								}
+								else if (objCurrent.PosX < objOldPos.PosX && objCurrent.PosY > objOldPos.PosY) // Obj Move Left and Down
+								{
+									if (intersectionRect.Height > intersectionRect.Width)
+									{
+										x2 = intersectionRect.Width;
+										y2 = x2 * tanAngle;
 
-                                }
-                                else if (intersectionRect.Width > intersectionRect.Height)
-                                {
-                                    y2 = intersectionRect.Height;
-                                    x2 = y2 / tanAngle;
-                                }
-                                else
-                                {
-                                    x2 = intersectionRect.Width * (-1);
-                                    y2 = intersectionRect.Height;
-                                }
-                            }
-                            else if (objCurrent.PosX < objOldPos.PosX && objCurrent.PosY > objOldPos.PosY) // Obj Move Left and Down
-                            {
-                                if (intersectionRect.Height > intersectionRect.Width)
-                                {
-                                    x2 = intersectionRect.Width;
-                                    y2 = x2 * tanAngle;
+									}
+									else if (intersectionRect.Width > intersectionRect.Height)
+									{
+										y2 = intersectionRect.Height * (-1);
+										x2 = y2 / tanAngle;
+									}
+									else
+									{
+										x2 = intersectionRect.Width;
+										y2 = intersectionRect.Height * (-1);
+									}
+								}
+								else if (objCurrent.PosX > objOldPos.PosX && objCurrent.PosY > objOldPos.PosY) // Obj Move Right and Down
+								{
+									if (intersectionRect.Height > intersectionRect.Width)
+									{
+										x2 = intersectionRect.Width * (-1);
+										y2 = x2 * tanAngle;
 
-                                }
-                                else if (intersectionRect.Width > intersectionRect.Height)
-                                {
-                                    y2 = intersectionRect.Height * (-1);
-                                    x2 = y2 / tanAngle;
-                                }
-                                else
-                                {
-                                    x2 = intersectionRect.Width;
-                                    y2 = intersectionRect.Height * (-1);
-                                }
-                            }
-                            else if (objCurrent.PosX > objOldPos.PosX && objCurrent.PosY > objOldPos.PosY) // Obj Move Right and Down
-                            {
-                                if (intersectionRect.Height > intersectionRect.Width)
-                                {
-                                    x2 = intersectionRect.Width * (-1);
-                                    y2 = x2 * tanAngle;
+									}
+									else if (intersectionRect.Width > intersectionRect.Height)
+									{
+										y2 = intersectionRect.Height * (-1);
+										x2 = y2 / tanAngle;
+									}
+									else
+									{
+										x2 = intersectionRect.Width * (-1);
+										y2 = intersectionRect.Height * (-1);
+									}
+								}
 
-                                }
-                                else if (intersectionRect.Width > intersectionRect.Height)
-                                {
-                                    y2 = intersectionRect.Height * (-1);
-                                    x2 = y2 / tanAngle;
-                                }
-                                else
-                                {
-                                    x2 = intersectionRect.Width * (-1);
-                                    y2 = intersectionRect.Height * (-1);
-                                }
-                            }
+								// Set up rounding function here to determine what does up and down. 
 
-                            // Set up rounding function here to determine what does up and down. 
+								adjustByX += (int)x2;
+								adjustByY += (int)y2;
+							}
 
-                            adjustByX += (int)x2;
-                            adjustByY += (int)y2;
-                        }
+							// Object moved into the right of the wall without changing along Y Axis
+							if (objCurrent.PosX > objOldPos.PosX && (objCurrent.PosY - objOldPos.PosY) == 0)
+							{
+								adjustByX -= intersectionRect.Width;
+							}
 
-                        // Object moved into the right of the wall without changing along Y Axis
-                        if (objCurrent.PosX > objOldPos.PosX && (objCurrent.PosY - objOldPos.PosY) == 0)
-                        {
-                            adjustByX -= intersectionRect.Width;
-                        }
+							// Object moved into the LEFT of the Wall without changing along the Y Axis
+							else if (objCurrent.PosX < objOldPos.PosX && (objCurrent.PosY - objOldPos.PosY) == 0)
+							{
+								adjustByX += intersectionRect.Width;
+							}
 
-                        // Object moved into the LEFT of the Wall without changing along the Y Axis
-                        else if (objCurrent.PosX < objOldPos.PosX && (objCurrent.PosY - objOldPos.PosY) == 0)
-                        {
-                            adjustByX += intersectionRect.Width;
-                        }
+							// Object moved into the top of the Wall without changing on the X axis
+							else if (objCurrent.PosY > objOldPos.PosY && (objCurrent.PosX - objOldPos.PosX) == 0)
+							{
+								adjustByY -= intersectionRect.Height;
+							}
 
-                        // Object moved into the top of the Wall without changing on the X axis
-                        else if (objCurrent.PosY > objOldPos.PosY && (objCurrent.PosX - objOldPos.PosX) == 0)
-                        {
-                            adjustByY -= intersectionRect.Height;
-                        }
-
-                        // Object moved into the bottom of the Wall without changing along the X axis
-                        else if (objCurrent.PosY < objOldPos.PosY && (objCurrent.PosX - objOldPos.PosX) == 0)
-                        {
-                            adjustByY += intersectionRect.Height;
-                        }
-                    }
-                }
-            }
+							// Object moved into the bottom of the Wall without changing along the X axis
+							else if (objCurrent.PosY < objOldPos.PosY && (objCurrent.PosX - objOldPos.PosX) == 0)
+							{
+								adjustByY += intersectionRect.Height;
+							}
+						}
+					}
+				}
+			}
 
 			int[] posValues = new int[] { adjustByX, adjustByY };
 

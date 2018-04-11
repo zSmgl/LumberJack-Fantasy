@@ -173,9 +173,8 @@ namespace LumberjackFantasy
 
 
                 case GameState.loadLevel:
-                    updateManager.BearsCurrent = worldTile[level].WorldBears;
-                    updateManager.TreesCurrent = worldTile[level].WorldTrees;
-                    updateManager.PickUpsCurrent = worldTile[level].WorldPickUps;
+
+					updateManager.NextLevel(player1, worldTile[level].WorldTrees, worldTile[level].WorldBears, worldTile[level].WorldPickUps);
                     level++;
                     gameState = GameState.gameLoop;
                     break;
@@ -241,7 +240,6 @@ namespace LumberjackFantasy
 					{
 						spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
 						updateManager.DrawGame(spriteBatch, spriteFont, heartFull, heartEmpty);
-						updateManager.camera.DrawCam(spriteBatch);
 						//updateManager.camera.DrawCam(spriteBatch);
 					}
 					break;

@@ -72,7 +72,7 @@ namespace LumberjackFantasy
 		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups)
 		{
 			rng = new Random();
-
+			tiles = new List<Tile>();
 			upperLeft = rng.Next(0, 19);
 			upperRight = rng.Next(0, 19);
 			lowerLeft = rng.Next(0, 19);
@@ -84,10 +84,10 @@ namespace LumberjackFantasy
 			lowerLeftRect = new Rectangle(0, 896, 896, 896);
 			lowerRightRect = new Rectangle(896, 896, 896, 896);
 
-			tiles.Add(LoadTiles("tile_" + upperLeft, treeTexture, bearTexture, pickups, rng, Quadrent.UL));
-			tiles.Add(LoadTiles("tile_" + upperRight, treeTexture, bearTexture, pickups, rng, Quadrent.UR));
-			tiles.Add(LoadTiles("tile_" + lowerLeft, treeTexture, bearTexture, pickups, rng, Quadrent.BL));
-			tiles.Add(LoadTiles("tile_" + lowerRight, treeTexture, bearTexture, pickups, rng, Quadrent.BR));
+			tiles.Add(LoadTiles("tile_" + upperLeft +".txt", treeTexture, bearTexture, pickups, rng, Quadrent.UL));
+			tiles.Add(LoadTiles("tile_" + upperRight + ".txt", treeTexture, bearTexture, pickups, rng, Quadrent.UR));
+			tiles.Add(LoadTiles("tile_" + lowerLeft + ".txt", treeTexture, bearTexture, pickups, rng, Quadrent.BL));
+			tiles.Add(LoadTiles("tile_" + lowerRight + ".txt", treeTexture, bearTexture, pickups, rng, Quadrent.BR));
 
             SetWorldTileLists();
 
@@ -97,18 +97,27 @@ namespace LumberjackFantasy
         {
             for(int i = 0; i < tiles.Count; i++)
             {
-                foreach (Bear b in tiles[i].BearsFromTile)
-                {
-                    worldBears.Add(b);
-                }
-                foreach (PickUp p in tiles[i].PickUpsFromTile)
-                {
-                    worldPickups.Add(p);
-                }
-                foreach (Tree t in tiles[i].TreesFromTile)
-                {
-                    worldTrees.Add(t);
-                }
+				if (tiles[i].BearsFromTile != null)
+				{
+					foreach (Bear b in tiles[i].BearsFromTile)
+					{
+						worldBears.Add(b);
+					}
+				}
+				if (tiles[i].PickUpsFromTile != null)
+				{
+					foreach (PickUp p in tiles[i].PickUpsFromTile)
+					{
+						worldPickups.Add(p);
+					}
+				}
+				if (tiles[i].TreesFromTile != null)
+				{
+					foreach (Tree t in tiles[i].TreesFromTile)
+					{
+						worldTrees.Add(t);
+					}
+				}
             }
         }
 

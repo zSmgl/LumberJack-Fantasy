@@ -34,6 +34,7 @@ namespace LumberjackFantasy
         {
             SetGraph();
             SetGraphLocAdjacents();
+			tilesToCheck = new List<Location>();
         }
 		public Graph(string unimportant)
 		{
@@ -46,7 +47,10 @@ namespace LumberjackFantasy
 
 		public void ClearList() //Clears list of to Update Tiles
 		{
-			tilesToCheck.Clear();
+			if (TilesToCheck != null)
+			{
+				tilesToCheck.Clear();
+			}
 		}
 		public void UpdateTiles(Location toAdd) //Adds a tile to the list of to update tiles
 		{

@@ -88,51 +88,52 @@ namespace LumberjackFantasy
                 string line = null;
                 while ((line = load.ReadLine()) != null)
                 {
-                    //if line lists object Type switch state to load that object
-                    if(line == "Trees:")
-                    {
-                        loadState = LoadState.tree;
-                    }
-                    else if (line == "PickUps:")
-                    {
-                        loadState = LoadState.pickUp;
-                    }
-                    else if (line == "Bears:")
-                    {
-                        loadState = LoadState.bear;
-                    }
+					//if line lists object Type switch state to load that object
+					if (line == "Trees:")
+					{
+						loadState = LoadState.tree;
+					}
 
-                    //if line has load information adds an object to list
-                    else
-                    {
-                        //split the line into information
-                        string[] split = line.Split(',');
+					else if (line == "PickUps:")
+					{
+						loadState = LoadState.pickUp;
+					}
+					else if (line == "Bears:")
+					{
+						loadState = LoadState.bear;
+					}
 
-                        switch (loadState)
-                        {
-                            case LoadState.tree:
+					//if line has load information adds an object to list
+					else
+					{
+						//split the line into information
+						string[] split = line.Split(',');
+
+						switch (loadState)
+						{
+							case LoadState.tree:
 
 
-                                trees.Add(new Tree
-                                    (
-                                      Int32.Parse(split[0])+XOffset,
-                                      Int32.Parse(split[1]) + YOffset,
-                                      Int32.Parse(split[2]),
-                                      Int32.Parse(split[3]),
-                                      treeTexture,
-                                      Int32.Parse(split[4]),
-                                      Int32.Parse(split[5])
+								trees.Add(new Tree
+									(
+									  Int32.Parse(split[0]) + XOffset,
+									  Int32.Parse(split[1]) + YOffset,
+									  Int32.Parse(split[2]),
+									  Int32.Parse(split[3]),
+									  treeTexture,
+									  Int32.Parse(split[4]),
+									  Int32.Parse(split[5])
 
-                                    )
-                                    );
-                                break;
+									)
+									);
+								break;
 
-                            case LoadState.bear:
+							case LoadState.bear:
 								bears.Add(new Bear
-                                    (
-                                    Int32.Parse(split[0]) + XOffset,
-                                    Int32.Parse(split[1]) + YOffset,
-                                    Int32.Parse(split[2]),
+									(
+									Int32.Parse(split[0]) + XOffset,
+									Int32.Parse(split[1]) + YOffset,
+									Int32.Parse(split[2]),
 									Int32.Parse(split[3]),
 									bearTexture,
 									Int32.Parse(split[4]),
@@ -141,25 +142,25 @@ namespace LumberjackFantasy
 									Int32.Parse(split[7]),
 									Int32.Parse(split[8]),
 									rng
-                                    )
-                                    );
-                                break;
+									)
+									);
+								break;
 
 							case LoadState.pickUp:
-                                collectibles.Add(new PickUp
-                                        (
-                                        Int32.Parse(split[1]) + XOffset,
-                                        Int32.Parse(split[2]) + YOffset,
-                                        Int32.Parse(split[3]),
-                                        Int32.Parse(split[4]),
-                                        pickupTextures[Int32.Parse(split[0])],
+								collectibles.Add(new PickUp
+										(
+										Int32.Parse(split[1]) + XOffset,
+										Int32.Parse(split[2]) + YOffset,
+										Int32.Parse(split[3]),
+										Int32.Parse(split[4]),
+										pickupTextures[Int32.Parse(split[0])],
 										Int32.Parse(split[0])
-                                        )
-                                        );
-                                
-                                break;
-                        }
-                    }
+										)
+										);
+
+								break;
+						}
+					}
 
                 }
             }

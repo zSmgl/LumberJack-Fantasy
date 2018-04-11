@@ -44,7 +44,7 @@ namespace LumberjackFantasy
             {
                 if (menu.StartHover)
                 {
-                    toReturn = GameState.gameLoop;
+                    toReturn = GameState.loadLevel;
                 }
                 else if (menu.ExitHover)
                 {

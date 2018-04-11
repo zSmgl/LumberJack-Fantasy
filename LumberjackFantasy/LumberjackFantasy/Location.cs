@@ -38,7 +38,7 @@ namespace LumberjackFantasy
         public int X { get { return pos.X; } }
         public int Y { get { return pos.Y; } }
         public bool Passable { get { return passable; } set { passable = value; } }
-        public bool ToUpdate { get { return ToUpdate; } set { ToUpdate = value; } }
+        public bool ToUpdate { get { return toUpdate; } set { toUpdate = value; } }
         public bool Locked { get { return locked; } set { locked = value; } }
 		public bool UpScreen { get { return upScreen; } set { upScreen = value; } }
         public Location Parent { get { return parent; } set { parent = value; } }
