@@ -24,7 +24,8 @@ namespace LumberjackFantasy
         private int tileConstant = 16;                   // The width and Height of a tile
         private Location[,] graph = new Location[112,112]; // Creates a 112 by 112 Array of Location Data Types
 
-
+		//properties
+		public Location[,] Tiles { get { return graph; } }
         public Graph()
         {
             SetGraph();

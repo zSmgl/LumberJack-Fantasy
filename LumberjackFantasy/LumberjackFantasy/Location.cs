@@ -22,6 +22,7 @@ namespace LumberjackFantasy
         private bool passable;          // Holds whether or not the node can be passed
         private bool toUpdate;          // Holds whether or not the node needs to be checked based on Camera's UpScreen Rectangle
         private bool locked;            // Tells the updateManager whether adjacent nodes need to be checked
+		private bool upScreen;			// Tells updateManager if the tiles need to be checked for pathing
         private Rectangle pos;  // Holds the position of the node
         private Location[] adjacentLocations;	// Array of nodes, beginning at top left to clockwise in naming.
         private Location parent;            // The node of which this one should be pathed too. 
@@ -34,11 +35,12 @@ namespace LumberjackFantasy
         public int F { get { return fScore; } set { fScore = value; } }
         public int G { get { return gScore; } set { gScore = value; } }
         public int H { get { return hScore; } set { hScore = value; } }
-        public int X { get { return pos.X; } set { pos = new Rectangle(value, pos.Y, pos.Width, pos.Height); } }
-        public int Y { get { return pos.Y; } set { pos = new Rectangle(pos.X, value, pos.Width, pos.Height); } }
+        public int X { get { return pos.X; } }
+        public int Y { get { return pos.Y; } }
         public bool Passable { get { return passable; } set { passable = value; } }
         public bool ToUpdate { get { return ToUpdate; } set { ToUpdate = value; } }
         public bool Locked { get { return locked; } set { locked = value; } }
+		public bool UpScreen { get { return upScreen; } set { upScreen = value; } }
         public Location Parent { get { return parent; } set { parent = value; } }
         public Rectangle Pos { get { return pos; } }
         public Location[] AdjacentLocations { get { return adjacentLocations; } set { adjacentLocations = value; } }
