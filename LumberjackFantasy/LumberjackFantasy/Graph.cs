@@ -45,10 +45,6 @@ namespace LumberjackFantasy
 		{
 			tilesToCheck.Clear();
 		}
-		public void UpdateTiles(Location toAdd) //Adds location to list of to update tiles
-		{
-			tilesToCheck.Add(toAdd);
-		}
         public void SetGraph()
         {
             int x = 0;

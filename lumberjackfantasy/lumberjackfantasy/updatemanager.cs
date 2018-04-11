@@ -1065,11 +1065,14 @@ namespace LumberjackFantasy
 					}
 				}
 			}
+			pathGraph.ClearList();
 			foreach(Location thisTile in pathGraph.Tiles)
 			{
+				
 				if (camera.IsUpdating(thisTile.Pos))
 				{
 					thisTile.ToUpdate = true;
+					pathGraph.UpdateTiles(thisTile);
 				}
 				else
 				{

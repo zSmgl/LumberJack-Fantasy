@@ -28,9 +28,9 @@ namespace LumberjackFantasy
 		//properties --------------------------------------------------------------------
 
 		//constructor -------------------------------------------------------------------
-        public PathManager()
+        public PathManager(Graph toSet)
         {
-			upScreen = new Graph("nullGraph");
+			upScreen = toSet;
         }
 
         //methods -----------------------------------------------------------------------
@@ -39,6 +39,7 @@ namespace LumberjackFantasy
         /// Reset fields for a new bear.
         /// </summary>
 		
+
 		public void FindCurrent(Bear bearSpace) // Method which tells the pathing manager what tiles currently contain the bear
 		{
 			List<Location> occupiedSpaces = new List<Location>();
