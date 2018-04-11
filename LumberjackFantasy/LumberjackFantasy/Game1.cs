@@ -103,6 +103,7 @@ namespace LumberjackFantasy
             shotgun = Content.Load<Texture2D>("shotgun");
             // Load into pickups List
             pickupsT = new List<Texture2D>();
+			pickupsT.Add(apple); //empty texture space occupied by random texture
             pickupsT.Add(apple);
             pickupsT.Add(syrup);
             pickupsT.Add(shotgun);
