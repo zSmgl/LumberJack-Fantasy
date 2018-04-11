@@ -36,6 +36,8 @@ namespace LumberjackFantasy
         Texture2D starterBackground;
         Texture2D startButton;
 		Texture2D exitButton;
+		Texture2D heartFull;
+		Texture2D heartEmpty;
 		Texture2D camera;
         Texture2D bear;
         List<Texture2D> pickupsT;
@@ -115,6 +117,8 @@ namespace LumberjackFantasy
 			exitButton = Content.Load<Texture2D>("exitButton");
 			camera = Content.Load<Texture2D>("cam");
 
+			heartEmpty = Content.Load <Texture2D>("hEmpty");
+			heartFull = Content.Load<Texture2D>("hFull");
             // Managers 
 
 			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera);
@@ -235,7 +239,7 @@ namespace LumberjackFantasy
 					else
 					{
 						spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
-						updateManager.DrawGame(spriteBatch);
+						updateManager.DrawGame(spriteBatch, spriteFont, heartFull, heartEmpty);
 						updateManager.camera.DrawCam(spriteBatch);
 						//updateManager.camera.DrawCam(spriteBatch);
 					}
