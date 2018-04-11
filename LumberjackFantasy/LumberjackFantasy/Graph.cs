@@ -64,9 +64,9 @@ namespace LumberjackFantasy
                 {
                     Location current = graph[i, j];
 
-                    // Left Column i = 0, Right Column i = 63, 
-                    // Top Row j = 0, Bot Row j = 63;
-                    // Corners = TL 0,0 | TR 63, 0 | BL 0,63 | BL 63,63
+                    // Left Column i = 0, Right Column i = 111, 
+                    // Top Row j = 0, Bot Row j = 111;
+                    // Corners = TL 0,0 | TR 111, 0 | BL 0,111 | BL 111,111
 
                     // Top Left Corner Logic
                     if (i == 0 && j == 0)
@@ -74,37 +74,37 @@ namespace LumberjackFantasy
                         graph[i, j].AdjacentLocations = new Location[] { null, null, null, graph[i + 1, j], graph[i + 1, j + 1], graph[i, j + 1], null, null };
                     }
                     // Top Right Corner
-                    else if (i == 63 && j == 0)
+                    else if (i == 111 && j == 0)
                     {
                         graph[i, j].AdjacentLocations = new Location[] { null, null, null, null, null, graph[i, j + 1], graph[i - 1, j + 1], graph[i - 1, j] };
                     }
                     // Bottom Left Corner
-                    else if (i == 0 && j == 63)
+                    else if (i == 0 && j == 111)
                     {
                         graph[i, j].AdjacentLocations = new Location[] { null, graph[i, j - 1], graph[i + 1, j - 1], graph[i + 1, j], null, null, null, null };
                     }
                     // Bottom Right Corner
-                    else if (i == 63 && j == 63)
+                    else if (i == 111 && j == 111)
                     {
                         graph[i, j].AdjacentLocations = new Location[] { graph[i - 1, j - 1], graph[i, j - 1], null, null, null, null, null, graph[i - 1, j] };
                     }
                     // Left Outside (No Corners)
-                    else if (i == 0 && (j > 0 && j < 63))
+                    else if (i == 0 && (j > 0 && j < 111))
                     {
                         graph[i, j].AdjacentLocations = new Location[] { null, graph[i, j - 1], graph[i + 1, j - 1], graph[i + 1, j], graph[i + 1, j + 1], graph[i, j + 1], null, null };
                     }
                     // Right Outside (No Corners)
-                    else if (i == 63 && (j > 0 && j < 63))
+                    else if (i == 111 && (j > 0 && j < 111))
                     {
                         graph[i, j].AdjacentLocations = new Location[] { graph[i - 1, j - 1], graph[i, j - 1], null, null, null, graph[i, j + 1], graph[i - 1, j + 1], graph[i - 1, j] };
                     }
                     // Top Outside (No Corners)
-                    else if ((i > 0 && i < 63) && (j == 0))
+                    else if ((i > 0 && i < 111) && (j == 0))
                     {
                         graph[i, j].AdjacentLocations = new Location[] { null, null, null, graph[i + 1, j], graph[i + 1, j + 1], graph[i, j + 1], graph[i - 1, j + 1], graph[i - 1, j] };
                     }
                     // Bot Outside (No Corners)
-                    else if ((i > 0 && i < 63) && (j == 0))
+                    else if ((i > 0 && i < 111) && (j == 0))
                     {
                         graph[i, j].AdjacentLocations = new Location[] { graph[i - 1, j - 1], graph[i, j - 1], graph[i + 1, j - 1], graph[i + 1, j], null, null, null, graph[i - 1, j] };
                     }
