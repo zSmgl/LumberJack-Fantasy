@@ -21,8 +21,10 @@ namespace LumberjackFantasy
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
 		private Graph pathGraph;                        // Holds all locations for pathing
 		private PathManager pM;                         // Manager that determines pathing for the bears. 
-		private Rectangle[] healthCords;                  // Holds location of the helath hearts.
+		private Rectangle[] healthCords;                // Holds location of the helath hearts.
 		private Vector2 hsCord;							// Holds location of the high score
+        private OpenSeasonManager oS;                   // Manages what occurs if the open season state occurs
+        private bool runOpenSeason;                     // Determines if OpenSeason needs to be set, updated, or return to default state
         public Camera camera;                           // Holds the cameras positions
 
 
@@ -60,6 +62,8 @@ namespace LumberjackFantasy
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 			healthCords = new Rectangle[3] {new Rectangle(40,40, 30, 30), new Rectangle(80,40,30,30), new Rectangle(120,40,30,30) };
 			hsCord = new Vector2(777, 10);
+            oS = new OpenSeasonManager();
+            runOpenSeason = false;
 		}
 
 		// --------------------------------------------------------------------- Universal Updates and Draws for  Screen State ------------------------------------------------------
@@ -70,11 +74,20 @@ namespace LumberjackFantasy
 		public GameState UpdateGameScreen()
 		{
 			GameState toreturn = GameState.gameLoop;
+
+           
+            if(runOpenSeason == true)
+            {
+                DetermineOpenSeason();
+            }
+
 			UpdatePlayer();
             UpdateCamera();
             UpdateAllBears();
 			//UpdateAttacks();
 			RemoveStuffFromStoredLists();
+
+
 			if (pCurrent.Health <= 0)
 			{
 				toreturn = GameState.gameOver;
@@ -255,7 +268,7 @@ namespace LumberjackFantasy
 
             // 4 - Update PickUps
 
-            //UpdatePickUps();
+            UpdatePickUps();
 
             // temp code to check if player has pressing keys to move. runs after updating all the movement.
             // Do not delete this. may use in future.  FAIL-SAFE TO DEACCELERATION STUFF
@@ -647,35 +660,35 @@ namespace LumberjackFantasy
 		/// <param name="i">The # of bear from it's list</param>
 		public void UpdateBearAnimation(Bear oldPos, int i)
 		{
-			if (oldPos.PosX > pCurrent.PosX && oldPos.PosY == pCurrent.PosY)         // Bear walking in Left Direction
+			if (oldPos.PosX > bearsCurrent[i].PosX && oldPos.PosY == bearsCurrent[i].PosY)         // Bear walking in Left Direction
 			{
 				bearsCurrent[i].BearDirection = BearDirection.left;
 			}
-			else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY == pCurrent.PosY)   // Bear walking in the Right Direction
+			else if (oldPos.PosX < bearsCurrent[i].PosX && oldPos.PosY == bearsCurrent[i].PosY)   // Bear walking in the Right Direction
 			{
 				bearsCurrent[i].BearDirection = BearDirection.right;
 			}
-			else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear walking Up Direction
+			else if (oldPos.PosX == bearsCurrent[i].PosX && oldPos.PosY > bearsCurrent[i].PosY)   // Bear walking Up Direction
 			{
 				bearsCurrent[i].BearDirection = BearDirection.up;
 			}
-			else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear walking Down Direction
+			else if (oldPos.PosX == bearsCurrent[i].PosX && oldPos.PosY < bearsCurrent[i].PosY)   // Bear walking Down Direction
 			{
 				bearsCurrent[i].BearDirection = BearDirection.down;
 			}
-			else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear is walking Up-Left
+			else if (oldPos.PosX > bearsCurrent[i].PosX && oldPos.PosY > bearsCurrent[i].PosY)   // Bear is walking Up-Left
 			{
 				bearsCurrent[i].BearDirection = BearDirection.upleft;
 			}
-			else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Bear is walking Up-Right
+			else if (oldPos.PosX < bearsCurrent[i].PosX && oldPos.PosY > bearsCurrent[i].PosY)   // Bear is walking Up-Right
 			{
 				bearsCurrent[i].BearDirection = BearDirection.upright;
 			}
-			else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear is walking Down-Left
+			else if (oldPos.PosX > bearsCurrent[i].PosX && oldPos.PosY < bearsCurrent[i].PosY)   // Bear is walking Down-Left
 			{
 				bearsCurrent[i].BearDirection = BearDirection.downleft;
 			}
-			else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Bear is walking Down-Right
+			else if (oldPos.PosX < bearsCurrent[i].PosX && oldPos.PosY < bearsCurrent[i].PosY)   // Bear is walking Down-Right
 			{
 				bearsCurrent[i].BearDirection = BearDirection.downright;
 			}
@@ -817,23 +830,64 @@ namespace LumberjackFantasy
 								break;
 
 							case PickupType.Shotgun:
-								//put open season code here
+                            CheckOpenSeason();
 								break;
 						}
 					}
 				}
 			
 		}
+        public void CheckOpenSeason()
+        {
+            // If open season was not occuring before, it now needs to be set.
+            if (runOpenSeason == false)
+            {
+                runOpenSeason = true;
+                SetOpenSeason();
+            }
+            // If open season was occuring before, then just the timer needs to be reset since all the values have already been modified. 
+            else 
+            {
+                oS.ResetOpenSeasonTimer();
+            }
+        }
 
+        public void SetOpenSeason()
+        {
+            bearsCurrent = oS.SetOpenSeasonList(bearsCurrent);
+            pCurrent = oS.SetOpenSeasonPlayer(pCurrent);
+            camera = oS.OpenSeasonCamera(camera);
+        }
 
-		// ---------------------------------------------------------------------------- Attack Stuff ----------------------------------------------------------------------
+        public void DetermineOpenSeason()
+        {
+            if (oS.OpenSeason() == true)
+            {
+                oS.UpdateTimer(gameTime);
+            }
+            else
+            {
+                EndOpenSeason();
 
-		/// Pass in 1 or 0 to determine bear or player
-		/// If bear, pass a 0 for weapon type
-		/// If plr, pass 0 for axe and 1 for shotgun
-		/// </summary>
-		/// <param name=""></param>
-		public void UpdateAttacks(AttackVariation attackType, Point location, PlayerDirection playerDirection)
+            }
+        }
+
+        public void EndOpenSeason()
+        {
+            bearsCurrent = oS.EndOpenSeasonList(bearsCurrent);
+            pCurrent = oS.EndOpenSeasonPlayer(pCurrent);
+            camera = oS.OpenSeasonCamera(camera);
+            runOpenSeason = false;
+        }
+
+        // ---------------------------------------------------------------------------- Attack Stuff ----------------------------------------------------------------------
+
+        /// Pass in 1 or 0 to determine bear or player
+        /// If bear, pass a 0 for weapon type
+        /// If plr, pass 0 for axe and 1 for shotgun
+        /// </summary>
+        /// <param name=""></param>
+        public void UpdateAttacks(AttackVariation attackType, Point location, PlayerDirection playerDirection)
 		{
 			Rectangle attackArea;
 
