@@ -17,7 +17,7 @@ namespace LumberjackFantasy
         private int bearMax;
 
         //Constructor -------------------------------------------
-        private OpenSeasonManager()
+        public OpenSeasonManager()
         {
             openSeason = true;
             openSeasonTimer = 60;
@@ -50,7 +50,7 @@ namespace LumberjackFantasy
             return pcurrent;
         }
 
-        public List<Bear> EndOpenSeasonList(List<Bear> bearscurrent, Player pcurrent)
+        public List<Bear> EndOpenSeasonList(List<Bear> bearscurrent)
         {
             for (int i = 0; i < bearscurrent.Count; i++)
             {
@@ -81,6 +81,11 @@ namespace LumberjackFantasy
                 openSeason = false;
             }
             return openSeason;
+        }
+
+        public void ResetOpenSeasonTimer()
+        {
+            openSeasonTimer = 60;
         }
 
         
