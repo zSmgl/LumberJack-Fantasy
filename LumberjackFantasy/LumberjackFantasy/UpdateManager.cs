@@ -84,6 +84,7 @@ namespace LumberjackFantasy
 			UpdatePlayer();
             UpdateCamera();
             UpdateAllBears();
+            UpdaterPlayerBearInteraction();
 			//UpdateAttacks();
 			RemoveStuffFromStoredLists();
 
@@ -170,15 +171,31 @@ namespace LumberjackFantasy
 
 		// ----------------------------------------------------------------------- Add / Remove Stuff from Lists ---------------------------------------------------------
 
-
-            public void NextLevel(Player p, List<Tree> trees, List<Bear> bears, List<PickUp> pickUps)
+        /// <summary>
+        /// Set's update Manager up for the next level
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="trees"></param>
+        /// <param name="bears"></param>
+        /// <param name="pickUps"></param>
+        public void NextLevel(Player p, List<Tree> trees, List<Bear> bears, List<PickUp> pickUps)
         {
             pCurrent = p;
             treesCurrent = trees;
             bearsCurrent = bears;
 			pickUpsCurrent = pickUps;
+
+            // Handles if Game was in Open Season when Level Ended
+
+            if (runOpenSeason == true)
+            {
+                oS.ResetOpenSeasonTimer();
+                EndOpenSeason();
+            }
+
         }
-		/// <summary>
+		
+        /// <summary>
 		/// Sets the neccessary fields for when the game is in Update Game Screen
 		/// </summary>
 		/// <param name="p"> the player</param>
@@ -192,6 +209,10 @@ namespace LumberjackFantasy
             this.gameTime = gameTime;
 		}
 
+        /// <summary>
+        /// Returns the Player
+        /// </summary>
+        /// <returns></returns>
         public Player ReturnPlayer()
         {
             return pCurrent;
@@ -725,6 +746,11 @@ namespace LumberjackFantasy
 
 		}
 
+        /// <summary>
+        /// Determines the new State of Movement and how the bear should Move.
+        /// </summary>
+        /// <param name="oldBear"></param>
+        /// <param name="i"></param>
 		public void BearMovement(Bear oldBear, int i)
 		{
 
@@ -807,7 +833,43 @@ namespace LumberjackFantasy
 
 		}
 
-		// ------------------------------------------------------------------- Pickup Specific Methods ---------------------------------------------------------------------
+        // ----------------------------------------------------------------- PLAYER / BEAR INTERACTION --------------------------------------------------------------------
+
+        /// <summary>
+        /// Determines if Player should lose health if running into a bear or if player is invincible. 
+        /// </summary>
+        public void UpdaterPlayerBearInteraction()
+        {
+            if (bearsCurrent != null && pCurrent.Invincible == false)
+            {
+                foreach (Bear b in bearsCurrent)
+                {
+                    if(b.UPScreen == true)
+                    {
+                        if (b.ObjectCollisionBox.Intersects(pCurrent.ObjectCollisionBox))
+                        {
+                            pCurrent.ResetTimer();
+                            pCurrent.Invincible = true;
+                            pCurrent.Health--;
+                            break;                        }
+                    }
+                }
+            }
+
+            if(pCurrent.Invincible == true)
+            {
+                pCurrent.InvincibleTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (pCurrent.InvincibleTimer <= 0)
+                {
+                    pCurrent.Invincible = false;
+                }
+            }
+
+
+        }
+        
+        // -------------------------------------------------------------Pickup Specific Methods && O.S. ---------------------------------------------------------------------
 
 		/// <summary>
 		/// Loops through list of all pickups, if pickup collides checks type and handles code
@@ -837,6 +899,10 @@ namespace LumberjackFantasy
 				}
 			
 		}
+
+        /// <summary>
+        /// Determines if the game State should be set or not.
+        /// </summary>
         public void CheckOpenSeason()
         {
             // If open season was not occuring before, it now needs to be set.
@@ -852,6 +918,9 @@ namespace LumberjackFantasy
             }
         }
 
+        /// <summary>
+        /// Set's Open Season values where needed
+        /// </summary>
         public void SetOpenSeason()
         {
             bearsCurrent = oS.SetOpenSeasonList(bearsCurrent);
@@ -859,6 +928,9 @@ namespace LumberjackFantasy
             camera = oS.OpenSeasonCamera(camera);
         }
 
+        /// <summary>
+        /// Determines if Open Season should end or not.
+        /// </summary>
         public void DetermineOpenSeason()
         {
             if (oS.OpenSeason() == true)
@@ -872,6 +944,9 @@ namespace LumberjackFantasy
             }
         }
 
+        /// <summary>
+        /// Resets Values of Open Season
+        /// </summary>
         public void EndOpenSeason()
         {
             bearsCurrent = oS.EndOpenSeasonList(bearsCurrent);
@@ -1067,7 +1142,12 @@ namespace LumberjackFantasy
 				}
 			}
 		}
+        
         // -------------------------------------------------------------------------- Camera Logic ---------------------------------------------------------------------------
+
+        /// <summary>
+        /// Updates the Camera and all variables in the Camera
+        /// </summary>
         public void UpdateCamera()
         {
             camera.UpdatePosition(pCurrent.ObjectCollisionBox);

@@ -76,9 +76,10 @@ namespace LumberjackFantasy
         public bool OpenSeason()
         {
             openSeason = true;
-            if(openSeasonTimer == openSeasonLimiter)
+            if(openSeasonTimer <= openSeasonLimiter)
             {
                 openSeason = false;
+                ResetOpenSeasonTimer();
             }
             return openSeason;
         }

@@ -40,6 +40,8 @@ namespace LumberjackFantasy
         private int totalScore;         // Player's total score
         // ------------------------------
 
+        private double invincibleTimer; // Invincibility Timer
+        private bool invincibile;        // determines if player is invincible or not.
         
         private int visionStandard;     // the number that determines how far out the playerVision should be from the actual objectTexture.
         private Rectangle playerVision; // The Players field of vision that helps the bears determine what kind of State they are in.
@@ -77,6 +79,18 @@ namespace LumberjackFantasy
             set { playerDirection = value; }
         }
 
+        public bool Invincible
+        {
+            get { return invincibile; }
+            set { invincibile = value; }
+        }
+
+        public double InvincibleTimer
+        {
+            get { return invincibleTimer; }
+            set { invincibleTimer = value; }
+        }
+
         public int VisionStandard
         {
             get { return visionStandard; }
@@ -92,6 +106,8 @@ namespace LumberjackFantasy
             playerVision = new Rectangle(x - visionStandard, y - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
             onScreen = true;
             uPScreen = true;
+            invincibleTimer = 3;
+            invincibile = false;
         }
 
         //old Player
@@ -100,9 +116,18 @@ namespace LumberjackFantasy
         {
             this.visionStandard = p.visionStandard;
             playerVision = new Rectangle(p.PosX - visionStandard, p.PosY - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
+
+            invincibleTimer = p.invincibleTimer;
+            invincibile = p.invincibile;
         }
 
-
+        /// <summary>
+        /// Reset's Invincibility
+        /// </summary>
+        public void ResetTimer()
+        {
+            invincibleTimer = 3;
+        }
 
         /// <summary>
         /// Draw's the player to the screen. Can also draw the visionBox if set correctly

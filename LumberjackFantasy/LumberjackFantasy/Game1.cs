@@ -182,10 +182,7 @@ namespace LumberjackFantasy
                 case GameState.gameLoop:
                     //does bears and movement etc
                     updateManager.UpdateGameScreenFields(kb, previousKbstate, gameTime);
-                    updateManager.UpdatePlayer();
-					updateManager.UpdateCamera();
-                    updateManager.UpdateAllBears();
-                    updateManager.RemoveStuffFromStoredLists();
+                    gameState = updateManager.UpdateGameScreen();
 
 					/* line of code that
 					 gameState = updateManager.UpdateGameScreen
