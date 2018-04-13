@@ -58,7 +58,7 @@ namespace LumberjackFantasy
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
 			pathGraph = new Graph();
 			pM = new PathManager(pathGraph);
-			Random rng = new Random();
+			rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 			healthCords = new Rectangle[3] {new Rectangle(40,40, 30, 30), new Rectangle(80,40,30,30), new Rectangle(120,40,30,30) };
 			hsCord = new Vector2(777, 10);
@@ -521,7 +521,7 @@ namespace LumberjackFantasy
 
                     // 0 - Saves bears UnAdjusted State to be compared to through-out UpdateAllBears
 
-                    Bear oldPos = bearsCurrent[i];
+                    Bear oldPos = new Bear(bearsCurrent[i]);
 
                     // 1 - Compares Old Bear to New Bear and Decideds New Bear's Type of Movement. - Increments Timers for Statationary / Looking Accordingly.
 
@@ -706,7 +706,7 @@ namespace LumberjackFantasy
 			// Formula: Adds speed to the velocity manager thats is BETWEEN! -1/2 of it's potential max speed and 1/2 is potential max speed
 			// in both the x and y direction of the bear, randomly creating movement for the bear that could be super fast, or super slow.
 			// Tip: Changing the (/2) is the easiest way to adjust this value.
-			velocityManager.AddVelocity(rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2, rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 2);
+			velocityManager.AddVelocity(rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 6, rng.Next(-1 * bearsCurrent[i].MaxSpeed, bearsCurrent[i].MaxSpeed) / 6);
 
 			// Sets the new Sprite Location & Player Field of Vision
 			bearsCurrent[i].ObjectCollisionBox = velocityManager.UpdatePosition(bearsCurrent[i].ObjectCollisionBox);
@@ -745,19 +745,19 @@ namespace LumberjackFantasy
 				}
 
 
-				if (oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter == bearsCurrent[i].WhenToMoveLimiter)
+				if (oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter >= bearsCurrent[i].WhenToMoveLimiter)
 				{
 					bearsCurrent[i].BearState = BearState.looking;
 				}
-				else if (oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter != bearsCurrent[i].WhenToMoveLimiter)
+				else if (oldBear.BearState == BearState.stationary && bearsCurrent[i].WhenToMoveCounter < bearsCurrent[i].WhenToMoveLimiter)
 				{
 					bearsCurrent[i].BearState = BearState.stationary;
 				}
-				else if (oldBear.BearState == BearState.looking && bearsCurrent[i].TimeOfMovementCounter == bearsCurrent[i].TimeOfMovementCounter)
+				else if (oldBear.BearState == BearState.looking && bearsCurrent[i].TimeOfMovementCounter >= bearsCurrent[i].TimeOfMovementLimiter)
 				{
 					bearsCurrent[i].BearState = BearState.stationary;
 				}
-				else if (oldBear.BearState == BearState.looking && bearsCurrent[i].TimeOfMovementCounter != bearsCurrent[i].TimeOfMovementCounter)
+				else if (oldBear.BearState == BearState.looking && bearsCurrent[i].TimeOfMovementCounter < bearsCurrent[i].TimeOfMovementLimiter)
 				{
 					bearsCurrent[i].BearState = BearState.looking;
 				}

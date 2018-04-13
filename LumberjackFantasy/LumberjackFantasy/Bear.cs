@@ -149,8 +149,8 @@ namespace LumberjackFantasy
             bearVision = new Rectangle(x - visionStandard, y - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
 
             this.fieldOfAttackStandard = fieldOfAttackStandard;
-            fieldOfAttack = new Rectangle(x - fieldOfAttackStandard, y - visionStandard, 
-                width + (visionStandard * 2), height + (visionStandard * 2));
+            fieldOfAttack = new Rectangle(x - fieldOfAttackStandard, y - fieldOfAttackStandard, 
+                width + (fieldOfAttackStandard * 2), height + (fieldOfAttackStandard * 2));
 
             whenToMoveCounter = 0;        
             whenToMoveMax = 15 + 1;                                     // Bears Wait a max of 15 Seconds before making a movement;
@@ -159,12 +159,38 @@ namespace LumberjackFantasy
 
 
             timeOfMovementCounter = 0;
-            timeOfMovementMax = 5 + 1;                                                 // Bear can move a max 5 seconds in a direction;
+            timeOfMovementMax = 3;                                                     // Bear can move a max 5 seconds in a direction;
             timeOfMovementMin = 1;                                                     // Bear can move a min 1 seconds in a direction;
             timeOfMovementLimiter = rng.Next(timeOfMovementMin, timeOfMovementMax);    // Can Move in a random direction for 1-5 seconds
 
 
         }
+
+        public Bear(Bear b)
+            : base(b.PosX, b.PosY, b.width, b.height, b.objectTexture, b.MaxHealth, b.MaxSpeed)
+        {
+            whenToMoveCounter = b.whenToMoveCounter;
+            whenToMoveMax = b.whenToMoveMax;
+            whenToMoveMin = b.whenToMoveMin;
+            whenToMoveLimiter = b.whenToMoveLimiter;
+
+            timeOfMovementCounter = b.timeOfMovementCounter;
+            timeOfMovementLimiter = b.timeOfMovementLimiter;
+            timeOfMovementMax = b.timeOfMovementMax;
+            timeOfMovementMin = b.timeOfMovementMin;
+
+            scoreValue = b.scoreValue;
+
+            visionStandard = b.visionStandard;
+            bearVision = new Rectangle(b.PosX - visionStandard, b.PosY - visionStandard, b.width + (visionStandard * 2), b.height + (visionStandard * 2));
+
+            fieldOfAttackStandard = b.fieldOfAttackStandard;
+            fieldOfAttack = new Rectangle(b.PosX - fieldOfAttackStandard, b.PosY - fieldOfAttackStandard,
+                width + (fieldOfAttackStandard * 2), height + (fieldOfAttackStandard * 2));
+
+            bearState = b.bearState;            // Enum that checks the state of the bear [Looking / Following / Dead]
+            bearDirection = b.bearDirection;    // Enum that checks the direction of the bear 
+    }
 
 
         /// <summary>
