@@ -185,6 +185,7 @@ namespace LumberjackFantasy
                     updateManager.UpdatePlayer();
 					updateManager.UpdateCamera();
                     updateManager.UpdateAllBears();
+                    updateManager.RemoveStuffFromStoredLists();
 
 					/* line of code that
 					 gameState = updateManager.UpdateGameScreen

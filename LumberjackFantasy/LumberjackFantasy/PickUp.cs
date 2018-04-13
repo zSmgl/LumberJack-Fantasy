@@ -29,8 +29,6 @@ namespace LumberjackFantasy
     class PickUp : GameObject
     {
         // Fields
-
-        private int scoreValue; // The score the item is worth 
 		private PickupType pickuptype;
 		private ItemState itemState;
 
@@ -43,7 +41,7 @@ namespace LumberjackFantasy
 
 		public ItemState ItemState
 		{
-			get { return ItemState; }
+			get { return itemState; }
 			set { itemState = value; }
 		}
 
