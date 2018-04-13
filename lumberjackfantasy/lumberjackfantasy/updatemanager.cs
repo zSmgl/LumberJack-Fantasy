@@ -826,7 +826,7 @@ namespace LumberjackFantasy
 								break;
 
 							case PickupType.MapleSyrup:
-								pCurrent.LevelScore += 45;
+								pCurrent.TotalScore += 45;
 								break;
 
 							case PickupType.Shotgun:
