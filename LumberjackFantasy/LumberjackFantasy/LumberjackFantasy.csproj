@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AnimationManager.cs" />
     <Compile Include="Bear.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CollisionManager.cs" />
