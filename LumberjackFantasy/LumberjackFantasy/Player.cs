@@ -106,6 +106,7 @@ namespace LumberjackFantasy
             playerVision = new Rectangle(x - visionStandard, y - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
             onScreen = true;
             uPScreen = true;
+            attackStuff = false;
             invincibleTimer = 3;
             invincibile = false;
         }
@@ -119,6 +120,8 @@ namespace LumberjackFantasy
 
             invincibleTimer = p.invincibleTimer;
             invincibile = p.invincibile;
+
+            attackStuff = p.attackStuff;
         }
 
         /// <summary>
