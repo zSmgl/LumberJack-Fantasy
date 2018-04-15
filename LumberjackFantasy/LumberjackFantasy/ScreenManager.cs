@@ -23,9 +23,9 @@ namespace LumberjackFantasy
 		private KeyboardState currentKB;				// Holds the current keyboard State
 		private KeyboardState previousKB;				// Holds the previous keyboard state (if needed)
 
-        public ScreenManager(Texture2D start, Texture2D exit, Texture2D ssBG)
+        public ScreenManager(Texture2D startButton, Texture2D exitButton, Texture2D ssBG, Texture2D overlay, Texture2D continueButton, Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D continueHover, Texture2D quitHover)
         {
-            LoadMenus(start, exit, ssBG);
+            LoadMenus(startButton, exitButton, ssBG, overlay, continueButton, quit, startHover, exitHover, continueHover, quitHover);
         }
 
         // ------------------------------------------------------------------- UPDATE METHODS FOR GAMESCREENS ---------------------------------------------------------------------
@@ -63,15 +63,29 @@ namespace LumberjackFantasy
 			currentMS = Mouse.GetState();
 			currentKB = Keyboard.GetState();
 			GameState toReturn = GameState.pause;
+			menu.ReturnHover = IsHovering(menu.MenuReturnButton);
+			menu.QuitHover = IsHovering(menu.QuitButton);
 
-			if (currentKB.IsKeyDown(Keys.P)) //put in or here for if button is clicked
+			if (currentKB.IsKeyDown(Keys.C))
 			{
 				toReturn = GameState.gameLoop;
 			}
 
-			if (currentKB.IsKeyDown(Keys.E)) //change to when button is pushed
+			if (currentKB.IsKeyDown(Keys.Q))
 			{
 				toReturn = GameState.start;
+			}
+
+			if (currentMS.LeftButton == ButtonState.Pressed)
+			{
+				if (menu.ReturnHover)
+				{
+					toReturn = GameState.gameLoop;
+				}
+				else if (menu.QuitHover)
+				{
+					toReturn = GameState.start;
+				}
 			}
 
 			previousKB = currentKB;
@@ -106,9 +120,9 @@ namespace LumberjackFantasy
         }
         // ---------------------------------------------------------------------------- Menus Logic -----------------------------------------------------------------------
         //loadmenu command to create the screenmanager to be called in loadContent, method is in its test state as not all textures are created
-        public void LoadMenus(Texture2D startButton, Texture2D exitButton, Texture2D ssBG)
+        public void LoadMenus(Texture2D startButton, Texture2D exitButton, Texture2D ssBG, Texture2D overlay, Texture2D continueButton, Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D continueHover, Texture2D quitHover)
         {
-            menu = new ScreenPosManager(startButton, exitButton, ssBG);
+            menu = new ScreenPosManager(startButton, exitButton, ssBG, overlay, continueButton, quit, startHover, exitHover, continueHover, quitHover);
         }
 
         //command to see if a button is being hovered over
@@ -148,6 +162,27 @@ namespace LumberjackFantasy
                 menu.DrawExitButton(spriteBatch);
             }
         }
+		public void DrawPauseScreen(SpriteBatch spriteBatch)
+		{
+			menu.DrawPause(spriteBatch);
+			if(menu.ReturnHover)
+			{
+				menu.DrawMenuReturnHover(spriteBatch);
+
+			}
+			else
+			{
+				menu.DrawMenuReturnButton(spriteBatch);
+			}
+			if (menu.QuitHover)
+			{
+				menu.DrawQuitHover(spriteBatch);
+			}
+			else
+			{
+				menu.DrawQuitButton(spriteBatch);
+			}
+		}
 
     }
 }

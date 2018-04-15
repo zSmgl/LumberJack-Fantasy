@@ -36,9 +36,16 @@ namespace LumberjackFantasy
         Texture2D starterBackground;
         Texture2D startButton;
 		Texture2D exitButton;
+		Texture2D continueButton;
+		Texture2D quitButton;
+		Texture2D startH;
+		Texture2D exitH;
+		Texture2D continueH;
+		Texture2D quitH;
 		Texture2D heartFull;
 		Texture2D heartEmpty;
 		Texture2D camera;
+		Texture2D pauseBackground;
         Texture2D bear;
         List<Texture2D> pickupsT;
         Texture2D apple;
@@ -116,6 +123,13 @@ namespace LumberjackFantasy
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
+			continueButton = Content.Load<Texture2D>("continueButton");
+			quitButton = Content.Load<Texture2D>("quitButton");
+			startH = Content.Load<Texture2D>("startH");
+			exitH = Content.Load<Texture2D>("exitH");
+			continueH = Content.Load<Texture2D>("continueH");
+			quitH = Content.Load<Texture2D>("quitH");
+			pauseBackground = Content.Load<Texture2D>("overlay");
 			camera = Content.Load<Texture2D>("cam");
 
 			heartEmpty = Content.Load <Texture2D>("hEmpty");
@@ -123,8 +137,8 @@ namespace LumberjackFantasy
             // Managers 
 
 			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera);
-            screenManager = new ScreenManager(startButton, exitButton, startScreenBackground);
-            player1 = new Player(448, 448, 96, 96, playerTexture, 3, 17, 10);
+            screenManager = new ScreenManager(startButton, exitButton, startScreenBackground, pauseBackground, continueButton, quitButton, startH, exitH, continueH, quitH);
+            player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10);
 
             // Makes a total of 5 levels
             for(int i = 0; i < 5; i++)
@@ -227,6 +241,9 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.pause:
+					spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+					updateManager.DrawGame(spriteBatch, spriteFont, heartFull, heartEmpty);
+					screenManager.DrawPauseScreen(spriteBatch);
 					break;
 
 				case GameState.gameLoop:

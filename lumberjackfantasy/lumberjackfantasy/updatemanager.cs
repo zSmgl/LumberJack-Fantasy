@@ -60,7 +60,7 @@ namespace LumberjackFantasy
 			pM = new PathManager(pathGraph);
 			rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
-			healthCords = new Rectangle[3] {new Rectangle(40,40, 30, 30), new Rectangle(80,40,30,30), new Rectangle(120,40,30,30) };
+			healthCords = new Rectangle[5] {new Rectangle(178,16, 23, 18), new Rectangle(156,16,23,18), new Rectangle(133, 16,23,18), new Rectangle(111, 16, 23, 18), new Rectangle(88, 16, 23, 18) };
 			hsCord = new Vector2(777, 10);
             oS = new OpenSeasonManager();
             runOpenSeason = false;
@@ -149,22 +149,44 @@ namespace LumberjackFantasy
 			//draws health
 			switch (pCurrent.Health)
 			{
-				case 3:
+				case 5:
 					spriteBatch.Draw(heartFull, healthCords[0], Color.White);
 					spriteBatch.Draw(heartFull, healthCords[1], Color.White);
 					spriteBatch.Draw(heartFull, healthCords[2], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[3], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
+					break;
+
+				case 4:
+					spriteBatch.Draw(heartEmpty, healthCords[0], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[1], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[2], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[3], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
+					break;
+
+				case 3:
+					spriteBatch.Draw(heartEmpty, healthCords[0], Color.White);
+					spriteBatch.Draw(heartEmpty, healthCords[1], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[2], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[3], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
 					break;
 
 				case 2:
-					spriteBatch.Draw(heartFull, healthCords[0], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[1], Color.White);
+					spriteBatch.Draw(heartEmpty, healthCords[0], Color.White);
+					spriteBatch.Draw(heartEmpty, healthCords[1], Color.White);
 					spriteBatch.Draw(heartEmpty, healthCords[2], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[3], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
 					break;
 
 				case 1:
-					spriteBatch.Draw(heartFull, healthCords[0], Color.White);
+					spriteBatch.Draw(heartEmpty, healthCords[0], Color.White);
 					spriteBatch.Draw(heartEmpty, healthCords[1], Color.White);
 					spriteBatch.Draw(heartEmpty, healthCords[2], Color.White);
+					spriteBatch.Draw(heartEmpty, healthCords[3], Color.White);
+					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
 					break;
 			}
 

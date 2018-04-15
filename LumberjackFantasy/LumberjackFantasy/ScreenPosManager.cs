@@ -21,124 +21,89 @@ namespace LumberjackFantasy
         private Texture2D title;
         private Texture2D startButton;
         private Texture2D exitButton;
-        private Texture2D health;
-        private Texture2D hiScore;
+		private Texture2D quitButton;
+		private Texture2D menuReturnButton;
+		private Texture2D startButtonH;
+		private Texture2D exitButtonH;
+		private Texture2D quitButtonH;
+		private Texture2D menuReturnButtonH;
+		private Texture2D health; //fossil code
+        private Texture2D hiScore; //fossil code
         //private Texture2D gameScreenBackground;
-        private Texture2D playerPortrait;
-        private Texture2D gameOverScreenBackground;
-        private Texture2D menuReturnButton;
+        private Texture2D playerPortrait; //fossil code
+        private Texture2D gameOverScreenBackground; //fossil code
+
         private Texture2D pauseScreenBackground;
 
         //Vector Fields
-        private Vector2 ssBGPos;
-        private Vector2 tPos;
-        private Vector2 sbPos;
-        private Vector2 ebPos;
-        private Vector2 hPos;
-        private Vector2 hsPos;
+        private Vector2 ssBGPos; //start screen bg position
+        private Vector2 tPos; //title position
+        private Vector2 sbPos; //start button position
+        private Vector2 ebPos; //exit button position
+        private Vector2 hPos; //fossil code
+        private Vector2 hsPos; //fossil code
         //private Vector2 gsBGPos;
-        private Vector2 ppPos;
-        private Vector2 gosBGPos;
-        private Vector2 mrbPos;
-        private Vector2 psBGPos;
+        private Vector2 ppPos; //fossil code
+        private Vector2 gosBGPos; //fossil code
+        private Vector2 mrbPos; //return button position
+        private Vector2 psBGPos; //pause screen background position
+		private Vector2 quitButtonPos; //pause screen quick button position
 
 		//bool fields for whether the button is currently hovered
 		private bool startHover;
 		private bool exitHover;
 		private bool returnHover;
+		private bool quitHover;
 
         //property rectangles for button hitboxes
         public Rectangle StartButton { get { return new Rectangle((int)sbPos.X, (int)sbPos.Y, startButton.Width, startButton.Height); } }
         public Rectangle ExitButton { get { return new Rectangle((int)ebPos.X, (int)ebPos.Y, exitButton.Width, exitButton.Height); } }
         public Rectangle MenuReturnButton { get { return new Rectangle((int)mrbPos.X, (int)mrbPos.Y, menuReturnButton.Width, menuReturnButton.Height); } }
+		public Rectangle QuitButton { get { return new Rectangle((int)quitButtonPos.X, (int)quitButtonPos.Y, quitButton.Width, quitButton.Height); } }
 
 		//properties to get and set being hovered
 		public bool StartHover { get { return startHover; } set { startHover = value; } }
 		public bool ExitHover { get { return exitHover; } set { exitHover = value; } }
+		public bool ReturnHover { get { return returnHover; } set { returnHover = value; } }
+		public bool QuitHover { get { return quitHover; } set { quitHover = value; } }
+		//Constructor
 
-        //Constructor
-
-        public ScreenPosManager(Texture2D start, Texture2D exit, Texture2D ssBG)
+		public ScreenPosManager(Texture2D start, Texture2D exit, Texture2D ssBG, Texture2D pauseBG, Texture2D returnButton, Texture2D quit,
+			Texture2D startH , Texture2D exitH, Texture2D returnH, Texture2D quitH)
         {
             startScreenBackground = ssBG;
             ssBGPos.X = 0;
             ssBGPos.Y = 0;
 
             startButton = start;
+			startButtonH = startH;
 			startHover = false;
             sbPos.X = 287;
             sbPos.Y = 300;
 
             exitButton = exit;
+			exitButtonH = exitH;
             ebPos.X = 287;
             ebPos.Y = 600;
 			exitHover = false;
+
+			pauseScreenBackground = pauseBG;
+			psBGPos.X = 0;
+			psBGPos.Y = 0;
+
+			menuReturnButton = returnButton;
+			menuReturnButtonH = returnH;
+			mrbPos.X = 243;
+			mrbPos.Y = 318;
+
+			quitButton = quit;
+			quitButtonH = quitH;
+			quitButtonPos.X = 243;
+			quitButtonPos.Y = 468;
         }
         //REMINDER: Game screen background removed from parameters
 		
-        public ScreenPosManager(Texture2D ssBG, Texture2D t, Texture2D sb, Texture2D eb,
-            Texture2D h, Texture2D hs, Texture2D pp,
-            Texture2D gosBG, Texture2D mrb, Texture2D psBG)
-        {
-            //Vector Positions are filler for now
-            //Start Screen
-            startScreenBackground = ssBG;
-            ssBGPos.X = 0;
-            ssBGPos.Y = 0;
-
-            //Title
-            title = t;
-            tPos.X = 0;
-            tPos.Y = 0;
-
-            //Start Button
-            startButton = sb;
-            sbPos.X = 0;
-            sbPos.Y = 0;
-			startHover = false;
-
-            //Exit Button
-            exitButton = eb;
-            ebPos.X = 0;
-            ebPos.Y = 0;
-			exitHover = false;
-
-            //Health
-            health = h;
-            hPos.X = 0;
-            hPos.Y = 0;
-
-            //HiScore
-            hiScore = hs;
-            hsPos.X = 0;
-            hsPos.Y = 0;
-
-            //Game Screen Background
-            //gameScreenBackground = gsBG;
-            //gsBGPos.X = 0;
-            //gsBGPos.Y = 0;
-
-            //Player Portrait
-            playerPortrait = pp;
-            ppPos.X = 0;
-            ppPos.Y = 0;
-
-            //Game Over Screen Background
-            gameOverScreenBackground = gosBG;
-            gosBGPos.X = 0;
-            gosBGPos.Y = 0;
-
-            //Menu Return Button
-            menuReturnButton = mrb;
-            mrbPos.X = 0;
-            mrbPos.Y = 0;
-
-            //Pause Screen Background
-            pauseScreenBackground = psBG;
-            psBGPos.X = 0;
-            psBGPos.Y = 0;
-        }
-		
+      
         //Methods
         public void DrawStartScreen(SpriteBatch spriteBatch)
         {
@@ -158,7 +123,7 @@ namespace LumberjackFantasy
         public void DrawStartHover(SpriteBatch spriteBatch)
         {
             //draws hovered over start button
-            spriteBatch.Draw(startButton, sbPos, Color.Firebrick);
+            spriteBatch.Draw(startButtonH, sbPos, Color.White);
         }
 
         public void DrawExitButton(SpriteBatch spriteBatch)
@@ -170,7 +135,7 @@ namespace LumberjackFantasy
         public void DrawExitHover(SpriteBatch spriteBatch)
         {
             //draws the hovered over exit button
-            spriteBatch.Draw(exitButton, ebPos, Color.Firebrick);
+            spriteBatch.Draw(exitButtonH, ebPos, Color.White);
         }
 
         public void DrawMenuReturnButton(SpriteBatch spriteBatch)
@@ -182,16 +147,32 @@ namespace LumberjackFantasy
         public void DrawMenuReturnHover(SpriteBatch spriteBatch)
         {
             //draws the hovered over menu return button
-            spriteBatch.Draw(menuReturnButton, mrbPos, Color.Firebrick);
+            spriteBatch.Draw(menuReturnButtonH, mrbPos, Color.White);
         }
 
-        public void DrawGameScreenElements(SpriteBatch spriteBatch)
+		public void DrawQuitButton(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(quitButton, quitButtonPos, Color.White);
+		}
+
+		public void DrawQuitHover(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(quitButtonH, quitButtonPos, Color.White);
+		}
+
+		public void DrawPause(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(pauseScreenBackground, psBGPos, Color.White);
+		}
+
+        /*public void DrawGameScreenElements(SpriteBatch spriteBatch)
         {
             //Draws the in-game screen UI elements
             spriteBatch.Draw(health, hPos, Color.White);
             spriteBatch.Draw(hiScore, hsPos, Color.White);
             spriteBatch.Draw(playerPortrait, ppPos, Color.White);
         }
+		
 
         public void DrawGameOverScreen(SpriteBatch spriteBatch)
         {
@@ -207,5 +188,6 @@ namespace LumberjackFantasy
             spriteBatch.Draw(pauseScreenBackground, psBGPos, Color.White);
             
         }
+		*/
     }
 }
