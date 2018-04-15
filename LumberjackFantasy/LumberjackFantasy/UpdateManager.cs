@@ -402,6 +402,11 @@ namespace LumberjackFantasy
 			pCurrent.SpeedY = velocityManager.VelocityY;
 		}
 
+
+        public void UpdatePlayerAttack(Player oldPos)
+        {
+
+        }
 		/// <summary>
 		/// Updates the Player's direction enum to be properly set. Used to determine what animation of Player should be drawn
 		/// </summary>
