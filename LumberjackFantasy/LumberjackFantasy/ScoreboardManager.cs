@@ -97,6 +97,11 @@ namespace LumberjackFantasy
 
 				}
 				previousKB = currentKB;
+				if (toReturn == GameState.start)
+			{
+				scoreNames.Clear();
+				highScores.Clear();
+			}
 				return toReturn;
 			}
 
@@ -138,7 +143,8 @@ namespace LumberjackFantasy
 						scoreNames[6] + ": " + highScores[6] + "\n" +
 						scoreNames[7] + ": " + highScores[7] + "\n" +
 						scoreNames[8] + ": " + highScores[8] + "\n" +
-						scoreNames[9] + ": " + highScores[9] + "\n", topLeftThird, Color.Firebrick);
+						scoreNames[9] + ": " + highScores[9] + "\n" +
+						"Press Enter To Continue", topLeftThird, Color.Firebrick);
 					break;
 			}
 			}
