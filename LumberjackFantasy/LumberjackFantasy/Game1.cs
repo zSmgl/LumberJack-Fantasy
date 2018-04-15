@@ -181,21 +181,23 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.pause:
+					this.IsMouseVisible = true;
 					gameState = screenManager.UpdatePauseScreen();
 					//show menu
 					break;
 
 
                 case GameState.loadLevel:
-
+					this.IsMouseVisible = false;
 					updateManager.NextLevel(player1, worldTile[level].WorldTrees, worldTile[level].WorldBears, worldTile[level].WorldPickUps);
                     level++;
                     gameState = GameState.gameLoop;
                     break;
 
                 case GameState.gameLoop:
-                    //does bears and movement etc
-                    updateManager.UpdateGameScreenFields(kb, previousKbstate, gameTime);
+					this.IsMouseVisible = false;
+					//does bears and movement etc
+					updateManager.UpdateGameScreenFields(kb, previousKbstate, gameTime);
                     gameState = updateManager.UpdateGameScreen();
 
 					/* line of code that
@@ -208,6 +210,7 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameOver:
+					this.IsMouseVisible = false;
 					//display score
 
 					gameState = scoreBoardManager.UpdateGameover();
