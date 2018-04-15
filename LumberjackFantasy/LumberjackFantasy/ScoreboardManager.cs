@@ -30,6 +30,8 @@ namespace LumberjackFantasy
 		private KeyboardState previousKB;   // Holds the last frames keeyboard state
 		bool[] prevPressed;                 // Holda the true false state for each key
 		Vector2[] characterLocations;
+		Vector2 centerLeft;
+		Vector2 topLeftThird;
 
 		//properties --------------------------------------------------------------------
 		public int CurrentScore { get { return currentScore; } set { currentScore = value; } }
@@ -40,7 +42,9 @@ namespace LumberjackFantasy
 			highScores = new List<int>();
 			scoreState = ScoreState.loading;
 			prevPressed = new bool[256];
-			characterLocations = new Vector2[] { new Vector2(298, 448), new Vector2(298, 448), new Vector2(448, 448) };
+			characterLocations = new Vector2[] { new Vector2(198, 448), new Vector2(298, 448), new Vector2(398, 448) };
+			centerLeft = new Vector2(338, 448);
+			topLeftThird = new Vector2(298, 128);
 			playerName = "--";
 		}
 			//methods -----------------------------------------------------------------------
@@ -101,15 +105,40 @@ namespace LumberjackFantasy
 			switch (scoreState)
 			{
 				case ScoreState.loading:
+					spriteBatch.DrawString(spriteFont, "Loading High Scores...", centerLeft, Color.Firebrick);
 					break;
 
 				case ScoreState.getName:
+					spriteBatch.DrawString(spriteFont, "Input Name", topLeftThird, Color.Firebrick);
+					if (playerName.Length >= 1)
+					{
+						spriteBatch.DrawString(spriteFont, playerName[0].ToString(), characterLocations[0], Color.Firebrick);
+					}
+					if (playerName.Length >= 2)
+					{
+						spriteBatch.DrawString(spriteFont, playerName[1].ToString(), characterLocations[1], Color.Firebrick);
+					}
+					if (playerName.Length >= 3)
+					{
+						spriteBatch.DrawString(spriteFont, playerName[2].ToString(), characterLocations[2], Color.Firebrick);
+					}
 					break;
 
 				case ScoreState.saving:
+					spriteBatch.DrawString(spriteFont, "Saving High Scores...", centerLeft, Color.Firebrick);
 					break;
 
 				case ScoreState.viewScore:
+					spriteBatch.DrawString(spriteFont, "Top Scores: \n" + scoreNames[0] + ": " + highScores[0]+ "\n" +
+						scoreNames[1] + ": " + highScores[1] + "\n" +
+						scoreNames[2] + ": " + highScores[2] + "\n" +
+						scoreNames[3] + ": " + highScores[3] + "\n" +
+						scoreNames[4] + ": " + highScores[4] + "\n" +
+						scoreNames[5] + ": " + highScores[5] + "\n" +
+						scoreNames[6] + ": " + highScores[6] + "\n" +
+						scoreNames[7] + ": " + highScores[7] + "\n" +
+						scoreNames[8] + ": " + highScores[8] + "\n" +
+						scoreNames[9] + ": " + highScores[9] + "\n", topLeftThird, Color.Firebrick);
 					break;
 			}
 			}

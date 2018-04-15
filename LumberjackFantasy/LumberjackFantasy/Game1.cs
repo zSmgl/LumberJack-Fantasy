@@ -260,6 +260,7 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameOver:
+					spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
 					scoreBoardManager.DrawGameOver(spriteBatch, spriteFont);
 					break;
 			}
