@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace LumberjackFantasy
 {
+	
 	class AnimationManager
 	{
 		// Variables
@@ -16,14 +17,17 @@ namespace LumberjackFantasy
 		private double fps;
 		private double secondsPerFrame;
 		private double timeCounter;
+		private SpriteBatch spriteBatch;
 
 		// Constructor
-		public AnimationManager()
+		public AnimationManager(SpriteBatch sprite)
 		{
 			currentFrame = 1;
-			fps = 60.0;
+			fps = 30.0;
 			secondsPerFrame = 1.0f / fps;
 			timeCounter = 0;
+			spriteBatch = sprite;
+			
 		}
 
 		// Methods
@@ -43,16 +47,16 @@ namespace LumberjackFantasy
 				// Remove one "frame" worth of time
 				timeCounter -= secondsPerFrame;
 			}
-
+			 
 		}
 
-	/*	
-		private void Animate(SpriteBatch spriteBatch, Texture2D aniTexture, )
+
+		private void Animate(SpriteBatch spriteBatch, Texture2D aniTexture, Vector2 vector2, int widthOfSingleSprite, SpriteEffects flip)
 		{
 			spriteBatch.Draw(
 				aniTexture,
-			    ,
-				new Rectangle(),
+				vector2,
+				new Rectangle(widthOfSingleSprite * currentFrame, 0, widthOfSingleSprite, aniTexture.Height),
 				Color.White,
 				0.0f,
 				Vector2.Zero,
@@ -60,27 +64,5 @@ namespace LumberjackFantasy
 				flip,
 				0.0f);
 		}
-
-		/// <summary>
-		/// Draws mario standing still
-		/// </summary>
-		/// <param name="flip">Should he be flipped horizontally?</param>
-		private void DrawMarioStanding(SpriteEffects flip)
-		{
-			spriteBatch.Draw(
-				marioTexture,
-				marioPosition,
-				new Rectangle(0, 0, widthOfSingleSprite, marioTexture.Height),
-				Color.White,
-				0.0f,
-				Vector2.Zero,
-				1.0f,
-				flip,
-				0.0f);
-		}*/
-
-
-
-
 	}
 }
