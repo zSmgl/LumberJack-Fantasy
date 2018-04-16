@@ -78,12 +78,12 @@ namespace LumberjackFantasy
             startButton = start;
 			startButtonH = startH;
 			startHover = false;
-            sbPos.X = 287;
+            sbPos.X = 243;
             sbPos.Y = 300;
 
             exitButton = exit;
 			exitButtonH = exitH;
-            ebPos.X = 287;
+            ebPos.X = 243;
             ebPos.Y = 600;
 			exitHover = false;
 
