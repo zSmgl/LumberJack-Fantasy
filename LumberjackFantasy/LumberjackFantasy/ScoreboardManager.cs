@@ -55,6 +55,8 @@ namespace LumberjackFantasy
 			switch (scoreState)
 			{
 				case ScoreState.loading:
+					scoreNames.Clear();
+					highScores.Clear();
 					LoadScores();
 					index = TestHighScore();
 					if (index == 10)
@@ -97,11 +99,6 @@ namespace LumberjackFantasy
 
 				}
 				previousKB = currentKB;
-				if (toReturn == GameState.start)
-			{
-				scoreNames.Clear();
-				highScores.Clear();
-			}
 				return toReturn;
 			}
 
