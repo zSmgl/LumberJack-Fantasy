@@ -29,6 +29,7 @@ namespace LumberjackFantasy
         private int currentLevel;                       // Holds the current Level (-1) (Makes sense in context of # of trees to cut this level)
         private int gameMaxLevel;                           // Max Amount of Levels in the game (use in # trees to cut this level logic)
         private int totalTreesToCut;                    // Total Trees to cut this level! (Determined based on Trees Currnent, current level, and max level!)
+        private List<Texture2D> uiTextures;             // Holds the textures used in the UI
 
 
 		VelocityManager velocityManager = new VelocityManager(0);
@@ -56,8 +57,9 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>
-		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera, int gameMaxLevel)
+		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera, int gameMaxLevel, List<Texture2D> textures)
 		{
+            uiTextures = textures;
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
 			pathGraph = new Graph();
 			pM = new PathManager(pathGraph);
@@ -117,7 +119,7 @@ namespace LumberjackFantasy
 		///<summary>
 		///Draw method called during the gameLoop
 		///</summary>
-		public void DrawGame(SpriteBatch spriteBatch, SpriteFont spriteFont, Texture2D heartFull, Texture2D heartEmpty)
+		public void DrawGame(SpriteBatch spriteBatch, SpriteFont spriteFont)
 		{
 			//draw player
 			pCurrent.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
@@ -159,47 +161,50 @@ namespace LumberjackFantasy
 			//draws highscore
 			spriteBatch.DrawString(spriteFont, "Score\n" + pCurrent.TotalScore.ToString(), hsCord, Color.Firebrick);
 
+            //draws HP
+            spriteBatch.Draw(uiTextures[5], new Vector2(45, 18), Color.White);
+
 			//draws health
 			switch (pCurrent.Health)
 			{
 				case 5:
-					spriteBatch.Draw(heartFull, healthCords[0], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[1], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[2], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[3], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[0], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[1], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[2], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[3], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[4], Color.White);
 					break;
 
 				case 4:
-					spriteBatch.Draw(heartEmpty, healthCords[0], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[1], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[2], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[3], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[0], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[1], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[2], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[3], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[4], Color.White);
 					break;
 
 				case 3:
-					spriteBatch.Draw(heartEmpty, healthCords[0], Color.White);
-					spriteBatch.Draw(heartEmpty, healthCords[1], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[2], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[3], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[0], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[1], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[2], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[3], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[4], Color.White);
 					break;
 
 				case 2:
-					spriteBatch.Draw(heartEmpty, healthCords[0], Color.White);
-					spriteBatch.Draw(heartEmpty, healthCords[1], Color.White);
-					spriteBatch.Draw(heartEmpty, healthCords[2], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[3], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[0], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[1], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[2], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[3], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[4], Color.White);
 					break;
 
 				case 1:
-					spriteBatch.Draw(heartEmpty, healthCords[0], Color.White);
-					spriteBatch.Draw(heartEmpty, healthCords[1], Color.White);
-					spriteBatch.Draw(heartEmpty, healthCords[2], Color.White);
-					spriteBatch.Draw(heartEmpty, healthCords[3], Color.White);
-					spriteBatch.Draw(heartFull, healthCords[4], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[0], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[1], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[2], Color.White);
+					spriteBatch.Draw(uiTextures[0], healthCords[3], Color.White);
+					spriteBatch.Draw(uiTextures[1], healthCords[4], Color.White);
 					break;
 			}
 
