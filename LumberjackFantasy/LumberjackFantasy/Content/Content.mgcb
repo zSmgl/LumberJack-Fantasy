@@ -368,3 +368,10 @@
 /processorParam:TextureFormat=Color
 /build:shotgun.png
 
+#begin scores.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:scores.spritefont
+
