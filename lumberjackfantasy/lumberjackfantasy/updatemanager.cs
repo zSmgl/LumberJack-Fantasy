@@ -310,11 +310,15 @@ namespace LumberjackFantasy
 
 			UpdatePlayerPosition(oldPos);
 
-			// 3 - Updates the Animations of the player
+            // 3 - Determines if the Player should now Attack
 
-			UpdatePlayerAnimations(oldPos);
+            UpdatePlayerAttack(oldPos);
 
-            // 4 - Update PickUps
+			// 4 - Updates the Animations of the player
+
+			UpdatePlayerMovementAnimation(oldPos);
+
+            // 5 - Update PickUps
 
             UpdatePickUps();
 
@@ -402,16 +406,53 @@ namespace LumberjackFantasy
 			pCurrent.SpeedY = velocityManager.VelocityY;
 		}
 
-
         public void UpdatePlayerAttack(Player oldPos)
         {
-
+            // If the player was not attacking previously or was attacking but hit the 4th frame
+            if ((oldPos.IsAttacking == true && oldPos.AttackAnimationF >= 4) || oldPos.IsAttacking == false)
+            {
+                // Will Attack Up
+                if (currentKB.IsKeyDown(Keys.I) == true)
+                {
+                    pCurrent.IsAttacking = true; // Player is now attacking!
+                    pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame
+                    pCurrent.AttackDirection = PlayerAttackDirection.up; // Gives a direction of the hitbox and animation
+                }
+                // Will Attack Up
+                else if (currentKB.IsKeyDown(Keys.J) == true)
+                {
+                    pCurrent.IsAttacking = true; // Player is now attacking!
+                    pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame
+                    pCurrent.AttackDirection = PlayerAttackDirection.right; // Gives a direction of the hit box and animation
+                }
+                // Will Attack Down
+                else if (currentKB.IsKeyDown(Keys.K) == true)
+                {
+                    pCurrent.IsAttacking = true; // Player is now attacking!
+                    pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame 
+                    pCurrent.AttackDirection = PlayerAttackDirection.left; // Gives a direction of the hit box and animation
+                }
+                // Will AttackRight
+                else if (currentKB.IsKeyDown(Keys.L) == true)
+                {
+                    pCurrent.IsAttacking = true; // Player is now attacking!
+                    pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame 
+                    pCurrent.AttackDirection = PlayerAttackDirection.right; // Gives a direction of the hit box and animation
+                }
+            }
+            // If player was attacking and is now [what would be] a frame over his animation for attacking,
+            // make him no longer attacking and he is now back to frame 1
+            else if (oldPos.AttackAnimationF == 9 && oldPos.IsAttacking == true)
+            {
+                pCurrent.IsAttacking = false; // Player is no longer Attacking!!!!
+            }
         }
+
 		/// <summary>
 		/// Updates the Player's direction enum to be properly set. Used to determine what animation of Player should be drawn
 		/// </summary>
 		/// <param name="oldPos">The old player</param>
-		public void UpdatePlayerAnimations(Player oldPos)
+		public void UpdatePlayerMovementAnimation(Player oldPos)
 		{
 
 			// Updates Direction Animation 
@@ -864,6 +905,16 @@ namespace LumberjackFantasy
 				FollowPlayer();
 			}
 
+            // If the bear is off the screen but still in a looking state and moving, then it needs to stop running and have its state changed to stationary
+            if(bearsCurrent[i].UPScreen == false && bearsCurrent[i].BearState == BearState.looking)
+            {
+                bearsCurrent[i].BearState = BearState.stationary;
+                bearsCurrent[i].SpeedX = 0;
+                bearsCurrent[i].SpeedY = 0;
+
+                bearsCurrent[i].ResetBearTimers(rng);
+            }
+
 
 
 		}
@@ -879,7 +930,14 @@ namespace LumberjackFantasy
         public void UpdatePlayerBearInteraction()
         {
             WalkIntoBear();
-            //UpdateAttacks();
+            /*
+            if(pCurrent.IsAttacking == true)
+            {
+                UpdatePlayerAttacks();
+            }
+            */
+
+            //UpdateBearAttacks()
 
         }
 
@@ -924,13 +982,14 @@ namespace LumberjackFantasy
         /// If plr, pass 0 for axe and 1 for shotgun
         /// </summary>
         /// <param name=""></param>
-        public void UpdateAttacks(AttackVariation attackType, Point location, PlayerDirection playerDirection)
+        public void UpdatePlayerAttacks()
         {
+            
             Rectangle attackArea;
 
-            if (attackType == AttackVariation.axe)
+            if (pCurrent.Attack == AttackVariation.axe)
             {
-                attackArea = new Rectangle(location.X, location.Y, 100, 100);
+                attackArea = new Rectangle(pCurrent.Location.X, pCurrent.Location.X, 100, 100);
                 // changes the direction of the box based on player orientation
                 /*
 				 *    < ^ ^
@@ -938,37 +997,25 @@ namespace LumberjackFantasy
 				 *    \/\/>
 				 * (diagram of how the layout is setup)
 				 */
-                switch (playerDirection)
+                switch (pCurrent.AttackDirection)
                 {
-                    case PlayerDirection.up:
+                    case PlayerAttackDirection.up:
                         attackArea.Y -= pCurrent.Height;
                         break;
-                    case PlayerDirection.upleft:
-                        attackArea.X -= pCurrent.Width;
-                        break;
-                    case PlayerDirection.upright:
-                        attackArea.Y -= pCurrent.Height;
-                        break;
-                    case PlayerDirection.down:
+                    case PlayerAttackDirection.down:
                         attackArea.Y += pCurrent.Height;
                         break;
-                    case PlayerDirection.downleft:
-                        attackArea.Y += pCurrent.Height;
-                        break;
-                    case PlayerDirection.downright:
-                        attackArea.X += pCurrent.Width;
-                        break;
-                    case PlayerDirection.left:
+                    case PlayerAttackDirection.left:
                         attackArea.X -= pCurrent.Width;
                         break;
-                    case PlayerDirection.right:
+                    case PlayerAttackDirection.right:
                         attackArea.X += pCurrent.Width;
                         break;
                 }
 
 
                 //calls collision on Bears
-                bool[] bearHits = collisionManager.GenericAttack(attackType, attackArea, pCurrent, bearsCurrent);
+                bool[] bearHits = collisionManager.GenericAttack(attackArea, pCurrent, bearsCurrent);
                 //checks and deals with the heath of the bears
                 for (int i = 0; i < bearHits.Length; i++)
                 {
@@ -979,7 +1026,7 @@ namespace LumberjackFantasy
                 }
 
                 //calls collision on Trees
-                bool[] treeHits = collisionManager.GenericAttack(attackType, attackArea, pCurrent, treesCurrent);
+                bool[] treeHits = collisionManager.GenericAttack(attackArea, pCurrent, treesCurrent);
                 //checks and deals with the health of trees.
                 for (int i = 0; i < treeHits.Length; i++)
                 {
@@ -990,50 +1037,34 @@ namespace LumberjackFantasy
                 }
 
             }
-            else if (attackType == AttackVariation.shotgun)
+            else if (pCurrent.Attack == AttackVariation.shotgun)
             {
                 //sizes 4:3
-                attackArea = new Rectangle(location.X, location.Y, 100, 100);
+                attackArea = new Rectangle(pCurrent.Location.X, pCurrent.Location.Y, 100, 100);
 
                 //expands the area based on direction, uses same layout as above
-                switch (playerDirection)
+                switch (pCurrent.AttackDirection)
                 {
-                    case PlayerDirection.up:
+                    case PlayerAttackDirection.up:
                         attackArea.Y -= (pCurrent.Height * 2);
                         attackArea.Height = 350;
                         break;
-                    case PlayerDirection.upleft:
-                        attackArea.X -= (pCurrent.Width * 2);
-                        attackArea.Width = 350;
-                        break;
-                    case PlayerDirection.upright:
-                        attackArea.Y -= (pCurrent.Height * 2);
-                        attackArea.Height = 350;
-                        break;
-                    case PlayerDirection.down:
+                    case PlayerAttackDirection.down:
                         attackArea.Y += pCurrent.Height;
                         attackArea.Height = 350;
                         break;
-                    case PlayerDirection.downleft:
-                        attackArea.Y += pCurrent.Height;
-                        attackArea.Height = 350;
-                        break;
-                    case PlayerDirection.downright:
-                        attackArea.X += pCurrent.Width;
-                        attackArea.Width = 350;
-                        break;
-                    case PlayerDirection.left:
+                    case PlayerAttackDirection.left:
                         attackArea.X -= (pCurrent.Width * 2);
                         attackArea.Width = 350;
                         break;
-                    case PlayerDirection.right:
+                    case PlayerAttackDirection.right:
                         attackArea.X += pCurrent.Width;
                         attackArea.Width = 350;
                         break;
                 }
 
                 //calls collision on Bears
-                bool[] bearHits = collisionManager.GenericAttack(attackType, attackArea, pCurrent, bearsCurrent);
+                bool[] bearHits = collisionManager.GenericAttack(attackArea, pCurrent, bearsCurrent);
                 //checks and deals with the heath of the bears
                 for (int i = 0; i < bearHits.Length; i++)
                 {
@@ -1044,7 +1075,7 @@ namespace LumberjackFantasy
                 }
 
                 //calls collision on Trees
-                bool[] treeHits = collisionManager.GenericAttack(attackType, attackArea, pCurrent, treesCurrent);
+                bool[] treeHits = collisionManager.GenericAttack(attackArea, pCurrent, treesCurrent);
                 //checks and deals with the health of trees.
                 for (int i = 0; i < treeHits.Length; i++)
                 {
@@ -1053,57 +1084,69 @@ namespace LumberjackFantasy
                         treesCurrent[i].Health--;
                     }
                 }
-
-
             }
+
+            // Increment the Attack Animation Frame since the player has attacked!
+            pCurrent.AttackAnimationF++;
+        }
+        
+        public void UpdateBearsAttack()
+        {
+            foreach (Bear b in bearsCurrent)
+            {
+                // If Bears field of attack intersect Player 
+                if (b.FieldOfAttack.Intersects(pCurrent.ObjectCollisionBox))
+                {
+                    Rectangle attackArea = new Rectangle(b.Location.X, b.Location.Y, 100, 100); // May be able to change to foa standard. idk
+                    // May need to reconfigure to state Bears pos relative to Players pos to  decide its area
+                    switch (b.BearDirection)
+                    {
+                        case BearDirection.up:
+                            attackArea.Y -= b.Height;
+                            break;
+                        case BearDirection.upleft:
+                            attackArea.X -= b.Width;
+                            break;
+                        case BearDirection.upright:
+                            attackArea.Y -= b.Height;
+                            break;
+                        case BearDirection.down:
+                            attackArea.Y += b.Height;
+                            break;
+                        case BearDirection.downleft:
+                            attackArea.Y += b.Height;
+                            break;
+                        case BearDirection.downright:
+                            attackArea.X += b.Width;
+                            break;
+                        case BearDirection.left:
+                            attackArea.X -= b.Width;
+                            break;
+                        case BearDirection.right:
+                            attackArea.X += b.Width;
+                            break;
+
+                    }
+                    // Calls for attack on the player
+                    // May need to rewrite method for one bear, not the whole bear list  Attacking Here
+                    bool[] playerHit = collisionManager.GenericAttack( attackArea, pCurrent, bearsCurrent);
+                    if (playerHit[0])
+                    {
+                        pCurrent.Health--;
+                    }
+                }
+            }
+        }
+        
+
+            /*
             //bear attacks (fight me, puny human)
             else
             {
                 //when the bear gets in a certain radius, it attacks where it is facing
                 //if (bearbox colides with player, play attack)
-                foreach (Bear b in bearsCurrent)
-                {
-                    if (collisionManager.BearboxCollider(b, pCurrent))
-                    {
-                        attackArea = new Rectangle(location.X, location.Y, 100, 100);
-                        switch (b.BearDirection)
-                        {
-                            case BearDirection.up:
-                                attackArea.Y -= b.Height;
-                                break;
-                            case BearDirection.upleft:
-                                attackArea.X -= b.Width;
-                                break;
-                            case BearDirection.upright:
-                                attackArea.Y -= b.Height;
-                                break;
-                            case BearDirection.down:
-                                attackArea.Y += b.Height;
-                                break;
-                            case BearDirection.downleft:
-                                attackArea.Y += b.Height;
-                                break;
-                            case BearDirection.downright:
-                                attackArea.X += b.Width;
-                                break;
-                            case BearDirection.left:
-                                attackArea.X -= b.Width;
-                                break;
-                            case BearDirection.right:
-                                attackArea.X += b.Width;
-                                break;
-
-                        }
-                        // Calls for attack on the player
-                        bool[] playerHit = collisionManager.GenericAttack(attackType, attackArea, pCurrent, bearsCurrent);
-                        if (playerHit[0])
-                        {
-                            pCurrent.Health--;
-                        }
-                    }
-                }
-            }
-        }
+                
+                */
 
         #endregion Updating Player & Bear Interactions
         #region Updating Pickups & Open Season
