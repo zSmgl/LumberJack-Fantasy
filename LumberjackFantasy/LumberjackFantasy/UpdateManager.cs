@@ -161,6 +161,9 @@ namespace LumberjackFantasy
 			//draws highscore
 			spriteBatch.DrawString(spriteFont, "Score\n" + pCurrent.TotalScore.ToString(), hsCord, Color.Firebrick);
 
+            //draws HP
+            spriteBatch.Draw(uiTextures[5], new Vector2(45, 18), Color.White);
+
 			//draws health
 			switch (pCurrent.Health)
 			{
