@@ -26,6 +26,9 @@ namespace LumberjackFantasy
         private OpenSeasonManager oS;                   // Manages what occurs if the open season state occurs
         private bool runOpenSeason;                     // Determines if OpenSeason needs to be set, updated, or return to default state
         public Camera camera;                           // Holds the cameras positions
+        private int currentLevel;                       // Holds the current Level (-1) (Makes sense in context of # of trees to cut this level)
+        private int gameMaxLevel;                           // Max Amount of Levels in the game (use in # trees to cut this level logic)
+        private int totalTreesToCut;                    // Total Trees to cut this level! (Determined based on Trees Currnent, current level, and max level!)
 
 
 		VelocityManager velocityManager = new VelocityManager(0);
@@ -53,7 +56,7 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>
-		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera)
+		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera, int gameMaxLevel)
 		{
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
 			pathGraph = new Graph();
@@ -64,6 +67,7 @@ namespace LumberjackFantasy
 			hsCord = new Vector2(777, 10);
             oS = new OpenSeasonManager();
             runOpenSeason = false;
+            this.gameMaxLevel = gameMaxLevel;
 		}
 
 
@@ -76,6 +80,7 @@ namespace LumberjackFantasy
         public GameState UpdateGameScreen()
 		{
 			GameState toreturn = GameState.gameLoop;
+
 
            
             if(runOpenSeason == true)
@@ -94,6 +99,14 @@ namespace LumberjackFantasy
 			{
 				toreturn = GameState.gameOver;
 			}
+            if(totalTreesToCut <= 0)
+            {
+                toreturn = GameState.loadLevel;
+                if(gameMaxLevel == (currentLevel + 1))
+                {
+                    toreturn = GameState.gameOver;
+                }
+            }
 			if (currentKB.IsKeyDown(Keys.P))
 			{
 				toreturn = GameState.pause;
@@ -204,12 +217,16 @@ namespace LumberjackFantasy
         /// <param name="trees"></param>
         /// <param name="bears"></param>
         /// <param name="pickUps"></param>
-        public void NextLevel(Player p, List<Tree> trees, List<Bear> bears, List<PickUp> pickUps)
+        public void NextLevel(Player p, List<Tree> trees, List<Bear> bears, List<PickUp> pickUps, int currentLevel)
         {
             pCurrent = p;
             treesCurrent = trees;
             bearsCurrent = bears;
 			pickUpsCurrent = pickUps;
+            this.currentLevel = currentLevel;
+            totalTreesToCut = (treesCurrent.Count / (gameMaxLevel - (currentLevel)));     // Current Trees in level / (Max level - current Level)
+                                                                                          // IE: Current trees = 28, Max Level = 5, current level = 0(+1) [As level 0 is really lvl 1]
+                                                                                          // So Level 0 [1] has 7 trees total to cut before passing. 
 
             // Handles if Game was in Open Season when Level Ended
 
@@ -255,6 +272,7 @@ namespace LumberjackFantasy
 				if (treesCurrent[i].Health < 0 || treesCurrent[i].Health == 0)
 				{
 					treesCurrent.RemoveAt(i);
+                    totalTreesToCut--; // Decreases total Trees to cut since the tree is now dead
 				}
 			}
 
