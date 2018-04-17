@@ -278,7 +278,8 @@ namespace LumberjackFantasy
 				{
 					treesCurrent.RemoveAt(i);
                     totalTreesToCut--; // Decreases total Trees to cut since the tree is now dead
-				}
+                    pCurrent.TotalScore += 3;
+                }
 			}
 
 			//Removes all bears from the list that have less than or equal to 0 health
