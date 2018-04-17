@@ -30,6 +30,7 @@ namespace LumberjackFantasy
             for(int i=0;i<bearscurrent.Count;i++)
             {
                 bearscurrent[i].MaxSpeed = bearscurrent[i].MaxSpeed * 2;
+                bearscurrent[i].ScoreValue = bearscurrent[i].ScoreValue * -1;
                 bearscurrent[i].VisionStandard = bearscurrent[i].VisionStandard + 10;
                 bearscurrent[i].BearVision = new Rectangle(bearscurrent[i].BearVision.X - bearscurrent[i].VisionStandard , bearscurrent[i].BearVision.Y - bearscurrent[i].VisionStandard,
                 bearscurrent[i].BearVision.Width + (bearscurrent[i].VisionStandard *2) , bearscurrent[i].BearVision.Height + (bearscurrent[i].VisionStandard * 2));
@@ -55,6 +56,7 @@ namespace LumberjackFantasy
             for (int i = 0; i < bearscurrent.Count; i++)
             {
                 bearscurrent[i].MaxSpeed = bearscurrent[i].MaxSpeed * 1 / 2;
+                bearscurrent[i].ScoreValue = bearscurrent[i].ScoreValue * -1;
                 bearscurrent[i].VisionStandard = bearscurrent[i].VisionStandard - 10;
                 bearscurrent[i].BearVision = new Rectangle(bearscurrent[i].BearVision.X + bearscurrent[i].VisionStandard, bearscurrent[i].BearVision.Y + bearscurrent[i].VisionStandard,
                 bearscurrent[i].BearVision.Width - (bearscurrent[i].VisionStandard * 2), bearscurrent[i].BearVision.Height - (bearscurrent[i].VisionStandard * 2));

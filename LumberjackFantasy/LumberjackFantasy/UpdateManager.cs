@@ -263,6 +263,7 @@ namespace LumberjackFantasy
 			{
 				if (bearsCurrent[i].Health < 0 || bearsCurrent[i].Health == 0)
 				{
+                    pCurrent.TotalScore += bearsCurrent[i].ScoreValue;
 					bearsCurrent.RemoveAt(i);
 				}
 			}
@@ -409,7 +410,7 @@ namespace LumberjackFantasy
         public void UpdatePlayerAttack(Player oldPos)
         {
             // If the player was not attacking previously or was attacking but hit the 4th frame
-            if ((oldPos.IsAttacking == true && oldPos.AttackAnimationF >= 4) || oldPos.IsAttacking == false)
+            if ((oldPos.IsAttacking == true && oldPos.AttackAnimationF >= 4) || (oldPos.IsAttacking == false))
             {
                 // Will Attack Up
                 if (currentKB.IsKeyDown(Keys.I) == true)
@@ -423,14 +424,14 @@ namespace LumberjackFantasy
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
                     pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame
-                    pCurrent.AttackDirection = PlayerAttackDirection.right; // Gives a direction of the hit box and animation
+                    pCurrent.AttackDirection = PlayerAttackDirection.left; // Gives a direction of the hit box and animation
                 }
                 // Will Attack Down
                 else if (currentKB.IsKeyDown(Keys.K) == true)
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
                     pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame 
-                    pCurrent.AttackDirection = PlayerAttackDirection.left; // Gives a direction of the hit box and animation
+                    pCurrent.AttackDirection = PlayerAttackDirection.down; // Gives a direction of the hit box and animation
                 }
                 // Will AttackRight
                 else if (currentKB.IsKeyDown(Keys.L) == true)
@@ -439,12 +440,12 @@ namespace LumberjackFantasy
                     pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame 
                     pCurrent.AttackDirection = PlayerAttackDirection.right; // Gives a direction of the hit box and animation
                 }
-            }
-            // If player was attacking and is now [what would be] a frame over his animation for attacking,
-            // make him no longer attacking and he is now back to frame 1
-            else if (oldPos.AttackAnimationF == 9 && oldPos.IsAttacking == true)
-            {
-                pCurrent.IsAttacking = false; // Player is no longer Attacking!!!!
+                // If player was attacking and is now [what would be] a frame over his animation for attacking,
+                // make him no longer attacking and he is now back to frame 1
+                else if (oldPos.AttackAnimationF >= 9 && oldPos.IsAttacking == true)
+                {
+                    pCurrent.IsAttacking = false; // Player is no longer Attacking!!!!
+                }
             }
         }
 
@@ -641,7 +642,7 @@ namespace LumberjackFantasy
 
 
                 }
-			}
+            }
 
 		}
 
@@ -905,16 +906,6 @@ namespace LumberjackFantasy
 				FollowPlayer();
 			}
 
-            // If the bear is off the screen but still in a looking state and moving, then it needs to stop running and have its state changed to stationary
-            if(bearsCurrent[i].UPScreen == false && bearsCurrent[i].BearState == BearState.looking)
-            {
-                bearsCurrent[i].BearState = BearState.stationary;
-                bearsCurrent[i].SpeedX = 0;
-                bearsCurrent[i].SpeedY = 0;
-
-                bearsCurrent[i].ResetBearTimers(rng);
-            }
-
 
 
 		}
@@ -930,12 +921,12 @@ namespace LumberjackFantasy
         public void UpdatePlayerBearInteraction()
         {
             WalkIntoBear();
-            /*
+            
             if(pCurrent.IsAttacking == true)
             {
                 UpdatePlayerAttacks();
             }
-            */
+            
 
             //UpdateBearAttacks()
 
@@ -989,7 +980,7 @@ namespace LumberjackFantasy
 
             if (pCurrent.Attack == AttackVariation.axe)
             {
-                attackArea = new Rectangle(pCurrent.Location.X, pCurrent.Location.X, 100, 100);
+                attackArea = new Rectangle(pCurrent.Location.X, pCurrent.Location.Y, 100, 100);
                 // changes the direction of the box based on player orientation
                 /*
 				 *    < ^ ^
@@ -1039,7 +1030,7 @@ namespace LumberjackFantasy
             }
             else if (pCurrent.Attack == AttackVariation.shotgun)
             {
-                //sizes 4:3
+                //sizes 4:3 - May need to Scale Down LOL
                 attackArea = new Rectangle(pCurrent.Location.X, pCurrent.Location.Y, 100, 100);
 
                 //expands the area based on direction, uses same layout as above

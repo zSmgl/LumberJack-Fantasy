@@ -130,6 +130,7 @@ namespace LumberjackFantasy
         public int ScoreValue
         {
             get { return scoreValue; }
+            set { scoreValue = value; }
         }
 
 		
