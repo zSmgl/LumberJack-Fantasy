@@ -151,7 +151,7 @@ namespace LumberjackFantasy
 
             // Managers 
 
-			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel);
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui);
             screenManager = new ScreenManager(startButton, exitButton, startScreenBackground, pauseBackground, continueButton, quitButton, startH, exitH, continueH, quitH);
             player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10);
 
@@ -271,7 +271,7 @@ namespace LumberjackFantasy
 
 				case GameState.pause:
 					spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
-					updateManager.DrawGame(spriteBatch, spriteFont, heartFull, heartEmpty);
+					updateManager.DrawGame(spriteBatch, spriteFont);
 					screenManager.DrawPauseScreen(spriteBatch);
 					break;
 

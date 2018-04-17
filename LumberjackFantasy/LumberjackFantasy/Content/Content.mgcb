@@ -116,18 +116,6 @@
 /processorParam:TextureFormat=Compressed
 /build:spriteFont.spritefont
 
-#begin shotgun.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:shotgun.png
-
 #begin redApple.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -368,7 +356,7 @@
 /processorParam:TextureFormat=Color
 /build:axe.png
 
-#begin ../../../../../../Downloads/UI-20180417T174727Z-001/UI/Weapons/shotgun.png
+#begin shotgun.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -378,5 +366,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../../../../../../Downloads/UI-20180417T174727Z-001/UI/Weapons/shotgun.png
+/build:shotgun.png
 
