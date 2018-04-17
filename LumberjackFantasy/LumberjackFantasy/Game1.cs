@@ -53,6 +53,8 @@ namespace LumberjackFantasy
         Texture2D shotgun;
         Texture2D syrup;
 
+        List<Texture2D> ui;
+
 		int frameskip = 0;
         KeyboardState kb = new KeyboardState();
         KeyboardState previousKbstate = new KeyboardState();
@@ -85,7 +87,7 @@ namespace LumberjackFantasy
             level = 0;
             maxLevel = 5; // !Change this for more levels!
 			scoreBoardManager = new ScoreboardManager();
-
+            ui = new List<Texture2D>();
 			base.Initialize();
 			gameState = GameState.start;
             
@@ -136,6 +138,17 @@ namespace LumberjackFantasy
 
 			heartEmpty = Content.Load <Texture2D>("hEmpty");
 			heartFull = Content.Load<Texture2D>("hFull");
+
+            ui.Add(heartEmpty);
+            ui.Add(heartFull);
+            ui.Add(Content.Load<Texture2D>("axe"));
+            ui.Add(Content.Load<Texture2D>("shotgun"));
+            ui.Add(Content.Load<Texture2D>("log"));
+            ui.Add(Content.Load<Texture2D>("HP"));
+            ui.Add(Content.Load<Texture2D>("OpenSeason"));
+            ui.Add(Content.Load<Texture2D>("Score"));
+            ui.Add(Content.Load<Texture2D>("Weapon"));
+
             // Managers 
 
 			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel);
@@ -270,7 +283,7 @@ namespace LumberjackFantasy
 					else
 					{
 						spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
-						updateManager.DrawGame(spriteBatch, spriteFont, heartFull, heartEmpty);
+						updateManager.DrawGame(spriteBatch, spriteFont);
 						//updateManager.camera.DrawCam(spriteBatch);
 					}
 					break;
