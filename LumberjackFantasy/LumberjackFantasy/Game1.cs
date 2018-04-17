@@ -29,6 +29,7 @@ namespace LumberjackFantasy
 
         Random rng;
         int level;
+        int maxLevel;
 
 		SpriteFont spriteFont;
         Texture2D playerTexture;
@@ -82,6 +83,7 @@ namespace LumberjackFantasy
 			graphics.PreferredBackBufferHeight = 896;
 			graphics.ApplyChanges();
             level = 0;
+            maxLevel = 5; // !Change this for more levels!
 			scoreBoardManager = new ScoreboardManager();
 
 			base.Initialize();
@@ -136,12 +138,12 @@ namespace LumberjackFantasy
 			heartFull = Content.Load<Texture2D>("hFull");
             // Managers 
 
-			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera);
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel);
             screenManager = new ScreenManager(startButton, exitButton, startScreenBackground, pauseBackground, continueButton, quitButton, startH, exitH, continueH, quitH);
             player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10);
 
             // Makes a total of 5 levels
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < maxLevel; i++)
             {
                 worldTile.Add(new WorldTile(playerTexture, bear, pickupsT));
             }
@@ -189,7 +191,7 @@ namespace LumberjackFantasy
 
                 case GameState.loadLevel:
 					this.IsMouseVisible = false;
-					updateManager.NextLevel(player1, worldTile[level].WorldTrees, worldTile[level].WorldBears, worldTile[level].WorldPickUps);
+					updateManager.NextLevel(player1, worldTile[level].WorldTrees, worldTile[level].WorldBears, worldTile[level].WorldPickUps, level);
                     level++;
                     gameState = GameState.gameLoop;
                     break;
@@ -211,9 +213,20 @@ namespace LumberjackFantasy
 
 				case GameState.gameOver:
 					this.IsMouseVisible = false;
-					//display score
 
-					gameState = scoreBoardManager.UpdateGameover();
+                    // Resets avaliable levels, resets current level, and makes new player!
+
+                    level = 0;         // Resets level back to 0
+                    worldTile.Clear(); // Clears levels
+
+                    // Makes new levels for next time game is played
+                    for (int i = 0; i < maxLevel; i++)
+                    {
+                        worldTile.Add(new WorldTile(playerTexture, bear, pickupsT));
+                    }
+                    //display score
+
+                    gameState = scoreBoardManager.UpdateGameover();
 					if (gameState == GameState.start)
 					{
 						scoreBoardManager.CurrentScore = 0;
