@@ -246,18 +246,6 @@ namespace LumberjackFantasy
             return posValues;
         }
 
-        //bearbox colider
-        //Not meant to be used for anything other than checking if bears should attack.
-        public bool BearboxCollider(Bear bear, Player player)
-		{
-			Rectangle bearBox = new Rectangle(bear.Location, bear.Size); // Size and Location have been added to GameObjects to ease creation
-			if (bearBox.Intersects(player.ObjectCollisionBox))
-			{
-				return true;
-			}
-			return false;
-		}
-
 		//sees which things are hit by attacks.
 		//can use either for player
 		//MUST BE CALLED ONCE FOR EACH LIST OF LIVING OBJECTS
@@ -269,10 +257,10 @@ namespace LumberjackFantasy
 		/// <param name="player"></param>
 		/// <param name="Bear List"></param>
 		/// <returns></returns>
-		public virtual bool[] GenericAttack(AttackVariation attackVariation, Rectangle target, Player player, List<Bear> livingList)
+		public virtual bool[] GenericAttack(Rectangle target, Player player, List<Bear> livingList)
 		{
 			bool[] hitList;
-			if (attackVariation == AttackVariation.axe || attackVariation == AttackVariation.shotgun)
+			if (player.Attack == AttackVariation.axe || player.Attack == AttackVariation.shotgun)
 			{
 				hitList = new bool[livingList.Count];
 				for (int i = 0; i < livingList.Count; i++)
@@ -308,10 +296,10 @@ namespace LumberjackFantasy
 		/// <param name="player"></param>
 		/// <param name="Tree List"></param>
 		/// <returns></returns>
-		public virtual bool[] GenericAttack(AttackVariation attackVariation, Rectangle target, Player player, List<Tree> livingList)
+		public virtual bool[] GenericAttack(Rectangle target, Player player, List<Tree> livingList)
 		{
 			bool[] hitList;
-			if (attackVariation == AttackVariation.axe || attackVariation == AttackVariation.shotgun)
+			if (player.Attack == AttackVariation.axe || player.Attack == AttackVariation.shotgun)
 			{
 				hitList = new bool[livingList.Count];
 				for (int i = 0; i < livingList.Count; i++)
@@ -326,6 +314,7 @@ namespace LumberjackFantasy
 					}
 				}
 			}
+            // This should never occur with trees
 			else
 			{
 				hitList = new bool[1];

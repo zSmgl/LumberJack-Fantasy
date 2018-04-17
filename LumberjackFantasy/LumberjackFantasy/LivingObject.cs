@@ -23,6 +23,7 @@ namespace LumberjackFantasy
         private int speedX;     // An Objects current Speed in the X direction
         private int speedY;     // An Objects current Speed in the Y direction
         private int maxSpeed;   // An Objects max amount of Speed
+        protected int animationMoveFrame; // An Objects Animation Movement Frame
         
 
         //properties --------------------------------------------------------------------
@@ -55,6 +56,7 @@ namespace LumberjackFantasy
             health = maxH;
             maxHealth = maxH;
             maxSpeed = maxS;
+            animationMoveFrame = 0;
         }
         //methods -----------------------------------------------------------------------
 

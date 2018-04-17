@@ -29,6 +29,14 @@ namespace LumberjackFantasy
         right,
     }
 
+    enum PlayerAttackDirection
+    {
+        up,
+        down,
+        right,
+        left
+    }
+
 
     class Player : LivingObject
     {
@@ -45,8 +53,11 @@ namespace LumberjackFantasy
         
         private int visionStandard;     // the number that determines how far out the playerVision should be from the actual objectTexture.
         private Rectangle playerVision; // The Players field of vision that helps the bears determine what kind of State they are in.
+
         private bool attackStuff;       // Determines if the player can attack something. 
+        private int attackAnimationF;   // Keeps track of the players current attacking animation frame;
         AttackVariation attack;         // Enum that determines if the Player should use the shotgun or axe animation when attacking
+        PlayerAttackDirection directionOfAttack;    // Enum that determines where drawing the attack frames relative to the player should be and how the attacking collision box should be drawn;
         PlayerDirection playerDirection;      // Enum that determines the direction the player should be facing. 
 
         // Properties -------------------
@@ -71,6 +82,24 @@ namespace LumberjackFantasy
         {
             get { return attack; }
             set { attack = value; }
+        }
+
+        public PlayerAttackDirection AttackDirection
+        {
+            get { return directionOfAttack; }
+            set { directionOfAttack = value; }
+        }
+
+        public bool IsAttacking
+        {
+            get { return attackStuff; }
+            set { attackStuff = value; }
+        }
+
+        public int AttackAnimationF
+        {
+            get { return attackAnimationF; }
+            set { attackAnimationF = value; }
         }
 
         public PlayerDirection PlayerDirection
@@ -109,6 +138,8 @@ namespace LumberjackFantasy
             attackStuff = false;
             invincibleTimer = 3;
             invincibile = false;
+            attackAnimationF = 1; // Will draw the first attacking frame
+            attack = AttackVariation.axe; // Player Starts with Axe
         }
 
         //old Player
@@ -122,6 +153,7 @@ namespace LumberjackFantasy
             invincibile = p.invincibile;
 
             attackStuff = p.attackStuff;
+            attackAnimationF = p.attackAnimationF;
         }
 
         /// <summary>
