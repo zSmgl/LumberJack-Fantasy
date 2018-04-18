@@ -217,6 +217,10 @@ namespace LumberjackFantasy
 					//does bears and movement etc
 					updateManager.UpdateGameScreenFields(kb, previousKbstate, gameTime);
                     gameState = updateManager.UpdateGameScreen();
+                    if (gameState == GameState.gameOver)
+                    {
+                        scoreBoardManager.ScoreReset = ScoreState.loading;
+                    }
 
 					/* line of code that
 					 gameState = updateManager.UpdateGameScreen

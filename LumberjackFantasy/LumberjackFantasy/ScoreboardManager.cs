@@ -35,6 +35,7 @@ namespace LumberjackFantasy
 
 		//properties --------------------------------------------------------------------
 		public int CurrentScore { get { return currentScore; } set { currentScore = value; } }
+        public ScoreState ScoreReset { set { scoreState = value; } }
 		//constructor -------------------------------------------------------------------
 		public ScoreboardManager()
 		{
