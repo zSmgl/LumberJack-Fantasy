@@ -32,6 +32,7 @@ namespace LumberjackFantasy
         int maxLevel;
 
 		SpriteFont spriteFont;
+		SpriteFont scoreFont;
         Texture2D playerTexture;
         Texture2D startScreenBackground;
         Texture2D starterBackground;
@@ -101,6 +102,7 @@ namespace LumberjackFantasy
 		{
 			//loads spritefont
 			spriteFont = Content.Load<SpriteFont>("spriteFont");
+			scoreFont = Content.Load<SpriteFont>("scores");
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
             //temporary test loadmenu, to keep code short once all textures are made will load into a list, then the loadmenu will call members of that list instead of directly loading
@@ -290,7 +292,7 @@ namespace LumberjackFantasy
 
 				case GameState.gameOver:
 					spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
-					scoreBoardManager.DrawGameOver(spriteBatch, spriteFont);
+					scoreBoardManager.DrawGameOver(spriteBatch, scoreFont);
 					break;
 			}
 
