@@ -56,6 +56,7 @@ namespace LumberjackFantasy
 			switch (scoreState)
 			{
 				case ScoreState.loading:
+                    playerName = "--";
 					scoreNames.Clear();
 					highScores.Clear();
 					LoadScores();
