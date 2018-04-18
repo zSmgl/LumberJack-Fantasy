@@ -16,6 +16,11 @@ namespace LumberjackFantasy
         private bool openSeason;
         private int bearMax;
 
+        public int BearMax
+        {
+            set { bearMax = value; }
+        }
+
         //Constructor -------------------------------------------
         public OpenSeasonManager()
         {

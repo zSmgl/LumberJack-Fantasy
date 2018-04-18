@@ -11,6 +11,8 @@ namespace LumberjackFantasy
 {
 	class UpdateManager
 	{
+        // Basically Everyone has modified this at one point to assure we dont break each other's code. 
+
 		private Random rng;                             // Random Number Generator used for bears and bear speeds.
 		private GameTime gameTime;                      // Holds the current GameTime
 		private Player pCurrent;                        // Holds the player's values
@@ -266,8 +268,12 @@ namespace LumberjackFantasy
             if (runOpenSeason == true)
             {
                 oS.ResetOpenSeasonTimer();
-                EndOpenSeason();
+                pCurrent = oS.EndOpenSeasonPlayer(pCurrent);
+                oS.BearMax = bearsCurrent[0].MaxSpeed;
+                camera = oS.OpenSeasonCamera(camera);
             }
+
+            runOpenSeason = false;
 
         }
 		
@@ -465,28 +471,28 @@ namespace LumberjackFantasy
             if ((oldPos.IsAttacking == true && oldPos.AttackAnimationF >= 4) || (oldPos.IsAttacking == false))
             {
                 // Will Attack Up
-                if (currentKB.IsKeyDown(Keys.I) == true)
+                if (currentKB.IsKeyDown(Keys.Up) == true)
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
                     pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame
                     pCurrent.AttackDirection = PlayerAttackDirection.up; // Gives a direction of the hitbox and animation
                 }
                 // Will Attack Up
-                else if (currentKB.IsKeyDown(Keys.J) == true)
+                else if (currentKB.IsKeyDown(Keys.Left) == true)
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
                     pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame
                     pCurrent.AttackDirection = PlayerAttackDirection.left; // Gives a direction of the hit box and animation
                 }
                 // Will Attack Down
-                else if (currentKB.IsKeyDown(Keys.K) == true)
+                else if (currentKB.IsKeyDown(Keys.Down) == true)
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
                     pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame 
                     pCurrent.AttackDirection = PlayerAttackDirection.down; // Gives a direction of the hit box and animation
                 }
                 // Will AttackRight
-                else if (currentKB.IsKeyDown(Keys.L) == true)
+                else if (currentKB.IsKeyDown(Keys.Right) == true)
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
                     pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame 

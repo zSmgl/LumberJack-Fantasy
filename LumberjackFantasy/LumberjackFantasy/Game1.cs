@@ -27,7 +27,6 @@ namespace LumberjackFantasy
 		List<Texture2D> testTiles;
 		List<WorldTile> worldTile;
 
-        Random rng;
         int level;
         int maxLevel;
 
@@ -49,6 +48,7 @@ namespace LumberjackFantasy
 		Texture2D camera;
 		Texture2D pauseBackground;
         Texture2D bear;
+        Texture2D tree;
         List<Texture2D> pickupsT;
         Texture2D apple;
         Texture2D shotgun;
@@ -112,6 +112,7 @@ namespace LumberjackFantasy
             startScreenBackground = Content.Load<Texture2D>("startScreenBackground");
             syrup = Content.Load<Texture2D>("Syrup");
             bear = Content.Load<Texture2D>("bearFront");
+            tree = Content.Load<Texture2D>("treeStatic");
             apple = Content.Load<Texture2D>("redApple");
             shotgun = Content.Load<Texture2D>("shotgun");
             // Load into pickups List
@@ -160,7 +161,7 @@ namespace LumberjackFantasy
             // Makes a total of 5 levels
             for(int i = 0; i < maxLevel; i++)
             {
-                worldTile.Add(new WorldTile(playerTexture, bear, pickupsT));
+                worldTile.Add(new WorldTile(tree, bear, pickupsT));
             }
 
 
@@ -233,11 +234,12 @@ namespace LumberjackFantasy
 
                     level = 0;         // Resets level back to 0
                     worldTile.Clear(); // Clears levels
+                    player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10); // Creates a new Player
 
                     // Makes new levels for next time game is played
                     for (int i = 0; i < maxLevel; i++)
                     {
-                        worldTile.Add(new WorldTile(playerTexture, bear, pickupsT));
+                        worldTile.Add(new WorldTile(tree, bear, pickupsT));
                     }
                     //display score
 
@@ -277,11 +279,15 @@ namespace LumberjackFantasy
 					screenManager.DrawPauseScreen(spriteBatch);
 					break;
 
-				case GameState.gameLoop:
+                case GameState.loadLevel:
+                    spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+                    break;
+                case GameState.gameLoop:
 					if (frameskip == 0)
 					{
 						frameskip = 1;
-					}
+                        spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+                    }
 					else
 					{
 						spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
