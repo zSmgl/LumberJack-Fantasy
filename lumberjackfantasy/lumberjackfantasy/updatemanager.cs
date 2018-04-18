@@ -66,7 +66,7 @@ namespace LumberjackFantasy
 			rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 			healthCords = new Rectangle[5] {new Rectangle(178,16, 23, 18), new Rectangle(156,16,23,18), new Rectangle(133, 16,23,18), new Rectangle(111, 16, 23, 18), new Rectangle(88, 16, 23, 18) };
-			hsCord = new Vector2(777, 10);
+			hsCord = new Vector2(777, 14);
             oS = new OpenSeasonManager();
             runOpenSeason = false;
             this.gameMaxLevel = gameMaxLevel;
@@ -158,11 +158,20 @@ namespace LumberjackFantasy
 				}
 			}
 
+			//draws score
+			spriteBatch.Draw(uiTextures[7], new Vector2(680, 18), Color.White);
+
 			//draws highscore
-			spriteBatch.DrawString(spriteFont, "Score\n" + pCurrent.TotalScore.ToString(), hsCord, Color.Firebrick);
+			spriteBatch.DrawString(spriteFont, pCurrent.TotalScore.ToString(), hsCord, Color.White);
 
             //draws HP
             spriteBatch.Draw(uiTextures[5], new Vector2(45, 18), Color.White);
+
+			//draws log
+			spriteBatch.Draw(uiTextures[4], new Vector2(768, 42), Color.White);
+
+			//draws number of tocut left
+			spriteBatch.DrawString(spriteFont, totalTreesToCut.ToString(), new Vector2(807, 37), Color.White);
 
 			//draws health
 			switch (pCurrent.Health)
@@ -206,6 +215,25 @@ namespace LumberjackFantasy
 					spriteBatch.Draw(uiTextures[0], healthCords[3], Color.White);
 					spriteBatch.Draw(uiTextures[1], healthCords[4], Color.White);
 					break;
+			}
+
+			//draws weapon text
+			spriteBatch.Draw(uiTextures[8], new Vector2(246, 18), Color.White);
+
+			//draws the correct weapon
+			if (pCurrent.Attack == AttackVariation.axe)
+			{
+				spriteBatch.Draw(uiTextures[2], new Vector2(349, 9), Color.White);
+			}
+			else
+			{
+				spriteBatch.Draw(uiTextures[3], new Vector2(352, 20), Color.White);
+			}
+
+			//draws openSeason
+			if (runOpenSeason == true)
+			{
+				spriteBatch.Draw(uiTextures[6], new Vector2(465, 18), Color.White);
 			}
 
 		}
