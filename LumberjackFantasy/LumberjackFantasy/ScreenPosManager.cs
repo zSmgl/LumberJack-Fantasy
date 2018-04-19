@@ -115,7 +115,7 @@ namespace LumberjackFantasy
 			quitButton = quit;
 			quitButtonH = quitH;
 			quitButtonPos.X = 243;
-			quitButtonPos.Y = 766;
+			quitButtonPos.Y = 468;
         }
         //REMINDER: Game screen background removed from parameters
 		
@@ -200,6 +200,7 @@ namespace LumberjackFantasy
 		{
 			spriteBatch.Draw(instructionsButtonH, ibPos2, Color.White);
 		}
+
 
 		/*public void DrawGameScreenElements(SpriteBatch spriteBatch)
         {

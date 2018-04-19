@@ -45,7 +45,7 @@ namespace LumberjackFantasy
 			{
 				menu.InstructHover = IsHovering(menu.InstructButton2);
 			}
-            if (currentMS.LeftButton == ButtonState.Pressed)
+			if (singleLeftClick())
             {
                 if (menu.StartHover)
                 {
@@ -98,7 +98,7 @@ namespace LumberjackFantasy
 				toReturn = GameState.start;
 			}
 
-			if (currentMS.LeftButton == ButtonState.Pressed)
+			if (singleLeftClick())
 			{
 				if (menu.ReturnHover)
 				{
@@ -241,5 +241,17 @@ namespace LumberjackFantasy
 			}
 		}
 
-    }
+		public bool singleLeftClick() //Prevents InfiniLoops.
+		{
+			if (currentMS.LeftButton == ButtonState.Pressed)
+			{
+				if (previousMS.LeftButton == ButtonState.Pressed)
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
+		}
+	}
 }
