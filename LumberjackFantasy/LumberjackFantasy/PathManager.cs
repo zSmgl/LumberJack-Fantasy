@@ -91,7 +91,7 @@ namespace LumberjackFantasy
 
         public void Following()
         {
-            Location current = null;
+            current = null;
 
             // start by adding the original position to the open list
             openList.Add(start);
@@ -185,7 +185,47 @@ namespace LumberjackFantasy
             return Math.Abs(target.X - current.X) + Math.Abs(target.Y - current.Y);
         }
 
-        //methods -----------------------------------------------------------------------
+        public Bear GetDirection(Bear b)
+        {
+            Location bStart = closedList[0];
+            Location bNext = closedList[1];
+
+            if (bStart.X > bNext.X && bStart.Y == bNext.Y)         // Bear walking in Left Direction
+            {
+                b.BearDirection = BearDirection.left;
+            }
+            else if (bStart.X < bNext.X && bStart.Y == bNext.Y)   // Bear walking in the Right Direction
+            {
+                b.BearDirection = BearDirection.right;
+            }
+            else if (bStart.X == bNext.X && bStart.Y > bNext.Y)   // Bear walking Up Direction
+            {
+                b.BearDirection = BearDirection.up;
+            }
+            else if (bStart.X == bNext.X && bStart.Y < bNext.Y)   // Bear walking Down Direction
+            {
+                b.BearDirection = BearDirection.down;
+            }
+            else if (bStart.X > bNext.X && bStart.Y > bNext.Y)   // Bear is walking Up-Left
+            {
+                b.BearDirection = BearDirection.upleft;
+            }
+            else if (bStart.X < bNext.X && bStart.Y > bNext.Y)   // Bear is walking Up-Right
+            {
+                b.BearDirection = BearDirection.upright;
+            }
+            else if (bStart.X > bNext.X && bStart.Y < bNext.Y)   // Bear is walking Down-Left
+            {
+                b.BearDirection = BearDirection.downleft;
+            }
+            else if (bStart.X < bNext.X && bStart.Y < bNext.Y)   // Bear is walking Down-Right
+            {
+                b.BearDirection = BearDirection.downright;
+            }
+
+            return b;
+		
+        }
 
 
     }
