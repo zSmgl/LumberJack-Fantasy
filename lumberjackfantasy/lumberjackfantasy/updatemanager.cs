@@ -381,6 +381,9 @@ namespace LumberjackFantasy
 
             UpdatePickUps();
 
+            // Sets tile of which player is on
+            pM.FindTarget(pCurrent);
+
             // temp code to check if player has pressing keys to move. runs after updating all the movement.
             // Do not delete this. may use in future.  FAIL-SAFE TO DEACCELERATION STUFF
             /*
@@ -876,10 +879,49 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Used for the bear to follow the player
 		/// </summary>
-		public void FollowPlayer()
+		public void FollowPlayer(int i)
 		{
+            pM.ResetForNewBear();
+            pM.FindCurrent(bearsCurrent[i]);
+            pM.Following();
+            bearsCurrent[i] = pM.GetDirection(bearsCurrent[i]);
 
-		}
+            switch (bearsCurrent[i].BearDirection)
+            {
+                case BearDirection.down:
+                    velocityManager.AddVelocity(0, bearsCurrent[i].MaxSpeed / 6);
+                    break;
+                case BearDirection.up:
+                    velocityManager.AddVelocity(0, -1 * bearsCurrent[i].MaxSpeed / 6);
+                    break;
+                case BearDirection.left:
+                    velocityManager.AddVelocity(-1 * bearsCurrent[i].MaxSpeed / 6, 0);
+                    break;
+                case BearDirection.right:
+                    velocityManager.AddVelocity(bearsCurrent[i].MaxSpeed / 6, 0);
+                    break;
+                case BearDirection.upleft:
+                    velocityManager.AddVelocity(-1 * bearsCurrent[i].MaxSpeed / 6, -1 * bearsCurrent[i].MaxSpeed / 6);
+                    break;
+                case BearDirection.upright:
+                    velocityManager.AddVelocity(bearsCurrent[i].MaxSpeed / 6, -1 * bearsCurrent[i].MaxSpeed / 6);
+                    break;
+                case BearDirection.downleft:
+                    velocityManager.AddVelocity(-1 * bearsCurrent[i].MaxSpeed / 6, bearsCurrent[i].MaxSpeed / 6);
+                    break;
+                case BearDirection.downright:
+                    velocityManager.AddVelocity(bearsCurrent[i].MaxSpeed / 6, bearsCurrent[i].MaxSpeed / 6);
+                    break;
+            }
+
+            bearsCurrent[i].ObjectCollisionBox = velocityManager.UpdatePosition(bearsCurrent[i].ObjectCollisionBox);
+            bearsCurrent[i].BearVision = velocityManager.UpdatePosition(bearsCurrent[i].BearVision);
+            bearsCurrent[i].FieldOfAttack = velocityManager.UpdatePosition(bearsCurrent[i].FieldOfAttack);
+
+            // Updates the Current Speed of the Player within the Player from the Calculated speed in Players VM
+            bearsCurrent[i].SpeedX = velocityManager.VelocityX;
+            bearsCurrent[i].SpeedY = velocityManager.VelocityY;
+        }
 
         /// <summary>
         /// Determines the new State of Movement and how the bear should Move.
@@ -950,18 +992,18 @@ namespace LumberjackFantasy
 			}
 			else if (oldBear.BearState == BearState.following && bearsCurrent[i].BearState == BearState.following)
 			{
-				FollowPlayer();
+				FollowPlayer(i);
 			}
 			else if (oldBear.BearState == BearState.stationary && bearsCurrent[i].BearState == BearState.following)
 			{
 				// Sets speed of velocity manager back to 
 				bearsCurrent[i].ResetBearTimers(rng);
-				FollowPlayer();
+				FollowPlayer(i);
 			}
 			else if (oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.following)
 			{
 				bearsCurrent[i].ResetBearTimers(rng);
-				FollowPlayer();
+				FollowPlayer(i);
 			}
 
 
