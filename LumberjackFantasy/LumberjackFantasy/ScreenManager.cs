@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 
 namespace LumberjackFantasy
 {
-    class ScreenManager
+	class ScreenManager
     {
         //The purpose of this class is to handle all the updates of each Screen State (other than the playing game.)
         // This means the Menu, Pause, and End Screen
@@ -21,11 +16,16 @@ namespace LumberjackFantasy
         private MouseState currentMS;                   // Holds the current Mouse State
         private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
 		private KeyboardState currentKB;				// Holds the current keyboard State
-		private KeyboardState previousKB;				// Holds the previous keyboard state (if needed)
+		private KeyboardState previousKB;               // Holds the previous keyboard state (if needed)
+		private bool instructionsOn;                    // Holds whether or not instructions is being displayed
+		private Vector2 topLeftCenter;					//Holds the position of instruction text
 
-        public ScreenManager(Texture2D startButton, Texture2D exitButton, Texture2D ssBG, Texture2D overlay, Texture2D continueButton, Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D continueHover, Texture2D quitHover)
+        public ScreenManager(Texture2D startButton, Texture2D exitButton, Texture2D instructButton, Texture2D ssBG, Texture2D overlay, Texture2D continueButton, 
+			Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D instructHover, Texture2D continueHover, Texture2D quitHover)
         {
-            LoadMenus(startButton, exitButton, ssBG, overlay, continueButton, quit, startHover, exitHover, continueHover, quitHover);
+			instructionsOn = false;
+			topLeftCenter = new Vector2(98, 0);
+            LoadMenus(startButton, exitButton, instructButton, ssBG, overlay, continueButton, quit, startHover, exitHover, instructHover, continueHover, quitHover);
         }
 
         // ------------------------------------------------------------------- UPDATE METHODS FOR GAMESCREENS ---------------------------------------------------------------------
@@ -40,15 +40,37 @@ namespace LumberjackFantasy
 
             menu.StartHover = IsHovering(menu.StartButton);
             menu.ExitHover = IsHovering(menu.ExitButton);
+			menu.InstructHover = IsHovering(menu.InstructButton);
+			if (instructionsOn)
+			{
+				menu.InstructHover = IsHovering(menu.InstructButton2);
+			}
             if (currentMS.LeftButton == ButtonState.Pressed)
             {
                 if (menu.StartHover)
                 {
-                    toReturn = GameState.loadLevel;
+					if (!instructionsOn)
+					{
+						toReturn = GameState.loadLevel;
+					}
                 }
+				else if (menu.InstructHover)
+				{
+					if (instructionsOn)
+					{
+						instructionsOn = false;
+					}
+					else
+					{
+						instructionsOn = true;
+					}
+				}
                 else if (menu.ExitHover)
                 {
-                    toReturn = GameState.exit;
+					if (!instructionsOn)
+					{
+						toReturn = GameState.exit;
+					}
                 }
             }
             previousMS = currentMS;
@@ -120,9 +142,11 @@ namespace LumberjackFantasy
         }
         // ---------------------------------------------------------------------------- Menus Logic -----------------------------------------------------------------------
         //loadmenu command to create the screenmanager to be called in loadContent, method is in its test state as not all textures are created
-        public void LoadMenus(Texture2D startButton, Texture2D exitButton, Texture2D ssBG, Texture2D overlay, Texture2D continueButton, Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D continueHover, Texture2D quitHover)
+        public void LoadMenus(Texture2D startButton, Texture2D exitButton, Texture2D instructButton, Texture2D ssBG, Texture2D overlay, 
+			Texture2D continueButton, Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D instructHover, Texture2D continueHover, Texture2D quitHover)
         {
-            menu = new ScreenPosManager(startButton, exitButton, ssBG, overlay, continueButton, quit, startHover, exitHover, continueHover, quitHover);
+            menu = new ScreenPosManager(startButton, exitButton, instructButton, ssBG, overlay, continueButton, quit, startHover, exitHover, 
+				instructHover, continueHover, quitHover);
         }
 
         //command to see if a button is being hovered over
@@ -140,27 +164,60 @@ namespace LumberjackFantasy
         /// <summary>
         /// Draw method called when the game is at the Title Screen
         /// </summary>
-        public void DrawTitleScreen(SpriteBatch spriteBatch)
+        public void DrawTitleScreen(SpriteBatch spriteBatch, SpriteFont spriteFont)
         {
             menu.DrawStartScreen(spriteBatch);
+			if (!instructionsOn)
+			{
+				if (menu.StartHover)
+				{
+					menu.DrawStartHover(spriteBatch);
+				}
+				else
+				{
+					menu.DrawStartButton(spriteBatch);
+				}
 
-            if (menu.StartHover)
-            {
-                menu.DrawStartHover(spriteBatch);
-            }
-            else
-            {
-                menu.DrawStartButton(spriteBatch);
-            }
-
-            if (menu.ExitHover)
-            {
-                menu.DrawExitHover(spriteBatch);
-            }
-            else
-            {
-                menu.DrawExitButton(spriteBatch);
-            }
+				if (menu.InstructHover)
+				{
+					menu.DrawInstructHover(spriteBatch);
+				}
+				else
+				{
+					menu.DrawInstructButton(spriteBatch);
+				}
+				if (menu.ExitHover)
+				{
+					menu.DrawExitHover(spriteBatch);
+				}
+				else
+				{
+					menu.DrawExitButton(spriteBatch);
+				}
+			}
+			else
+			{
+				spriteBatch.DrawString(spriteFont, "Welcome To LumberJack Fantasy!\n\n" +
+					"WASD Keys To Move\n" +
+					"Arrow Keys To Attack\n" +
+					"Collect the Required Number \n" +
+					"Of Logs Per Level\n\n" +
+					"Cut Down Trees and Collect Syrup\n" +
+					"to Gain points\n\n" +
+					"Killing bears deducts points,\n" +
+					"unless it is Open Season\n\n" +
+					"Collect Apples To regain Health\n" +
+					"Grab a Shotgun for Open Season\n" +
+					"and Shoot Away!", topLeftCenter, Color.White);
+				if (menu.InstructHover)
+				{
+					menu.DrawInstructHover2(spriteBatch);
+				}
+				else
+				{
+					menu.DrawInstructButton2(spriteBatch);
+				}
+			}
         }
 		public void DrawPauseScreen(SpriteBatch spriteBatch)
 		{

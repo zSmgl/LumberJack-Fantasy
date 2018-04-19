@@ -21,10 +21,12 @@ namespace LumberjackFantasy
         private Texture2D title;
         private Texture2D startButton;
         private Texture2D exitButton;
+		private Texture2D instructionsButton;
 		private Texture2D quitButton;
 		private Texture2D menuReturnButton;
 		private Texture2D startButtonH;
 		private Texture2D exitButtonH;
+		private Texture2D instructionsButtonH;
 		private Texture2D quitButtonH;
 		private Texture2D menuReturnButtonH;
 		private Texture2D health; //fossil code
@@ -40,6 +42,8 @@ namespace LumberjackFantasy
         private Vector2 tPos; //title position
         private Vector2 sbPos; //start button position
         private Vector2 ebPos; //exit button position
+		private Vector2 ibPos; //instructions button position
+		private Vector2 ibPos2; //instructions button position for instructions menu
         private Vector2 hPos; //fossil code
         private Vector2 hsPos; //fossil code
         //private Vector2 gsBGPos;
@@ -52,24 +56,28 @@ namespace LumberjackFantasy
 		//bool fields for whether the button is currently hovered
 		private bool startHover;
 		private bool exitHover;
+		private bool instructHover;
 		private bool returnHover;
 		private bool quitHover;
 
         //property rectangles for button hitboxes
         public Rectangle StartButton { get { return new Rectangle((int)sbPos.X, (int)sbPos.Y, startButton.Width, startButton.Height); } }
         public Rectangle ExitButton { get { return new Rectangle((int)ebPos.X, (int)ebPos.Y, exitButton.Width, exitButton.Height); } }
+		public Rectangle InstructButton { get { return new Rectangle((int)ibPos.X, (int)ibPos.Y, instructionsButton.Width, instructionsButton.Height); } }
+		public Rectangle InstructButton2 { get { return new Rectangle((int)ibPos2.X, (int)ibPos2.Y, instructionsButton.Width, instructionsButton.Height); } }
         public Rectangle MenuReturnButton { get { return new Rectangle((int)mrbPos.X, (int)mrbPos.Y, menuReturnButton.Width, menuReturnButton.Height); } }
 		public Rectangle QuitButton { get { return new Rectangle((int)quitButtonPos.X, (int)quitButtonPos.Y, quitButton.Width, quitButton.Height); } }
 
 		//properties to get and set being hovered
 		public bool StartHover { get { return startHover; } set { startHover = value; } }
 		public bool ExitHover { get { return exitHover; } set { exitHover = value; } }
+		public bool InstructHover { get { return instructHover; } set { instructHover = value; } }
 		public bool ReturnHover { get { return returnHover; } set { returnHover = value; } }
 		public bool QuitHover { get { return quitHover; } set { quitHover = value; } }
 		//Constructor
 
-		public ScreenPosManager(Texture2D start, Texture2D exit, Texture2D ssBG, Texture2D pauseBG, Texture2D returnButton, Texture2D quit,
-			Texture2D startH , Texture2D exitH, Texture2D returnH, Texture2D quitH)
+		public ScreenPosManager(Texture2D start, Texture2D exit, Texture2D instruct, Texture2D ssBG, Texture2D pauseBG, Texture2D returnButton, Texture2D quit,
+			Texture2D startH , Texture2D exitH, Texture2D instructH, Texture2D returnH, Texture2D quitH)
         {
             startScreenBackground = ssBG;
             ssBGPos.X = 0;
@@ -80,6 +88,14 @@ namespace LumberjackFantasy
 			startHover = false;
             sbPos.X = 243;
             sbPos.Y = 300;
+
+			instructionsButton = instruct;
+			instructionsButtonH = instructH;
+			instructHover = false;
+			ibPos.X = 243;
+			ibPos.Y = 450;
+			ibPos2.X = 243;
+			ibPos2.Y = 766;
 
             exitButton = exit;
 			exitButtonH = exitH;
@@ -165,7 +181,27 @@ namespace LumberjackFantasy
 			spriteBatch.Draw(pauseScreenBackground, psBGPos, Color.White);
 		}
 
-        /*public void DrawGameScreenElements(SpriteBatch spriteBatch)
+		public void DrawInstructButton(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(instructionsButton, ibPos, Color.White);
+		}
+
+		public void DrawInstructHover(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(instructionsButtonH, ibPos, Color.White);
+		}
+
+		public void DrawInstructButton2(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(instructionsButton, ibPos2, Color.White);
+		}
+
+		public void DrawInstructHover2(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Draw(instructionsButtonH, ibPos2, Color.White);
+		}
+
+		/*public void DrawGameScreenElements(SpriteBatch spriteBatch)
         {
             //Draws the in-game screen UI elements
             spriteBatch.Draw(health, hPos, Color.White);
@@ -189,5 +225,5 @@ namespace LumberjackFantasy
             
         }
 		*/
-    }
+	}
 }
