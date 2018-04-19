@@ -27,10 +27,18 @@ namespace LumberjackFantasy
 
 		//properties --------------------------------------------------------------------
 
+		public Graph UPScreen
+		{
+			get { return upScreen; }
+			set { upScreen = value; }
+		}
+
 		//constructor -------------------------------------------------------------------
-        public PathManager(Graph toSet)
+        public PathManager()
         {
-			upScreen = toSet;
+			upScreen = new Graph();
+			openList = new List<Location>();
+			closedList = new List<Location>();
         }
 
         //methods -----------------------------------------------------------------------
@@ -155,7 +163,7 @@ namespace LumberjackFantasy
         /// Returns a list of potential locations
         /// </summary>
         /// <returns></returns>
-        public List<Location> GetWalkableAdjacentSquares()
+        public List<Location> GetWalkableAdjacentSquares() //CURRENT SOURCE OF CRASH ERROR
         {
             var proposedLocations = new List<Location>();
             for (int i = 0; i < current.AdjacentLocations.Length; i++)

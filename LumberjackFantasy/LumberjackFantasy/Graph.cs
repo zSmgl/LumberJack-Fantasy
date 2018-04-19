@@ -70,6 +70,7 @@ namespace LumberjackFantasy
                     graph[i, j] = new Location(x, y, tileConstant); // Creates a new Location Tile that is 16x16 at the correct x or y position.
                     y += tileConstant;
                 }
+				y = 0;
                 x += tileConstant;
             }
         }
