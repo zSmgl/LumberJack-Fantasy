@@ -201,8 +201,21 @@ namespace LumberjackFantasy
 				case GameState.pause:
 					this.IsMouseVisible = true;
 					gameState = screenManager.UpdatePauseScreen();
-					//show menu
-					break;
+                    // If its going to Quitting from pause to menu, it needs to reset stuff
+                    if (gameState == GameState.start)
+                    {
+                        level = 0;         // Resets level back to 0
+                        worldTile.Clear(); // Clears levels
+                        player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10); // Creates a new Player
+
+                        // Makes new levels for next time game is played
+                        for (int i = 0; i < maxLevel; i++)
+                        {
+                            worldTile.Add(new WorldTile(tree, bear, pickupsT));
+                        }
+                    }
+                    //show menu
+                    break;
 
 
                 case GameState.loadLevel:
