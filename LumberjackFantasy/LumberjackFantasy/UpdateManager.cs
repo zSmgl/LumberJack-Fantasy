@@ -92,7 +92,7 @@ namespace LumberjackFantasy
             this.gameMaxLevel = gameMaxLevel;
             screenHeight = screenHeightMax;
             screenWidth = screenWidthMax;
-            waitTimeNextLevel = 8;
+            waitTimeNextLevel = 3;
         }
 
 
@@ -149,7 +149,7 @@ namespace LumberjackFantasy
 
             if(waitTimeNextLevel<= 0)
             {
-                waitTimeNextLevel = 8;
+                waitTimeNextLevel = 3;
                 return false;
             }
             return true;
@@ -159,11 +159,9 @@ namespace LumberjackFantasy
         {
             // Draws Background Texture.
             spriteBatch.Draw(nextLevelTexture, new Vector2(0,0), Color.White);
-            // Draws Level
-            if(waitTimeNextLevel <= 4)
-            {
-                spriteBatch.DrawString(spriteFont,"Lvl "+(currentLevel+1), new Vector2(281, 365), Color.White);
-            }
+            // Draws Level Text
+            spriteBatch.DrawString(spriteFont,"Lvl "+(currentLevel+1), new Vector2(290, 370), Color.White);
+
         }
 
 		///<summary>
@@ -311,7 +309,7 @@ namespace LumberjackFantasy
                                                                                           // IE: Current trees = 28, Max Level = 5, current level = 0(+1) [As level 0 is really lvl 1]
                                                                                           // So Level 0 [1] has 7 trees total to cut before passing. 
             // Sets players position to the middle of the level.
-            pCurrent.ObjectCollisionBox = new Rectangle((screenWidth/2)-(pCurrent.Width/2), (screenHeight / 2) - (pCurrent.Height / 2), pCurrent.Width, pCurrent.Height);
+            pCurrent.ObjectCollisionBox = new Rectangle((screenWidth)-(pCurrent.Width/2), (screenHeight) - (pCurrent.Height / 2), pCurrent.Width, pCurrent.Height);
             pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
             pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
 

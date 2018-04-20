@@ -107,7 +107,7 @@ namespace LumberjackFantasy
 			//loads spritefont
 			spriteFont = Content.Load<SpriteFont>("spriteFont");
 			scoreFont = Content.Load<SpriteFont>("scores");
-            waitNextlvlFont = Content.Load<SpriteFont>("scores");
+            waitNextlvlFont = Content.Load<SpriteFont>("waitNextLevel");
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //temporary test loadmenu, to keep code short once all textures are made will load into a list, then the loadmenu will call members of that list instead of directly loading
