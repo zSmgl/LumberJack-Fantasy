@@ -20,8 +20,10 @@ namespace LumberjackFantasy
 		private List<Bear> bearsCurrent;                // Holds all of the bears in the game
 		private List<Tree> treesCurrent;                // Holds all of the treesInTheGame
         private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
+
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
+
 		private PathManager pM;                         // Manager that determines pathing for the bears. 
 		private Rectangle[] healthCords;                // Holds location of the helath hearts.
 		private Vector2 hsCord;							// Holds location of the high score
@@ -29,9 +31,12 @@ namespace LumberjackFantasy
         private bool runOpenSeason;                     // Determines if OpenSeason needs to be set, updated, or return to default state
         public Camera camera;                           // Holds the cameras positions
         private int currentLevel;                       // Holds the current Level (-1) (Makes sense in context of # of trees to cut this level)
-        private int gameMaxLevel;                           // Max Amount of Levels in the game (use in # trees to cut this level logic)
+        private int gameMaxLevel;                       // Max Amount of Levels in the game (use in # trees to cut this level logic)
         private int totalTreesToCut;                    // Total Trees to cut this level! (Determined based on Trees Currnent, current level, and max level!)
         private List<Texture2D> uiTextures;             // Holds the textures used in the UI
+        
+        private int screenWidth;                        // Holds the Map/Level Width
+        private int screenHeight;                       // Holds the Map/Level Height
 
 
 		VelocityManager velocityManager = new VelocityManager(0);
@@ -71,7 +76,10 @@ namespace LumberjackFantasy
             oS = new OpenSeasonManager();
             runOpenSeason = false;
             this.gameMaxLevel = gameMaxLevel;
-		}
+
+            screenHeight = screenHeightMax;
+            screenWidth = screenWidthMax;
+        }
 
 
         #region uM Universal Stuff
@@ -261,6 +269,10 @@ namespace LumberjackFantasy
             totalTreesToCut = (treesCurrent.Count / (gameMaxLevel - (currentLevel)));     // Current Trees in level / (Max level - current Level)
                                                                                           // IE: Current trees = 28, Max Level = 5, current level = 0(+1) [As level 0 is really lvl 1]
                                                                                           // So Level 0 [1] has 7 trees total to cut before passing. 
+            // Sets players position to the middle of the level.
+            pCurrent.ObjectCollisionBox = new Rectangle((screenWidth/2)-(pCurrent.Width/2), (screenHeight / 2) - (pCurrent.Height / 2), pCurrent.Width, pCurrent.Height);
+            pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
+            pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
 
             // Handles if Game was in Open Season when Level Ended
 
