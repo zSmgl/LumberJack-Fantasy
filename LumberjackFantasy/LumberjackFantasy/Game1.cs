@@ -32,6 +32,7 @@ namespace LumberjackFantasy
 
 		SpriteFont spriteFont;
 		SpriteFont scoreFont;
+        SpriteFont waitNextlvlFont;
         Texture2D playerTexture;
         Texture2D startScreenBackground;
         Texture2D starterBackground;
@@ -55,6 +56,7 @@ namespace LumberjackFantasy
         Texture2D apple;
         Texture2D shotgun;
         Texture2D syrup;
+        Texture2D nextLevelTexture;
 
         List<Texture2D> ui;
 
@@ -88,7 +90,7 @@ namespace LumberjackFantasy
 			graphics.PreferredBackBufferHeight = 896;
 			graphics.ApplyChanges();
             level = 0;
-            maxLevel = 5; // !Change this for more levels!
+            maxLevel = 5;   // !Change this for more levels!
 			scoreBoardManager = new ScoreboardManager();
             ui = new List<Texture2D>();
 			base.Initialize();
@@ -105,8 +107,9 @@ namespace LumberjackFantasy
 			//loads spritefont
 			spriteFont = Content.Load<SpriteFont>("spriteFont");
 			scoreFont = Content.Load<SpriteFont>("scores");
-			// Create a new SpriteBatch, which can be used to draw textures.
-			spriteBatch = new SpriteBatch(GraphicsDevice);
+            waitNextlvlFont = Content.Load<SpriteFont>("scores");
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             //temporary test loadmenu, to keep code short once all textures are made will load into a list, then the loadmenu will call members of that list instead of directly loading
             
             //Starter Background Variables for Base Build
@@ -129,6 +132,8 @@ namespace LumberjackFantasy
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
             //rng = new Random();
             //LoadTile();
+
+            nextLevelTexture = Content.Load<Texture2D>("nextLevelTexture");
 
             startButton = Content.Load<Texture2D>("startButton");
 			exitButton = Content.Load<Texture2D>("exitButton");
@@ -158,7 +163,7 @@ namespace LumberjackFantasy
 
             // Managers 
 
-			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui);
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui, nextLevelTexture);
             screenManager = new ScreenManager(startButton, exitButton, instructButton, startScreenBackground, pauseBackground, continueButton, 
 				quitButton, startH, exitH, instructH, continueH, quitH);
             player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10);
@@ -196,16 +201,16 @@ namespace LumberjackFantasy
 
             // TODO: Add your update logic here
             switch (gameState)
-			{
-				case GameState.start:
-                    
-					this.IsMouseVisible = true;					
-					gameState = screenManager.UpdateTitleScreen();
-					break;
+            {
+                case GameState.start:
 
-				case GameState.pause:
-					this.IsMouseVisible = true;
-					gameState = screenManager.UpdatePauseScreen();
+                    this.IsMouseVisible = true;
+                    gameState = screenManager.UpdateTitleScreen();
+                    break;
+
+                case GameState.pause:
+                    this.IsMouseVisible = true;
+                    gameState = screenManager.UpdatePauseScreen();
                     // If its going to Quitting from pause to menu, it needs to reset stuff
                     if (gameState == GameState.start)
                     {
@@ -224,10 +229,18 @@ namespace LumberjackFantasy
 
 
                 case GameState.loadLevel:
-					this.IsMouseVisible = false;
-					updateManager.NextLevel(player1, worldTile[level].WorldTrees, worldTile[level].WorldBears, worldTile[level].WorldPickUps, level);
-                    level++;
-                    gameState = GameState.gameLoop;
+                    this.IsMouseVisible = false;
+
+                    if (updateManager.WaitNextLevel(gameTime) == false)
+                    {
+                        updateManager.NextLevel(player1, worldTile[level].WorldTrees, worldTile[level].WorldBears, worldTile[level].WorldPickUps, level);
+                        level++;
+                        gameState = GameState.gameLoop;
+                    }
+                    else
+                    {
+                        gameState = GameState.loadLevel;
+                    }
                     break;
 
                 case GameState.gameLoop:
@@ -302,7 +315,7 @@ namespace LumberjackFantasy
 					break;
 
                 case GameState.loadLevel:
-                    spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+                    updateManager.DrawWaitingScreen(spriteBatch, waitNextlvlFont);
                     break;
                 case GameState.gameLoop:
 					if (frameskip == 0)
