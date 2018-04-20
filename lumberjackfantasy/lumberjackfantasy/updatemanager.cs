@@ -12,6 +12,7 @@ namespace LumberjackFantasy
 	class UpdateManager
 	{
         // Basically Everyone has modified this at one point to assure we dont break each other's code. 
+        // hello
 
 		private Random rng;                             // Random Number Generator used for bears and bear speeds.
 		private GameTime gameTime;                      // Holds the current GameTime
@@ -21,7 +22,6 @@ namespace LumberjackFantasy
         private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
-		private Graph pathGraph;                        // Holds all locations for pathing
 		private PathManager pM;                         // Manager that determines pathing for the bears. 
 		private Rectangle[] healthCords;                // Holds location of the helath hearts.
 		private Vector2 hsCord;							// Holds location of the high score
@@ -63,8 +63,7 @@ namespace LumberjackFantasy
 		{
             uiTextures = textures;
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
-			pathGraph = new Graph();
-			pM = new PathManager(pathGraph);
+			pM = new PathManager();
 			rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 			healthCords = new Rectangle[5] {new Rectangle(178,16, 23, 18), new Rectangle(156,16,23,18), new Rectangle(133, 16,23,18), new Rectangle(111, 16, 23, 18), new Rectangle(88, 16, 23, 18) };
@@ -379,10 +378,7 @@ namespace LumberjackFantasy
 
             // 5 - Update PickUps
 
-            UpdatePickUps();
-
-            // Sets tile of which player is on
-            pM.FindTarget(pCurrent);
+            UpdatePickUps();           
 
             // temp code to check if player has pressing keys to move. runs after updating all the movement.
             // Do not delete this. may use in future.  FAIL-SAFE TO DEACCELERATION STUFF
@@ -663,6 +659,9 @@ namespace LumberjackFantasy
         /// </summary>
         public void UpdateAllBears()
 		{
+			// Sets tile of which player is on
+			pM.FindTarget(pCurrent);
+
 			for (int i = 0; i < bearsCurrent.Count; i++)
 			{
                 // ONLY UPDATES BEARS THAT ARE NOW INTERSECTING WITH THE UPSREEN. THIS CUTS DOWN THE TOTAL AMOUNT OF UPDATING THAT NEEDS TO OCCUR
@@ -1415,14 +1414,14 @@ namespace LumberjackFantasy
 					}
 				}
 			}
-			pathGraph.ClearList();
-			foreach(Location thisTile in pathGraph.Tiles)
+			pM.UPScreen.ClearList();
+			foreach(Location thisTile in pM.UPScreen.Tiles)
 			{
 				
 				if (camera.IsUpdating(thisTile.Pos))
 				{
 					thisTile.ToUpdate = true;
-					pathGraph.UpdateTiles(thisTile);
+					pM.UPScreen.UpdateTiles(thisTile);
 				}
 				else
 				{
