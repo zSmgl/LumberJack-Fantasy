@@ -126,6 +126,7 @@ namespace LumberjackFantasy
 			}
             if(totalTreesToCut <= 0)
             {
+                currentLevel++;
                 toreturn = GameState.loadLevel;
                 if(gameMaxLevel == (currentLevel + 1))
                 {
