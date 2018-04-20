@@ -12,6 +12,7 @@ namespace LumberjackFantasy
 	class UpdateManager
 	{
         // Basically Everyone has modified this at one point to assure we dont break each other's code. 
+        // hello
 
 		private Random rng;                             // Random Number Generator used for bears and bear speeds.
 		private GameTime gameTime;                      // Holds the current GameTime
