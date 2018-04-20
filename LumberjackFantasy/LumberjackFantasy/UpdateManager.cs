@@ -126,12 +126,13 @@ namespace LumberjackFantasy
 			}
             if(totalTreesToCut <= 0)
             {
-                currentLevel++;
                 toreturn = GameState.loadLevel;
                 if(gameMaxLevel == (currentLevel + 1))
                 {
                     toreturn = GameState.gameOver;
+                    currentLevel = 0;
                 }
+                currentLevel++;
             }
 			if (currentKB.IsKeyDown(Keys.P))
 			{
@@ -342,19 +343,16 @@ namespace LumberjackFantasy
             this.gameTime = gameTime;
 		}
 
-        /// <summary>
-        /// Returns the Player
-        /// </summary>
-        /// <returns></returns>
-        public Player ReturnPlayer()
+        public int ReturnScore() //method that returns player score
         {
-            return pCurrent;
+            return pCurrent.TotalScore;
         }
 
-		/// <summary>
-		/// Determines stuff to remove from Lists (Tree, Bear, PickUp)
-		/// </summary>
-		public void RemoveStuffFromStoredLists()
+
+        /// <summary>
+        /// Determines stuff to remove from Lists (Tree, Bear, PickUp)
+        /// </summary>
+        private void RemoveStuffFromStoredLists()
 		{
 			//Removes all trees from the list that have less than or equal to 0 health
 			for (int i = 0; i < treesCurrent.Count; i++)
@@ -396,7 +394,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Responsible for Updating all neccessary variables of the player
         /// </summary>
-        public void UpdatePlayer()
+        private void UpdatePlayer()
 		{
 
 			// Creates a Player Velocity Manager
@@ -455,7 +453,7 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Calculates the new position of the Player & Field of Vision, and updates the Players current Speed in X and Y Directions
 		/// </summary>
-		public void UpdatePlayerMovement()
+		private void UpdatePlayerMovement()
 		{
 			// Adds Speed to the Velocity Manager Based on the Current Keys Pressed
 			if (currentKB.IsKeyDown(Keys.W) == true)
@@ -516,7 +514,7 @@ namespace LumberjackFantasy
 			pCurrent.SpeedY = velocityManager.VelocityY;
 		}
 
-        public void UpdatePlayerAttack(Player oldPos)
+        private void UpdatePlayerAttack(Player oldPos)
         {
             // If the player was not attacking previously or was attacking but hit the 4th frame
             if ((oldPos.IsAttacking == true && oldPos.AttackAnimationF >= 4) || (oldPos.IsAttacking == false))
@@ -562,7 +560,7 @@ namespace LumberjackFantasy
 		/// Updates the Player's direction enum to be properly set. Used to determine what animation of Player should be drawn
 		/// </summary>
 		/// <param name="oldPos">The old player</param>
-		public void UpdatePlayerMovementAnimation(Player oldPos)
+		private void UpdatePlayerMovementAnimation(Player oldPos)
 		{
 
 			// Updates Direction Animation 
@@ -609,7 +607,7 @@ namespace LumberjackFantasy
 		/// Adjusts Players Rectangle Fields and Pos if a collision with a tree has occured.
 		/// </summary>
 		/// <param name="oldPos"></param>
-		public void UpdatePlayerPosition(Player oldPos)
+		private void UpdatePlayerPosition(Player oldPos)
 		{
 
             // -- Collision With Trees --
@@ -695,11 +693,6 @@ namespace LumberjackFantasy
             
         }
 
-		public int ReturnScore() //method that returns player score
-		{
-			return pCurrent.TotalScore;
-		}
-
 
         #endregion Updating Player
         #region Updating Bear
@@ -709,7 +702,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Update Responsible for updating all parts of every bear for each bear.
         /// </summary>
-        public void UpdateAllBears()
+        private void UpdateAllBears()
 		{
 			// Sets tile of which player is on
 			pM.FindTarget(pCurrent);
@@ -763,7 +756,7 @@ namespace LumberjackFantasy
 		/// </summary>
 		/// <param name="oldPos">The old bear</param>
 		/// <param name="i">The # of bear from it's list</param>
-		public void UpdateBearsPosition(Bear oldPos, int i)
+		private void UpdateBearsPosition(Bear oldPos, int i)
 		{
 
             // -- Collision With Trees --
@@ -868,7 +861,7 @@ namespace LumberjackFantasy
 		/// </summary>
 		/// <param name="oldPos">The old bear</param>
 		/// <param name="i">The # of bear from it's list</param>
-		public void UpdateBearAnimation(Bear oldPos, int i)
+		private void UpdateBearAnimation(Bear oldPos, int i)
 		{
 			if (oldPos.PosX > bearsCurrent[i].PosX && oldPos.PosY == bearsCurrent[i].PosY)         // Bear walking in Left Direction
 			{
@@ -911,7 +904,7 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Determines how the bear is currently looking (wandering) around in a random way
 		/// </summary>
-		public void Looking(int i)
+		private void Looking(int i)
 		{
 			// Formula: Adds speed to the velocity manager thats is BETWEEN! -1/2 of it's potential max speed and 1/2 is potential max speed
 			// in both the x and y direction of the bear, randomly creating movement for the bear that could be super fast, or super slow.
@@ -930,7 +923,7 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Used for the bear to follow the player
 		/// </summary>
-		public void FollowPlayer(int i)
+		private void FollowPlayer(int i)
 		{
             pM.ResetForNewBear();
             pM.FindCurrent(bearsCurrent[i]);
@@ -979,7 +972,7 @@ namespace LumberjackFantasy
         /// </summary>
         /// <param name="oldBear"></param>
         /// <param name="i"></param>
-		public void BearMovement(Bear oldBear, int i)
+		private void BearMovement(Bear oldBear, int i)
 		{
 
 			//Determines the bear's state
@@ -1069,7 +1062,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Player runs into bear & attacking
         /// </summary>
-        public void UpdatePlayerBearInteraction()
+        private void UpdatePlayerBearInteraction()
         {
             WalkIntoBear();
             
@@ -1086,7 +1079,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Determines if Player should lose health if running into a bear or if player is invincible. 
         /// </summary>
-        public void WalkIntoBear()
+        private void WalkIntoBear()
         {
             if (bearsCurrent != null && pCurrent.Invincible == false)
             {
@@ -1297,7 +1290,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Loops through list of all pickups, if pickup collides checks type and handles code
         /// </summary>
-        public void UpdatePickUps()
+        private void UpdatePickUps()
 		{
 				foreach (PickUp thisPickup in pickUpsCurrent)
 				{
@@ -1326,7 +1319,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Determines if the game State should be set or not.
         /// </summary>
-        public void CheckOpenSeason()
+        private void CheckOpenSeason()
         {
             // If open season was not occuring before, it now needs to be set.
             if (runOpenSeason == false)
@@ -1344,7 +1337,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Set's Open Season values where needed
         /// </summary>
-        public void SetOpenSeason()
+        private void SetOpenSeason()
         {
             bearsCurrent = oS.SetOpenSeasonList(bearsCurrent);
             pCurrent = oS.SetOpenSeasonPlayer(pCurrent);
@@ -1354,7 +1347,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Determines if Open Season should end or not.
         /// </summary>
-        public void DetermineOpenSeason()
+        private void DetermineOpenSeason()
         {
             if (oS.OpenSeason() == true)
             {
@@ -1370,7 +1363,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Resets Values of Open Season
         /// </summary>
-        public void EndOpenSeason()
+        private void EndOpenSeason()
         {
             bearsCurrent = oS.EndOpenSeasonList(bearsCurrent);
             pCurrent = oS.EndOpenSeasonPlayer(pCurrent);
@@ -1385,7 +1378,7 @@ namespace LumberjackFantasy
         /// <summary>
         /// Updates the Camera and all variables in the Camera
         /// </summary>
-        public void UpdateCamera()
+        private void UpdateCamera()
         {
             camera.UpdatePosition(pCurrent.ObjectCollisionBox);
 			if (treesCurrent != null)
