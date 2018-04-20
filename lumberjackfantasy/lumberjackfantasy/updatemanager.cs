@@ -24,6 +24,8 @@ namespace LumberjackFantasy
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
 
+        private double waitTimeNextLevel;               //time to wait between levels
+
 		private PathManager pM;                         // Manager that determines pathing for the bears. 
 		private Rectangle[] healthCords;                // Holds location of the helath hearts.
 		private Vector2 hsCord;							// Holds location of the high score
@@ -33,7 +35,9 @@ namespace LumberjackFantasy
         private int currentLevel;                       // Holds the current Level (-1) (Makes sense in context of # of trees to cut this level)
         private int gameMaxLevel;                       // Max Amount of Levels in the game (use in # trees to cut this level logic)
         private int totalTreesToCut;                    // Total Trees to cut this level! (Determined based on Trees Currnent, current level, and max level!)
+
         private List<Texture2D> uiTextures;             // Holds the textures used in the UI
+        private Texture2D nextLevelTexture;             // Holds the next level texture. Not apart of UI
         
         private int screenWidth;                        // Holds the Map/Level Width
         private int screenHeight;                       // Holds the Map/Level Height
@@ -64,21 +68,31 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>
-		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera, int gameMaxLevel, List<Texture2D> textures)
+		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera, int gameMaxLevel, List<Texture2D> textures, Texture2D nextLevelTexture)
 		{
+            // Sets Textures
             uiTextures = textures;
+            this.nextLevelTexture = nextLevelTexture;
+
+            // Creates Managers and rng
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
 			pM = new PathManager();
 			rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
-			healthCords = new Rectangle[5] {new Rectangle(178,16, 23, 18), new Rectangle(156,16,23,18), new Rectangle(133, 16,23,18), new Rectangle(111, 16, 23, 18), new Rectangle(88, 16, 23, 18) };
+
+            // Cords for UI stuff
+            healthCords = new Rectangle[5] {new Rectangle(178,16, 23, 18), new Rectangle(156,16,23,18), new Rectangle(133, 16,23,18), new Rectangle(111, 16, 23, 18), new Rectangle(88, 16, 23, 18) };
 			hsCord = new Vector2(777, 14);
+
+            // Open Season
             oS = new OpenSeasonManager();
             runOpenSeason = false;
-            this.gameMaxLevel = gameMaxLevel;
 
+            // Other Info needed 
+            this.gameMaxLevel = gameMaxLevel;
             screenHeight = screenHeightMax;
             screenWidth = screenWidthMax;
+            waitTimeNextLevel = 8;
         }
 
 
@@ -124,6 +138,33 @@ namespace LumberjackFantasy
 			}
 			return toreturn;
 		}
+
+        /// <summary>
+        /// Provides a visual change between levels.
+        /// </summary>
+        /// <returns></returns>
+        public bool WaitNextLevel(GameTime gametime)
+        {
+            waitTimeNextLevel -= gametime.ElapsedGameTime.TotalSeconds;
+
+            if(waitTimeNextLevel<= 0)
+            {
+                waitTimeNextLevel = 8;
+                return false;
+            }
+            return true;
+        }
+
+        public void DrawWaitingScreen(SpriteBatch spriteBatch, SpriteFont spriteFont)
+        {
+            // Draws Background Texture.
+            spriteBatch.Draw(nextLevelTexture, new Vector2(0,0), Color.White);
+            // Draws Level
+            if(waitTimeNextLevel <= 4)
+            {
+                spriteBatch.DrawString(spriteFont,"Lvl "+(currentLevel+1), new Vector2(281, 365), Color.White);
+            }
+        }
 
 		///<summary>
 		///Draw method called during the gameLoop
