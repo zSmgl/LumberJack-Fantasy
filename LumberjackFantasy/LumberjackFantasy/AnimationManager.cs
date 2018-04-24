@@ -32,7 +32,7 @@ namespace LumberjackFantasy
 
 		// Methods
 
-		private void UpdateAnimation(GameTime gameTime)
+		private bool UpdateAnimation(GameTime gameTime)
 		{
 			// Add to the time counter (need TOTALSECONDS here)
 			timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -40,18 +40,16 @@ namespace LumberjackFantasy
 			// Has enough time gone by to actually flip frames?
 			if (timeCounter >= secondsPerFrame)
 			{
-				// Update the frame and wrap
-				currentFrame++;
-				if (currentFrame >= 4) currentFrame = 1;
-
 				// Remove one "frame" worth of time
-				timeCounter -= secondsPerFrame;
+				timeCounter -= secondsPerFrame; // tell what is asking that it may update the frame
+				return true;
 			}
+			return false;
 			 
 		}
 
 
-		private void Animate(SpriteBatch spriteBatch, Texture2D aniTexture, Vector2 vector2, int widthOfSingleSprite, SpriteEffects flip)
+		private void Animate(SpriteBatch spriteBatch, Texture2D aniTexture, Vector2 vector2, int widthOfSingleSprite, SpriteEffects flip) //fossil code
 		{
 			spriteBatch.Draw(
 				aniTexture,
