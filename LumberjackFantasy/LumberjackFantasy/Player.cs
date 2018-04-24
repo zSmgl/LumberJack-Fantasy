@@ -23,10 +23,10 @@ namespace LumberjackFantasy
         upright,
         downleft,
         downright,
-        up,
-        down,
-        left,
-        right,
+        up = 0,
+        down = 1,
+        left = 3,
+        right = 2,
     }
 
     enum PlayerAttackDirection
@@ -47,6 +47,8 @@ namespace LumberjackFantasy
         private int levelScore;         // Lvl Score'
         private int totalScore;         // Player's total score
         // ------------------------------
+
+        private Texture2D attackTexture;// Players Attack Texture
 
         private double invincibleTimer; // Invincibility Timer
         private bool invincibile;        // determines if player is invincible or not.
@@ -138,7 +140,7 @@ namespace LumberjackFantasy
             attackStuff = false;
             invincibleTimer = 3;
             invincibile = false;
-            attackAnimationF = 1; // Will draw the first attacking frame
+            attackAnimationF = 0; // Will draw the first attacking frame
             attack = AttackVariation.axe; // Player Starts with Axe
         }
 
@@ -156,6 +158,11 @@ namespace LumberjackFantasy
             attackAnimationF = p.attackAnimationF;
         }
 
+        public void LoadAttackTexture(Texture2D attackText)
+        {
+            attackTexture = attackText;
+        }
+
         /// <summary>
         /// Reset's Invincibility
         /// </summary>
@@ -171,7 +178,12 @@ namespace LumberjackFantasy
         public override void Draw(SpriteBatch sb, Vector2 camera)
         {
             //Base Draw Method for Base Build
-            base.Draw(sb, camera);
+            if (onScreen)
+            {
+                sb.Draw(objectTexture, 
+                    new Vector2(objectCollisionBox.X - Convert.ToInt32(cameraPos.X), objectCollisionBox.Y - Convert.ToInt32(cameraPos.Y)), 
+                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, (int)playerDirection * objectCollisionBox.Height , playerobjectCollisionBox.Width, objectCollisionBox.Height), Color.White);
+            }
 
             // Draw method for vision field incase we need to see it
             // This includes sending a texture for the vision texutre. Essentially just a black box.

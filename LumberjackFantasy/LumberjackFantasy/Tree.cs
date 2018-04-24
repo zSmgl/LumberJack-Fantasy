@@ -30,7 +30,14 @@ namespace LumberjackFantasy
         //methods -----------------------------------------------------------------------
         public override void Draw(SpriteBatch sb, Vector2 camera)
         {
-            base.Draw(sb, camera);
+                        //Base Draw Method for Base Build
+            if (onScreen)
+            {
+                sb.Draw(objectTexture, 
+                    new Vector2(objectCollisionBox.X - Convert.ToInt32(cameraPos.X), objectCollisionBox.Y - Convert.ToInt32(cameraPos.Y)), 
+                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, 0 * objectCollisionBox.Height , playerobjectCollisionBox.Width, objectCollisionBox.Height), Color.White);
+            }
+
         }
     }
 }
