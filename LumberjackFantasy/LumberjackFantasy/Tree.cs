@@ -34,8 +34,8 @@ namespace LumberjackFantasy
             if (onScreen)
             {
                 sb.Draw(objectTexture, 
-                    new Vector2(objectCollisionBox.X - Convert.ToInt32(cameraPos.X), objectCollisionBox.Y - Convert.ToInt32(cameraPos.Y)), 
-                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, 0 * objectCollisionBox.Height , playerobjectCollisionBox.Width, objectCollisionBox.Height), Color.White);
+                    new Vector2(objectCollisionBox.X - Convert.ToInt32(camera.X), objectCollisionBox.Y - Convert.ToInt32(camera.Y)), 
+                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, 0 * objectCollisionBox.Height , objectCollisionBox.Width, objectCollisionBox.Height), Color.White);
             }
 
         }

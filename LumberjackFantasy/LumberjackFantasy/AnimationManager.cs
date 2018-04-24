@@ -29,7 +29,7 @@ namespace LumberjackFantasy
 
 		// Methods
 
-		private bool UpdateAnimation(GameTime gameTime)
+		public bool UpdateAnimation(GameTime gameTime)
 		{
 			// Add to the time counter (need TOTALSECONDS here)
 			timeCounter += gameTime.ElapsedGameTime.TotalSeconds;

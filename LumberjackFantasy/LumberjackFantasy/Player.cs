@@ -19,10 +19,10 @@ namespace LumberjackFantasy
                                      
     enum PlayerDirection
     {
-        upleft,
-        upright,
-        downleft,
-        downright,
+        upleft = 4,
+        upright = 5,
+        downleft = 6,
+        downright = 7,
         up = 0,
         down = 1,
         left = 3,
@@ -181,8 +181,8 @@ namespace LumberjackFantasy
             if (onScreen)
             {
                 sb.Draw(objectTexture, 
-                    new Vector2(objectCollisionBox.X - Convert.ToInt32(cameraPos.X), objectCollisionBox.Y - Convert.ToInt32(cameraPos.Y)), 
-                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, (int)playerDirection * objectCollisionBox.Height , playerobjectCollisionBox.Width, objectCollisionBox.Height), Color.White);
+                    new Vector2(objectCollisionBox.X - Convert.ToInt32(camera.X), objectCollisionBox.Y - Convert.ToInt32(camera.Y)), 
+                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, (int)playerDirection * objectCollisionBox.Height , objectCollisionBox.Width, objectCollisionBox.Height), Color.White);
             }
 
             // Draw method for vision field incase we need to see it
