@@ -1124,7 +1124,7 @@ namespace LumberjackFantasy
 
             if (pCurrent.Attack == AttackVariation.axe)
             {
-                attackArea = new Rectangle(pCurrent.Location.X, pCurrent.Location.Y, 100, 100);
+                attackArea = new Rectangle(pCurrent.Location.X, pCurrent.Location.Y, 100, 50);
                 // changes the direction of the box based on player orientation
                 /*
 				 *    < ^ ^
@@ -1134,19 +1134,27 @@ namespace LumberjackFantasy
 				 */
                 switch (pCurrent.AttackDirection)
                 {
-                    case PlayerAttackDirection.up:
-                        attackArea.Y -= pCurrent.Height;
-                        break;
-                    case PlayerAttackDirection.down:
-                        attackArea.Y += pCurrent.Height;
-                        break;
-                    case PlayerAttackDirection.left:
-                        attackArea.X -= pCurrent.Width;
-                        break;
-                    case PlayerAttackDirection.right:
-                        attackArea.X += pCurrent.Width;
-                        break;
-                }
+					case PlayerAttackDirection.up:
+						attackArea.Y -= (attackArea.Height);
+						attackArea.X -= (attackArea.Width / 2);
+						break;
+					case PlayerAttackDirection.down:
+						attackArea.Y += pCurrent.Height;
+						attackArea.X -= (attackArea.Width / 2);
+						break;
+					case PlayerAttackDirection.left:
+						attackArea.Width = 50;
+						attackArea.Height = 100;
+						attackArea.X -= (attackArea.Width);
+						attackArea.Y -= (attackArea.Height / 2);
+						break;
+					case PlayerAttackDirection.right:
+						attackArea.Width = 50;
+						attackArea.Height = 100;
+						attackArea.X += pCurrent.Width;
+						attackArea.Y -= (attackArea.Width / 2);
+						break;
+				}
 
 
                 //calls collision on Bears
@@ -1175,26 +1183,26 @@ namespace LumberjackFantasy
             else if (pCurrent.Attack == AttackVariation.shotgun)
             {
                 //sizes 4:3 - May need to Scale Down LOL
-                attackArea = new Rectangle(pCurrent.Location.X, pCurrent.Location.Y, 100, 100);
+                attackArea = new Rectangle(pCurrent.Location.X, pCurrent.Location.Y, 275, 275);
 
                 //expands the area based on direction, uses same layout as above
                 switch (pCurrent.AttackDirection)
                 {
                     case PlayerAttackDirection.up:
-                        attackArea.Y -= (pCurrent.Height * 2);
-                        attackArea.Height = 350;
+                        attackArea.Y -= (attackArea.Height);
+						attackArea.X -= (attackArea.Width / 2);
                         break;
                     case PlayerAttackDirection.down:
                         attackArea.Y += pCurrent.Height;
-                        attackArea.Height = 350;
+						attackArea.X -= (attackArea.Width / 2);
                         break;
                     case PlayerAttackDirection.left:
-                        attackArea.X -= (pCurrent.Width * 2);
-                        attackArea.Width = 350;
+                        attackArea.X -= (attackArea.Width);
+						attackArea.Y -= (attackArea.Height / 2);
                         break;
                     case PlayerAttackDirection.right:
                         attackArea.X += pCurrent.Width;
-                        attackArea.Width = 350;
+						attackArea.Y -= (attackArea.Width / 2);
                         break;
                 }
 
