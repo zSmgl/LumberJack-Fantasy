@@ -1036,18 +1036,18 @@ namespace LumberjackFantasy
 			}
 			else if (oldBear.BearState == BearState.following && bearsCurrent[i].BearState == BearState.following)
 			{
-				FollowPlayer(i);
+				//FollowPlayer(i);
 			}
 			else if (oldBear.BearState == BearState.stationary && bearsCurrent[i].BearState == BearState.following)
 			{
 				// Sets speed of velocity manager back to 
 				bearsCurrent[i].ResetBearTimers(rng);
-				FollowPlayer(i);
+				//FollowPlayer(i);
 			}
 			else if (oldBear.BearState == BearState.looking && bearsCurrent[i].BearState == BearState.following)
 			{
 				bearsCurrent[i].ResetBearTimers(rng);
-				FollowPlayer(i);
+				//FollowPlayer(i);
 			}
 
 
