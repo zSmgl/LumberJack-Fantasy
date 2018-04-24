@@ -29,10 +29,10 @@ namespace LumberjackFantasy
         upright,
         downleft,
         downright,
-        up,
-        down,
-        left,
-        right,
+        up = 0,
+        down = 1,
+        left = 2,
+        right = 3,
     }
     class Bear : LivingObject 
     {
@@ -44,6 +44,8 @@ namespace LumberjackFantasy
 
         private int fieldOfAttackStandard;      // Determines how far the Field of Attack to trigger a bear swipping should be from the object   
         private Rectangle fieldOfAttack;        // Rectangle that determines if the bear should trigger an attack animation
+        private bool attackStuff;       // Determines if the player can attack something. 
+        private int attackAnimationF;   // Keeps track of the players current attacking animation frame;
 
         // Movement Based Fields --------------------------------------------------------------
 
@@ -163,6 +165,8 @@ namespace LumberjackFantasy
             timeOfMovementMax = 3;                                                     // Bear can move a max 5 seconds in a direction;
             timeOfMovementMin = 1;                                                     // Bear can move a min 1 seconds in a direction;
             timeOfMovementLimiter = rng.Next(timeOfMovementMin, timeOfMovementMax);    // Can Move in a random direction for 1-5 seconds
+            attackStuff = false;
+            attackAnimationF = false;
 
 
         }
@@ -203,6 +207,18 @@ namespace LumberjackFantasy
             whenToMoveCounter = 0;                                                  // Resets the movementTimer back to 0
             timeOfMovementLimiter = rng.Next(timeOfMovementMin, timeOfMovementMax); // Comes up with a random total time of movement.
             timeOfMovementCounter = 0;                                              // Resets the timeOfMovement counter to 0
+        }
+
+        public override void Draw(SpriteBatch sb, Vector2 camera)
+        {
+                        //Base Draw Method for Base Build
+            if (onScreen)
+            {
+                sb.Draw(objectTexture, 
+                    new Vector2(objectCollisionBox.X - Convert.ToInt32(cameraPos.X), objectCollisionBox.Y - Convert.ToInt32(cameraPos.Y)), 
+                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, (int)bearDirection * objectCollisionBox.Height , playerobjectCollisionBox.Width, objectCollisionBox.Height), Color.White);
+            }
+
         }
     }
 }

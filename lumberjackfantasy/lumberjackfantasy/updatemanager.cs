@@ -26,6 +26,8 @@ namespace LumberjackFantasy
 
         private double waitTimeNextLevel;               //time to wait between levels
 
+        private AnimationManager aM;                    // Animation Manager
+        private bool animate;                           // Tells things to animate
 		private PathManager pM;                         // Manager that determines pathing for the bears. 
 		private Rectangle[] healthCords;                // Holds location of the helath hearts.
 		private Vector2 hsCord;							// Holds location of the high score
@@ -75,10 +77,13 @@ namespace LumberjackFantasy
             this.nextLevelTexture = nextLevelTexture;
 
             // Creates Managers and rng
+            aM = new AnimationManager();
+            animate = false;
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
 			pM = new PathManager();
 			rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
+
 
             // Cords for UI stuff
             healthCords = new Rectangle[5] {new Rectangle(178,16, 23, 18), new Rectangle(156,16,23,18), new Rectangle(133, 16,23,18), new Rectangle(111, 16, 23, 18), new Rectangle(88, 16, 23, 18) };
@@ -113,12 +118,14 @@ namespace LumberjackFantasy
                 DetermineOpenSeason();
             }
 
+
+            UpdateAnimations();
 			UpdatePlayer();
             UpdateCamera();
             UpdateAllBears();
             UpdatePlayerBearInteraction();
 			RemoveStuffFromStoredLists();
-
+            
 
 			if (pCurrent.Health <= 0)
 			{
@@ -1484,6 +1491,13 @@ namespace LumberjackFantasy
         }
 
         #endregion Updating Camera
+
+        // --------------------------------------------------------------------------------------------------------------------- Update Animations -------------------------------------------//
+
+        public void UpdateAnimations()
+        {
+            animate = aM.UpdateAnimation(gameTime);
+        }
     }
 }
 

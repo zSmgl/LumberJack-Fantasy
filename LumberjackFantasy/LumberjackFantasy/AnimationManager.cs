@@ -17,17 +17,14 @@ namespace LumberjackFantasy
 		private double fps;
 		private double secondsPerFrame;
 		private double timeCounter;
-		private SpriteBatch spriteBatch;
 
 		// Constructor
-		public AnimationManager(SpriteBatch sprite)
+		public AnimationManager()
 		{
 			currentFrame = 1;
 			fps = 30.0;
 			secondsPerFrame = 1.0f / fps;
 			timeCounter = 0;
-			spriteBatch = sprite;
-			
 		}
 
 		// Methods
@@ -48,7 +45,7 @@ namespace LumberjackFantasy
 			 
 		}
 
-
+        /*
 		private void Animate(SpriteBatch spriteBatch, Texture2D aniTexture, Vector2 vector2, int widthOfSingleSprite, SpriteEffects flip) //fossil code
 		{
 			spriteBatch.Draw(
@@ -62,5 +59,6 @@ namespace LumberjackFantasy
 				flip,
 				0.0f);
 		}
+        */
 	}
 }
