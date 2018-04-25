@@ -530,33 +530,37 @@ namespace LumberjackFantasy
                 if (currentKB.IsKeyDown(Keys.Up) == true)
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
-                    pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame
+                    pCurrent.AttackAnimationF = 0; // Player must draw the attacking first frame
                     pCurrent.AttackDirection = PlayerAttackDirection.up; // Gives a direction of the hitbox and animation
+                    ResetBearsAttackBool();
                 }
                 // Will Attack Up
                 else if (currentKB.IsKeyDown(Keys.Left) == true)
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
-                    pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame
+                    pCurrent.AttackAnimationF = 0; // Player must draw the attacking first frame
                     pCurrent.AttackDirection = PlayerAttackDirection.left; // Gives a direction of the hit box and animation
+                    ResetBearsAttackBool();
                 }
                 // Will Attack Down
                 else if (currentKB.IsKeyDown(Keys.Down) == true)
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
-                    pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame 
+                    pCurrent.AttackAnimationF = 0; // Player must draw the attacking first frame 
                     pCurrent.AttackDirection = PlayerAttackDirection.down; // Gives a direction of the hit box and animation
+                    ResetBearsAttackBool();
                 }
                 // Will AttackRight
                 else if (currentKB.IsKeyDown(Keys.Right) == true)
                 {
                     pCurrent.IsAttacking = true; // Player is now attacking!
-                    pCurrent.AttackAnimationF = 1; // Player must draw the attacking first frame 
+                    pCurrent.AttackAnimationF = 0; // Player must draw the attacking first frame 
                     pCurrent.AttackDirection = PlayerAttackDirection.right; // Gives a direction of the hit box and animation
+                    ResetBearsAttackBool();
                 }
                 // If player was attacking and is now [what would be] a frame over his animation for attacking,
                 // make him no longer attacking and he is now back to frame 1
-                else if (oldPos.AttackAnimationF >= 9 && oldPos.IsAttacking == true)
+                else if (oldPos.AttackAnimationF > 8 && oldPos.IsAttacking == true)
                 {
                     pCurrent.IsAttacking = false; // Player is no longer Attacking!!!!
                 }
@@ -1061,6 +1065,18 @@ namespace LumberjackFantasy
 
 		}
 
+        //Makes Bears allowed to be attacked again
+        private void ResetBearsAttackBool()
+        {
+            if(bearsCurrent!= null)
+            {
+                foreach(Bear b in bearsCurrent)
+                {
+                    b.WasAttacked = false;
+                }
+            }
+        }
+
         #endregion Updating Bear
         #region Updating Player & Bear Interactions
 
@@ -1218,9 +1234,10 @@ namespace LumberjackFantasy
                 //checks and deals with the heath of the bears
                 for (int i = 0; i < bearHits.Length; i++)
                 {
-                    if (bearHits[i])
+                    if (bearHits[i] && bearsCurrent[i].WasAttacked == false)
                     {
                         bearsCurrent[i].Health--;
+                        bearsCurrent[i].WasAttacked = true;
                     }
                 }
 
@@ -1237,7 +1254,10 @@ namespace LumberjackFantasy
             }
 
             // Increment the Attack Animation Frame since the player has attacked!
-            pCurrent.AttackAnimationF++;
+            if (animate == true)
+            {
+                pCurrent.AttackAnimationF++;
+            }
         }
         
         public void UpdateBearsAttack()
