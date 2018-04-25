@@ -65,6 +65,8 @@ namespace LumberjackFantasy
         private double timeOfMovementCounter;   // Counter that updates with GameTime that tells the bear how long it should move.
         private double timeOfMovementLimiter;   // Randomly Generated time between max and min that tells how long a bear can move for.
 
+        private bool wasAttacked;
+
         // Properties ------------------------------------------------------------------
 
         /// <summary>
@@ -135,6 +137,13 @@ namespace LumberjackFantasy
             set { scoreValue = value; }
         }
 
+        //Checks if bear was attacked during this current players attack animation
+        public bool WasAttacked
+        {
+            get { return wasAttacked; }
+            set { wasAttacked = value; }
+        }
+
 		
 
 
@@ -167,6 +176,7 @@ namespace LumberjackFantasy
             timeOfMovementLimiter = rng.Next(timeOfMovementMin, timeOfMovementMax);    // Can Move in a random direction for 1-5 seconds
             attackStuff = false;
             attackAnimationF = 0;
+            wasAttacked = false;
 
 
         }
@@ -195,6 +205,7 @@ namespace LumberjackFantasy
 
             bearState = b.bearState;            // Enum that checks the state of the bear [Looking / Following / Dead]
             bearDirection = b.bearDirection;    // Enum that checks the direction of the bear 
+            wasAttacked = b.wasAttacked;
     }
 
 
