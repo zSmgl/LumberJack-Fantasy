@@ -173,10 +173,22 @@ namespace LumberjackFantasy
 
         }
 
-		///<summary>
-		///Draw method called during the gameLoop
-		///</summary>
-		public void DrawGame(SpriteBatch spriteBatch, SpriteFont spriteFont)
+        private void ResetTreesAttackBool()
+        {
+            if(treesCurrent!= null)
+            {
+                foreach (Tree t in treesCurrent)
+                {
+                    t.WasAttacked = false;
+                }
+            }
+            
+        }
+
+        ///<summary>
+        ///Draw method called during the gameLoop
+        ///</summary>
+        public void DrawGame(SpriteBatch spriteBatch, SpriteFont spriteFont)
 		{
 			//draw player
 			pCurrent.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
@@ -533,6 +545,7 @@ namespace LumberjackFantasy
                     pCurrent.AttackAnimationF = 0; // Player must draw the attacking first frame
                     pCurrent.AttackDirection = PlayerAttackDirection.up; // Gives a direction of the hitbox and animation
                     ResetBearsAttackBool();
+                    ResetTreesAttackBool();
                 }
                 // Will Attack Up
                 else if (currentKB.IsKeyDown(Keys.Left) == true)
@@ -541,6 +554,7 @@ namespace LumberjackFantasy
                     pCurrent.AttackAnimationF = 0; // Player must draw the attacking first frame
                     pCurrent.AttackDirection = PlayerAttackDirection.left; // Gives a direction of the hit box and animation
                     ResetBearsAttackBool();
+                    ResetTreesAttackBool();
                 }
                 // Will Attack Down
                 else if (currentKB.IsKeyDown(Keys.Down) == true)
@@ -549,6 +563,7 @@ namespace LumberjackFantasy
                     pCurrent.AttackAnimationF = 0; // Player must draw the attacking first frame 
                     pCurrent.AttackDirection = PlayerAttackDirection.down; // Gives a direction of the hit box and animation
                     ResetBearsAttackBool();
+                    ResetTreesAttackBool();
                 }
                 // Will AttackRight
                 else if (currentKB.IsKeyDown(Keys.Right) == true)
@@ -557,6 +572,7 @@ namespace LumberjackFantasy
                     pCurrent.AttackAnimationF = 0; // Player must draw the attacking first frame 
                     pCurrent.AttackDirection = PlayerAttackDirection.right; // Gives a direction of the hit box and animation
                     ResetBearsAttackBool();
+                    ResetTreesAttackBool();
                 }
                 // If player was attacking and is now [what would be] a frame over his animation for attacking,
                 // make him no longer attacking and he is now back to frame 1
@@ -564,6 +580,7 @@ namespace LumberjackFantasy
                 {
                     pCurrent.IsAttacking = false; // Player is no longer Attacking!!!!
                     ResetBearsAttackBool();
+                    ResetTreesAttackBool();
                 }
             }
         }
@@ -1198,9 +1215,10 @@ namespace LumberjackFantasy
                 //checks and deals with the health of trees.
                 for (int i = 0; i < treeHits.Length; i++)
                 {
-                    if (treeHits[i])
+                    if (treeHits[i] && treesCurrent[i].WasAttacked == false)
                     {
                         treesCurrent[i].Health--;
+                        treesCurrent[i].WasAttacked = true;
                     }
                 }
 
@@ -1248,9 +1266,10 @@ namespace LumberjackFantasy
                 //checks and deals with the health of trees.
                 for (int i = 0; i < treeHits.Length; i++)
                 {
-                    if (treeHits[i])
+                    if (treeHits[i] && treesCurrent[i].WasAttacked == false)
                     {
                         treesCurrent[i].Health--;
+                        treesCurrent[i].WasAttacked = true;
                     }
                 }
             }
