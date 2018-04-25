@@ -1208,23 +1208,20 @@ namespace LumberjackFantasy
                 {
 					case PlayerAttackDirection.up:
 						attackArea.Y -= (attackArea.Height);
-						attackArea.X -= (attackArea.Width / 2);
+						
 						break;
 					case PlayerAttackDirection.down:
 						attackArea.Y += pCurrent.Height;
-						attackArea.X -= (attackArea.Width / 2);
 						break;
 					case PlayerAttackDirection.left:
 						attackArea.Width = 50;
 						attackArea.Height = 100;
 						attackArea.X -= (attackArea.Width);
-						attackArea.Y -= (attackArea.Height / 2);
 						break;
 					case PlayerAttackDirection.right:
 						attackArea.Width = 50;
 						attackArea.Height = 100;
 						attackArea.X += pCurrent.Width;
-						attackArea.Y -= (attackArea.Width / 2);
 						break;
 				}
 
@@ -1263,19 +1260,15 @@ namespace LumberjackFantasy
                 {
                     case PlayerAttackDirection.up:
                         attackArea.Y -= (attackArea.Height);
-						attackArea.X -= (attackArea.Width / 2);
                         break;
                     case PlayerAttackDirection.down:
                         attackArea.Y += pCurrent.Height;
-						attackArea.X -= (attackArea.Width / 2);
                         break;
                     case PlayerAttackDirection.left:
                         attackArea.X -= (attackArea.Width);
-						attackArea.Y -= (attackArea.Height / 2);
                         break;
                     case PlayerAttackDirection.right:
                         attackArea.X += pCurrent.Width;
-						attackArea.Y -= (attackArea.Width / 2);
                         break;
                 }
 
