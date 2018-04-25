@@ -1254,12 +1254,22 @@ namespace LumberjackFantasy
             }
 
             // Increment the Attack Animation Frame since the player has attacked!
-            if (animate == true)
+            if (animate == true && pCurrent.IsAttacking == true)
             {
                 pCurrent.AttackAnimationF++;
             }
+            // Increment the Attack Animation Frame for each Bear attacking
+            if (bearsCurrent != null)
+            {
+                foreach(Bear b in bearsCurrent )
+                if (animate == true && b.IsAttacking == true)
+                {
+                    b.AttackAnimationF++;
+                }
+            }
+
         }
-        
+
         public void UpdateBearsAttack()
         {
             foreach (Bear b in bearsCurrent)
