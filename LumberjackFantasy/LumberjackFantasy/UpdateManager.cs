@@ -44,7 +44,6 @@ namespace LumberjackFantasy
         private int screenWidth;                        // Holds the Map/Level Width
         private int screenHeight;                       // Holds the Map/Level Height
 
-
 		VelocityManager velocityManager = new VelocityManager(0);
         CollisionManager collisionManager;
 
@@ -189,6 +188,51 @@ namespace LumberjackFantasy
 					if (thisObject.OnScreen)
 					{
 						thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+					}
+				}
+			}
+
+			//if attacking draw attack
+			if (pCurrent.IsAttacking)
+			{
+				if (pCurrent.Attack == AttackVariation.axe)
+				{
+					if (pCurrent.AttackDirection == PlayerAttackDirection.left)
+					{
+						spriteBatch.Draw(uiTextures[9], pCurrent.PlayerAttackBox, new Rectangle(0,pCurrent.AttackAnimationF * 100 ,50, 100) , Color.White, 0.0f, 
+							Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
+					}
+					else if (pCurrent.AttackDirection == PlayerAttackDirection.right)
+					{
+						spriteBatch.Draw(uiTextures[9], pCurrent.PlayerAttackBox, new Rectangle(0, pCurrent.AttackAnimationF * 100, 50, 100), Color.White);
+					}
+					else if (pCurrent.AttackDirection == PlayerAttackDirection.up)
+					{
+						spriteBatch.Draw(uiTextures[10], pCurrent.PlayerAttackBox, new Rectangle(pCurrent.AttackAnimationF *100, 0, 100, 50), Color.White);
+					}
+					else
+					{
+						spriteBatch.Draw(uiTextures[10], pCurrent.PlayerAttackBox, new Rectangle(pCurrent.AttackAnimationF * 100, 0, 100, 50), Color.White, 0.0f, 
+							Vector2.Zero, SpriteEffects.FlipVertically,0.0f);
+					}
+				}
+				else
+				{
+					if (pCurrent.AttackDirection == PlayerAttackDirection.left)
+					{
+
+					}
+					else if (pCurrent.AttackDirection == PlayerAttackDirection.right)
+					{
+
+					}
+					else if (pCurrent.AttackDirection == PlayerAttackDirection.up)
+					{
+
+					}
+					else
+					{
+
 					}
 				}
 			}
@@ -1179,7 +1223,7 @@ namespace LumberjackFantasy
 						break;
 				}
 
-
+				pCurrent.PlayerAttackBox = attackArea;
                 //calls collision on Bears
                 bool[] bearHits = collisionManager.GenericAttack(attackArea, pCurrent, bearsCurrent);
                 //checks and deals with the heath of the bears
@@ -1407,7 +1451,7 @@ namespace LumberjackFantasy
         }
 
         #endregion Updating Pickups & Open Season
-        #region Updating Camera
+         #region Updating Camera
         // -------------------------------------------------------------------------- Camera Logic ---------------------------------------------------------------------------
 
         /// <summary>

@@ -153,13 +153,15 @@ namespace LumberjackFantasy
 
             ui.Add(heartEmpty);
             ui.Add(heartFull);
-            ui.Add(Content.Load<Texture2D>("axe"));
+            ui.Add(Content.Load<Texture2D>("axe")); //2
             ui.Add(Content.Load<Texture2D>("shotgun"));
             ui.Add(Content.Load<Texture2D>("log"));
-            ui.Add(Content.Load<Texture2D>("HP"));
+            ui.Add(Content.Load<Texture2D>("HP")); //5
             ui.Add(Content.Load<Texture2D>("OpenSeason"));
-            ui.Add(Content.Load<Texture2D>("Score"));
+            ui.Add(Content.Load<Texture2D>("Score")); //7
             ui.Add(Content.Load<Texture2D>("Weapon"));
+			ui.Add(Content.Load<Texture2D>("hSwing")); //9
+			ui.Add(Content.Load<Texture2D>("vSwing"));
 
             // Managers 
 

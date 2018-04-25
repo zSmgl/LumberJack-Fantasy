@@ -61,8 +61,10 @@ namespace LumberjackFantasy
         AttackVariation attack;         // Enum that determines if the Player should use the shotgun or axe animation when attacking
         PlayerAttackDirection directionOfAttack;    // Enum that determines where drawing the attack frames relative to the player should be and how the attacking collision box should be drawn;
         PlayerDirection playerDirection;      // Enum that determines the direction the player should be facing. 
+		private Rectangle playerAttackBox;    // Stores the Players Attack Hitbox
 
         // Properties -------------------
+		public Rectangle PlayerAttackBox { get { return playerAttackBox; } set { playerAttackBox = value; } }
         public int LevelScore
         {
             get { return levelScore; }
@@ -189,6 +191,5 @@ namespace LumberjackFantasy
             // This includes sending a texture for the vision texutre. Essentially just a black box.
             // sb.Draw(blackTexture, playerVision, Color.White)
         }
-
     }
 }
