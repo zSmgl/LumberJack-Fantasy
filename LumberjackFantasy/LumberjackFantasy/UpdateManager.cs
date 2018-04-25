@@ -236,19 +236,30 @@ namespace LumberjackFantasy
 				{
 					if (pCurrent.AttackDirection == PlayerAttackDirection.left)
 					{
-
+						//draw shotgun
+						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 0.0f,
+							Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
 					}
 					else if (pCurrent.AttackDirection == PlayerAttackDirection.right)
 					{
-
+						//draw shotgun
+						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White);
 					}
 					else if (pCurrent.AttackDirection == PlayerAttackDirection.up)
 					{
-
+						//draw shotgun
+						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 90.0f,
+							Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
 					}
 					else
 					{
-
+						//draw shotgun
+						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 90.0f,
+							Vector2.Zero, SpriteEffects.None, 0.0f);
 					}
 				}
 			}
@@ -1290,8 +1301,9 @@ namespace LumberjackFantasy
                         break;
                 }
 
-                //calls collision on Bears
-                bool[] bearHits = collisionManager.GenericAttack(attackArea, pCurrent, bearsCurrent);
+				pCurrent.PlayerAttackBox = attackArea;
+				//calls collision on Bears
+				bool[] bearHits = collisionManager.GenericAttack(attackArea, pCurrent, bearsCurrent);
                 //checks and deals with the heath of the bears
                 for (int i = 0; i < bearHits.Length; i++)
                 {

@@ -162,6 +162,7 @@ namespace LumberjackFantasy
             ui.Add(Content.Load<Texture2D>("Weapon"));
 			ui.Add(Content.Load<Texture2D>("hSwing")); //9
 			ui.Add(Content.Load<Texture2D>("vSwing"));
+			ui.Add(Content.Load<Texture2D>("shotgunProj"));//11
 
             // Managers 
 
