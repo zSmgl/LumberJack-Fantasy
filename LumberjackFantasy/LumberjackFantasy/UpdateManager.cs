@@ -568,7 +568,7 @@ namespace LumberjackFantasy
         private void UpdatePlayerAttack(Player oldPos)
         {
             // If the player was not attacking previously or was attacking but hit the 4th frame
-            if ((oldPos.IsAttacking == true && oldPos.AttackAnimationF >= 4) || (oldPos.IsAttacking == false))
+            if ((oldPos.IsAttacking == true && oldPos.AttackAnimationF >= 3) || (oldPos.IsAttacking == false))
             {
                 // Will Attack Up
                 if (currentKB.IsKeyDown(Keys.Up) == true)
@@ -604,9 +604,10 @@ namespace LumberjackFantasy
                 }
                 // If player was attacking and is now [what would be] a frame over his animation for attacking,
                 // make him no longer attacking and he is now back to frame 1
-                else if (oldPos.AttackAnimationF > 8 && oldPos.IsAttacking == true)
+                else if (oldPos.AttackAnimationF > 7 && oldPos.IsAttacking == true)
                 {
                     pCurrent.IsAttacking = false; // Player is no longer Attacking!!!!
+                    ResetBearsAttackBool();
                 }
             }
         }
@@ -1229,9 +1230,10 @@ namespace LumberjackFantasy
                 //checks and deals with the heath of the bears
                 for (int i = 0; i < bearHits.Length; i++)
                 {
-                    if (bearHits[i])
+                    if (bearHits[i] && bearsCurrent[i].WasAttacked == false)
                     {
                         bearsCurrent[i].Health--;
+                        bearsCurrent[i].WasAttacked = true;
                     }
                 }
 
@@ -1298,12 +1300,22 @@ namespace LumberjackFantasy
             }
 
             // Increment the Attack Animation Frame since the player has attacked!
-            if (animate == true)
+            if (animate == true && pCurrent.IsAttacking == true)
             {
                 pCurrent.AttackAnimationF++;
             }
+            // Increment the Attack Animation Frame for each Bear attacking
+            if (bearsCurrent != null)
+            {
+                foreach(Bear b in bearsCurrent )
+                if (animate == true && b.IsAttacking == true)
+                {
+                    b.AttackAnimationF++;
+                }
+            }
+
         }
-        
+
         public void UpdateBearsAttack()
         {
             foreach (Bear b in bearsCurrent)

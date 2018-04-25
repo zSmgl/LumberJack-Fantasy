@@ -143,8 +143,21 @@ namespace LumberjackFantasy
             get { return wasAttacked; }
             set { wasAttacked = value; }
         }
+        // Checks to see if Bear is currently Attacking
+        public bool IsAttacking
+        {
+            get { return attackStuff; }
+            set { attackStuff = value; }
+        }
 
-		
+        // Increments Bears Attack animation
+        public int AttackAnimationF
+        {
+            get { return attackAnimationF; }
+            set { attackAnimationF = value; }
+        }
+
+
 
 
 
