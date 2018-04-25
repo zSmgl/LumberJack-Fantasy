@@ -199,20 +199,24 @@ namespace LumberjackFantasy
 				{
 					if (pCurrent.AttackDirection == PlayerAttackDirection.left)
 					{
-						spriteBatch.Draw(uiTextures[9], pCurrent.PlayerAttackBox, new Rectangle(0,pCurrent.AttackAnimationF * 100 ,50, 100) , Color.White, 0.0f, 
+						spriteBatch.Draw(uiTextures[9], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y, 
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(0,pCurrent.AttackAnimationF * 100 ,50, 100) , Color.White, 0.0f, 
 							Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
 					}
 					else if (pCurrent.AttackDirection == PlayerAttackDirection.right)
 					{
-						spriteBatch.Draw(uiTextures[9], pCurrent.PlayerAttackBox, new Rectangle(0, pCurrent.AttackAnimationF * 100, 50, 100), Color.White);
+						spriteBatch.Draw(uiTextures[9], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(0, pCurrent.AttackAnimationF * 100, 50, 100), Color.White);
 					}
 					else if (pCurrent.AttackDirection == PlayerAttackDirection.up)
 					{
-						spriteBatch.Draw(uiTextures[10], pCurrent.PlayerAttackBox, new Rectangle(pCurrent.AttackAnimationF *100, 0, 100, 50), Color.White);
+						spriteBatch.Draw(uiTextures[10], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF *100, 0, 100, 50), Color.White);
 					}
 					else
 					{
-						spriteBatch.Draw(uiTextures[10], pCurrent.PlayerAttackBox, new Rectangle(pCurrent.AttackAnimationF * 100, 0, 100, 50), Color.White, 0.0f, 
+						spriteBatch.Draw(uiTextures[10], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 100, 0, 100, 50), Color.White, 0.0f, 
 							Vector2.Zero, SpriteEffects.FlipVertically,0.0f);
 					}
 				}
@@ -568,7 +572,7 @@ namespace LumberjackFantasy
         private void UpdatePlayerAttack(Player oldPos)
         {
             // If the player was not attacking previously or was attacking but hit the 4th frame
-            if ((oldPos.IsAttacking == true && oldPos.AttackAnimationF >= 3) || (oldPos.IsAttacking == false))
+            if ((oldPos.IsAttacking == true && oldPos.AttackAnimationF >= 6) || (oldPos.IsAttacking == false))
             {
                 // Will Attack Up
                 if (currentKB.IsKeyDown(Keys.Up) == true)
