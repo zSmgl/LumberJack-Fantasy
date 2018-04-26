@@ -19,9 +19,9 @@ namespace LumberjackFantasy
                                      
     enum PlayerDirection
     {
-        upleft = 4,
+        upleft = 6,
         upright = 5,
-        downleft = 6,
+        downleft = 4,
         downright = 7,
         up = 0,
         down = 1,
@@ -158,6 +158,7 @@ namespace LumberjackFantasy
 
             attackStuff = p.attackStuff;
             attackAnimationF = p.attackAnimationF;
+            playerDirection = p.playerDirection;
         }
 
         public void LoadAttackTexture(Texture2D attackText)
@@ -182,9 +183,18 @@ namespace LumberjackFantasy
             //Base Draw Method for Base Build
             if (onScreen)
             {
+                PlayerDirection animationDirection;
+                if ((int)playerDirection > 3)
+                {
+                   animationDirection = (PlayerDirection)((int)playerDirection % 3);
+                }
+                else
+                {
+                    animationDirection = PlayerDirection;
+                }
                 sb.Draw(objectTexture, 
                     new Vector2(objectCollisionBox.X - Convert.ToInt32(camera.X), objectCollisionBox.Y - Convert.ToInt32(camera.Y)), 
-                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, (int)playerDirection * objectCollisionBox.Height , objectCollisionBox.Width, objectCollisionBox.Height), Color.White);
+                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, (int)animationDirection * objectCollisionBox.Height , objectCollisionBox.Width, objectCollisionBox.Height), Color.White);
             }
 
             // Draw method for vision field incase we need to see it
