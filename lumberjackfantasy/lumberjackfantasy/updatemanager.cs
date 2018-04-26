@@ -259,23 +259,23 @@ namespace LumberjackFantasy
 					else if (pCurrent.AttackDirection == PlayerAttackDirection.up)
 					{
 						//draw shotgun
-						spriteBatch.Draw(uiTextures[12], new Rectangle(pCurrent.ObjectCollisionBox.X - camera.CameraPosition.X + 20,
-							pCurrent.ObjectCollisionBox.Y + 28 - camera.CameraPosition.Y,
-							78, 32), new Rectangle(0, pCurrent.AttackAnimationF * 32, 78, 32), Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.0f);
+						spriteBatch.Draw(uiTextures[13], new Rectangle(pCurrent.ObjectCollisionBox.X - camera.CameraPosition.X + 31,
+							pCurrent.ObjectCollisionBox.Y - camera.CameraPosition.Y,
+							32, 78), new Rectangle(pCurrent.AttackAnimationF * 32, 0, 32, 78), Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.0f);
 						//draw pattern
-						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
-							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 0.0f,
-							Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
+						spriteBatch.Draw(uiTextures[14], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(0, pCurrent.AttackAnimationF * 275, 275, 275), Color.White, 0.0f,
+							Vector2.Zero, SpriteEffects.FlipVertically, 0.0f);
 					}
 					else
 					{
 						//draw shotgun
-						spriteBatch.Draw(uiTextures[12], new Rectangle(pCurrent.ObjectCollisionBox.X - camera.CameraPosition.X + 20,
-							pCurrent.ObjectCollisionBox.Y + 28 - camera.CameraPosition.Y,
-							78, 32), new Rectangle(0, pCurrent.AttackAnimationF * 32, 78, 32), Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.0f);
+						spriteBatch.Draw(uiTextures[13], new Rectangle(pCurrent.ObjectCollisionBox.X - camera.CameraPosition.X + 31,
+							pCurrent.ObjectCollisionBox.Y + 20 - camera.CameraPosition.Y,
+							32, 78), new Rectangle(pCurrent.AttackAnimationF * 32, 0, 32, 78), Color.White, 0.0f, Vector2.Zero, SpriteEffects.FlipVertically, 0.0f);
 						//draw pattern
-						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
-							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 0.0f,
+						spriteBatch.Draw(uiTextures[14], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(0, pCurrent.AttackAnimationF * 275, 275, 275), Color.White, 0.0f,
 							Vector2.Zero, SpriteEffects.None, 0.0f);
 					}
 				}
@@ -1306,11 +1306,11 @@ namespace LumberjackFantasy
                 {
                     case PlayerAttackDirection.up:
                         attackArea.Y -= (attackArea.Height);
-						attackArea.X -= (pCurrent.Width / 2);
+						attackArea.X -= (attackArea.Width / 3);
 						break;
                     case PlayerAttackDirection.down:
                         attackArea.Y += pCurrent.Height;
-						attackArea.X -= (pCurrent.Width / 2);
+						attackArea.X -= (attackArea.Width / 3);
                         break;
                     case PlayerAttackDirection.left:
                         attackArea.X -= (attackArea.Width);
