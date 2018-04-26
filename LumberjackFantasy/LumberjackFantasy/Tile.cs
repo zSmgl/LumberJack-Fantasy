@@ -136,7 +136,7 @@ namespace LumberjackFantasy
 									(
 									Int32.Parse(split[0]) + XOffset,
 									Int32.Parse(split[1]) + YOffset,
-									Int32.Parse(split[2]),
+									70,
 									Int32.Parse(split[3]),
 									bearTexture,
 									Int32.Parse(split[4]),

@@ -13,7 +13,7 @@ namespace LumberjackFantasy
     /// <summary>
     /// Enum that provides the Looking State of the Bear
     /// </summary>
-    enum BearState      
+    enum BearState
     {
         stationary,
         looking,
@@ -25,16 +25,16 @@ namespace LumberjackFantasy
     /// </summary>
     enum BearDirection
     {
-        upleft = 4,
+        upleft = 6,
         upright = 5,
-        downleft = 6,
+        downleft = 4,
         downright = 7,
         up = 0,
         down = 1,
         left = 2,
         right = 3,
     }
-    class Bear : LivingObject 
+    class Bear : LivingObject
     {
         // "Normal" Fields -------------------------------------------------------------------
 
@@ -92,8 +92,8 @@ namespace LumberjackFantasy
 
         public Rectangle BearVision
         {
-           get { return bearVision; }
-           set { bearVision = value; }
+            get { return bearVision; }
+            set { bearVision = value; }
         }
 
         public Rectangle FieldOfAttack
@@ -117,7 +117,7 @@ namespace LumberjackFantasy
         public double WhenToMoveLimiter
         {
             get { return whenToMoveLimiter; }
-			
+
         }
 
         public double TimeOfMovementCounter
@@ -130,7 +130,7 @@ namespace LumberjackFantasy
         {
             get { return timeOfMovementLimiter; }
         }
-        
+
         public int ScoreValue
         {
             get { return scoreValue; }
@@ -164,7 +164,7 @@ namespace LumberjackFantasy
         // Constructor ------------------------------------------------------------------------------ 
         // ! Constructor will pass in a random generator but is not supposed to save it ! 
 
-        public Bear(int x, int y, int width, int height, Texture2D objectTexture, int maxH, int maxS, 
+        public Bear(int x, int y, int width, int height, Texture2D objectTexture, int maxH, int maxS,
             int visionStandard, int fieldOfAttackStandard, int scoreValue, Random rng)
             : base(x, y, width, height, objectTexture, maxH, maxS)
         {
@@ -174,10 +174,10 @@ namespace LumberjackFantasy
             bearVision = new Rectangle(x - visionStandard, y - visionStandard, width + (visionStandard * 2), height + (visionStandard * 2));
 
             this.fieldOfAttackStandard = fieldOfAttackStandard;
-            fieldOfAttack = new Rectangle(x - fieldOfAttackStandard, y - fieldOfAttackStandard, 
+            fieldOfAttack = new Rectangle(x - fieldOfAttackStandard, y - fieldOfAttackStandard,
                 width + (fieldOfAttackStandard * 2), height + (fieldOfAttackStandard * 2));
 
-            whenToMoveCounter = 0;        
+            whenToMoveCounter = 0;
             whenToMoveMax = 15 + 1;                                     // Bears Wait a max of 15 Seconds before making a movement;
             whenToMoveMin = 5;                                          // Bears Wait a min of 5 Seconds before making a movement;
             whenToMoveLimiter = rng.Next(whenToMoveMin, whenToMoveMax); // Random int between 5-15 Seconds of when bear first can Move
@@ -219,7 +219,7 @@ namespace LumberjackFantasy
             bearState = b.bearState;            // Enum that checks the state of the bear [Looking / Following / Dead]
             bearDirection = b.bearDirection;    // Enum that checks the direction of the bear 
             wasAttacked = b.wasAttacked;
-    }
+        }
 
 
         /// <summary>
@@ -235,14 +235,23 @@ namespace LumberjackFantasy
 
         public override void Draw(SpriteBatch sb, Vector2 camera)
         {
-                        //Base Draw Method for Base Build
+            //Base Draw Method for Base Build
             if (onScreen)
             {
-                sb.Draw(objectTexture, 
-                    new Vector2(objectCollisionBox.X - Convert.ToInt32(camera.X), objectCollisionBox.Y - Convert.ToInt32(camera.Y)), 
-                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, (int)bearDirection * objectCollisionBox.Height , objectCollisionBox.Width, objectCollisionBox.Height), Color.White);
-            }
+                BearDirection animationDirection;
+                if ((int)bearDirection > 3)
+                {
+                    animationDirection = (BearDirection)((int)bearDirection % 3);
+                }
+                else
+                {
+                    animationDirection = BearDirection;
+                }
+                sb.Draw(objectTexture,
+                    new Vector2(objectCollisionBox.X - Convert.ToInt32(camera.X), objectCollisionBox.Y - Convert.ToInt32(camera.Y)),
+                    new Rectangle(animationMoveFrame * objectCollisionBox.Width, (int)animationDirection * objectCollisionBox.Height, objectCollisionBox.Width, objectCollisionBox.Height), Color.White);
 
+            }
         }
     }
 }

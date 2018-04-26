@@ -406,18 +406,6 @@
 /processorParam:TextureFormat=Compressed
 /build:waitNextLevel.spritefont
 
-#begin bearFront.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:bearFront.png
-
 #begin vSwing.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -513,4 +501,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:treeSS.png
+
+#begin bearSS.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bearSS.png
 

@@ -25,7 +25,7 @@ namespace LumberjackFantasy
         public OpenSeasonManager()
         {
             openSeason = true;
-            openSeasonTimer = 60;
+            openSeasonTimer = 5;
             openSeasonLimiter = 0;
         }
 
