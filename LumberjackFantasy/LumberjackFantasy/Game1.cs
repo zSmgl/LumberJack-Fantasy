@@ -171,7 +171,7 @@ namespace LumberjackFantasy
             updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui, nextLevelTexture);
             screenManager = new ScreenManager(startButton, exitButton, instructButton, startScreenBackground, pauseBackground, continueButton, 
 				quitButton, startH, exitH, instructH, continueH, quitH);
-            player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10);
+            player1 = new Player(448, 448, 70, 95, playerTexture, 5, 17, 10);
 
             // Makes a total of 5 levels
             for(int i = 0; i < maxLevel; i++)
@@ -221,7 +221,7 @@ namespace LumberjackFantasy
                     {
                         level = 0;         // Resets level back to 0
                         worldTile.Clear(); // Clears levels
-                        player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10); // Creates a new Player
+                        player1 = new Player(448, 448, 70, 95, playerTexture, 5, 17, 10); // Creates a new Player
 
                         // Makes new levels for next time game is played
                         for (int i = 0; i < maxLevel; i++)
@@ -274,7 +274,7 @@ namespace LumberjackFantasy
 
                     level = 0;         // Resets level back to 0
                     worldTile.Clear(); // Clears levels
-                    player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10); // Creates a new Player
+                    player1 = new Player(448, 448, 70, 95, playerTexture, 5, 17, 10); // Creates a new Player
 
                     // Makes new levels for next time game is played
                     for (int i = 0; i < maxLevel; i++)
