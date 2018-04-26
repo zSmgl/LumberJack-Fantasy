@@ -636,14 +636,14 @@ namespace LumberjackFantasy
                     ResetBearsAttackBool();
                     ResetTreesAttackBool();
                 }
-            }
-            // If player was attacking and is now [what would be] a frame over his animation for attacking,
-            // make him no longer attacking and he is now back to frame 1
-            else if (oldPos.AttackAnimationF > 7 && oldPos.IsAttacking == true)
-            {
-                pCurrent.IsAttacking = false; // Player is no longer Attacking!!!!
-                ResetBearsAttackBool();
-                ResetTreesAttackBool();
+                // If player was attacking and is now [what would be] a frame over his animation for attacking,
+                // make him no longer attacking and he is now back to frame 1
+                else if (oldPos.AttackAnimationF > 7 && oldPos.IsAttacking == true)
+                {
+                    pCurrent.IsAttacking = false; // Player is no longer Attacking!!!!
+                    ResetBearsAttackBool();
+                    ResetTreesAttackBool();
+                }
             }
         }
 
