@@ -164,10 +164,11 @@ namespace LumberjackFantasy
 			ui.Add(Content.Load<Texture2D>("vSwing"));
 			ui.Add(Content.Load<Texture2D>("shotgunProj"));//11
 			ui.Add(Content.Load<Texture2D>("hShotgun")); //12
-
+            ui.Add(Content.Load<Texture2D>("vShotgun"));
+            ui.Add(Content.Load<Texture2D>("vShotgunProj")); //14
             // Managers 
 
-			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui, nextLevelTexture);
+            updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui, nextLevelTexture);
             screenManager = new ScreenManager(startButton, exitButton, instructButton, startScreenBackground, pauseBackground, continueButton, 
 				quitButton, startH, exitH, instructH, continueH, quitH);
             player1 = new Player(448, 448, 96, 96, playerTexture, 5, 17, 10);
