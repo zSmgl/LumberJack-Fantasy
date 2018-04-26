@@ -116,8 +116,7 @@ namespace LumberjackFantasy
             {
                 DetermineOpenSeason();
             }
-
-
+            ResetTreesToAnimateBool();
             UpdateAnimations();
 			UpdatePlayer();
             UpdateCamera();
@@ -170,18 +169,6 @@ namespace LumberjackFantasy
             // Draws Level Text
             spriteBatch.DrawString(spriteFont,"Lvl "+(currentLevel+1), new Vector2(290, 370), Color.White);
 
-        }
-
-        private void ResetTreesAttackBool()
-        {
-            if(treesCurrent!= null)
-            {
-                foreach (Tree t in treesCurrent)
-                {
-                    t.WasAttacked = false;
-                }
-            }
-            
         }
 
         ///<summary>
@@ -1292,6 +1279,7 @@ namespace LumberjackFantasy
                     {
                         treesCurrent[i].Health--;
                         treesCurrent[i].WasAttacked = true;
+                        treesCurrent[i].AnimateToNext = true;
                     }
                 }
 
@@ -1344,6 +1332,8 @@ namespace LumberjackFantasy
                     {
                         treesCurrent[i].Health--;
                         treesCurrent[i].WasAttacked = true;
+                        treesCurrent[i].AnimateToNext = true;
+
                     }
                 }
             }
@@ -1354,15 +1344,19 @@ namespace LumberjackFantasy
                 pCurrent.AttackAnimationF++;
             }
             // Increment the Attack Animation Frame for each Bear attacking
-            if (bearsCurrent != null)
-            {
-                foreach(Bear b in bearsCurrent )
+            foreach(Bear b in bearsCurrent )
                 if (animate == true && b.IsAttacking == true)
                 {
                     b.AttackAnimationF++;
                 }
+            // Increment the Tree animation if it was attacked
+            foreach (Tree t in treesCurrent)
+            {
+                if(animate == true && t.AnimateToNext == true)
+                {
+                    t.AnimateMoveFrame = t.AnimateMoveFrame + 1;
+                }
             }
-
         }
 
         public void UpdateBearsAttack()
@@ -1512,7 +1506,7 @@ namespace LumberjackFantasy
         }
 
         #endregion Updating Pickups & Open Season
-         #region Updating Camera
+        #region Updating Camera
         // -------------------------------------------------------------------------- Camera Logic ---------------------------------------------------------------------------
 
         /// <summary>
@@ -1623,6 +1617,29 @@ namespace LumberjackFantasy
         {
             animate = aM.UpdateAnimation(gameTime);
         }
+
+        private void ResetTreesAttackBool()
+        {
+            if (treesCurrent != null)
+            {
+                foreach (Tree t in treesCurrent)
+                {
+                    t.WasAttacked = false;
+                }
+            }
+
+        }
+        private void ResetTreesToAnimateBool()
+        {
+            foreach (Tree t in treesCurrent)
+            {
+                if (t.AnimateMoveFrame / 3 == 1)
+                {
+                    t.AnimateToNext = false;
+                }
+            }
+        }
+
     }
 }
 
