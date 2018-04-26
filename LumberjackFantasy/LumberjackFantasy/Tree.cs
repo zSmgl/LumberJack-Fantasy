@@ -18,14 +18,9 @@ namespace LumberjackFantasy
         //fields ------------------------------------------------------------------------
 		private bool colliding;
         private bool wasAttacked;
-        private bool animateToNext;
 
         //properties --------------------------------------------------------------------
         public bool Colliding {get {return colliding;} set {colliding = value;}}
-        /// <summary>
-        /// Determines if a tree should animate to its next minimal frame when attacked;
-        /// </summary>
-        public bool AnimateToNext { get { return animateToNext; } set { animateToNext = value; } }
         /// <summary>
         /// Determines if a tree can lose health
         /// </summary>
@@ -40,7 +35,6 @@ namespace LumberjackFantasy
         {
 			colliding = false;
             wasAttacked = false;
-            animateToNext = false;
         }
 
         //methods -----------------------------------------------------------------------

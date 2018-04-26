@@ -117,7 +117,7 @@ namespace LumberjackFantasy
             startScreenBackground = Content.Load<Texture2D>("startScreenBackground");
             syrup = Content.Load<Texture2D>("Syrup");
             bear = Content.Load<Texture2D>("bearFront");
-            tree = Content.Load<Texture2D>("treeStatic");
+            tree = Content.Load<Texture2D>("treeSS");
             apple = Content.Load<Texture2D>("redApple");
             shotgun = Content.Load<Texture2D>("shotgun");
             // Load into pickups List
