@@ -116,7 +116,6 @@ namespace LumberjackFantasy
             {
                 DetermineOpenSeason();
             }
-            ResetTreesToAnimateBool();
             UpdateAnimations();
 			UpdatePlayer();
             UpdateCamera();
@@ -1279,7 +1278,7 @@ namespace LumberjackFantasy
                     {
                         treesCurrent[i].Health--;
                         treesCurrent[i].WasAttacked = true;
-                        treesCurrent[i].AnimateToNext = true;
+                        treesCurrent[i].AnimateMoveFrame++;
                     }
                 }
 
@@ -1332,7 +1331,7 @@ namespace LumberjackFantasy
                     {
                         treesCurrent[i].Health--;
                         treesCurrent[i].WasAttacked = true;
-                        treesCurrent[i].AnimateToNext = true;
+                        treesCurrent[i].AnimateMoveFrame++;
 
                     }
                 }
@@ -1349,14 +1348,6 @@ namespace LumberjackFantasy
                 {
                     b.AttackAnimationF++;
                 }
-            // Increment the Tree animation if it was attacked
-            foreach (Tree t in treesCurrent)
-            {
-                if(animate == true && t.AnimateToNext == true)
-                {
-                    t.AnimateMoveFrame = t.AnimateMoveFrame + 1;
-                }
-            }
         }
 
         public void UpdateBearsAttack()
@@ -1628,16 +1619,6 @@ namespace LumberjackFantasy
                 }
             }
 
-        }
-        private void ResetTreesToAnimateBool()
-        {
-            foreach (Tree t in treesCurrent)
-            {
-                if (t.AnimateMoveFrame / 3 == 1)
-                {
-                    t.AnimateToNext = false;
-                }
-            }
         }
 
     }
