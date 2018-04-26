@@ -237,6 +237,11 @@ namespace LumberjackFantasy
 					if (pCurrent.AttackDirection == PlayerAttackDirection.left)
 					{
 						//draw shotgun
+						spriteBatch.Draw(uiTextures[12], new Rectangle(pCurrent.ObjectCollisionBox.X - camera.CameraPosition.X, 
+							pCurrent.ObjectCollisionBox.Y - camera.CameraPosition.Y + 28,
+							78, 32), new Rectangle(0, pCurrent.AttackAnimationF * 32, 78, 32), Color.White, 0.0f, Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
+
+						//draw pattern
 						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
 							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 0.0f,
 							Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
@@ -244,21 +249,33 @@ namespace LumberjackFantasy
 					else if (pCurrent.AttackDirection == PlayerAttackDirection.right)
 					{
 						//draw shotgun
+						spriteBatch.Draw(uiTextures[12], new Rectangle(pCurrent.ObjectCollisionBox.X - camera.CameraPosition.X + 20, 
+							pCurrent.ObjectCollisionBox.Y + 28 - camera.CameraPosition.Y,
+							78, 32), new Rectangle (0, pCurrent.AttackAnimationF * 32, 78, 32),Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.0f);
+						//draw pattern
 						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
 							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White);
 					}
 					else if (pCurrent.AttackDirection == PlayerAttackDirection.up)
 					{
 						//draw shotgun
+						spriteBatch.Draw(uiTextures[12], new Rectangle(pCurrent.ObjectCollisionBox.X - camera.CameraPosition.X + 20,
+							pCurrent.ObjectCollisionBox.Y + 28 - camera.CameraPosition.Y,
+							78, 32), new Rectangle(0, pCurrent.AttackAnimationF * 32, 78, 32), Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.0f);
+						//draw pattern
 						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
-							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 90.0f,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 0.0f,
 							Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
 					}
 					else
 					{
 						//draw shotgun
+						spriteBatch.Draw(uiTextures[12], new Rectangle(pCurrent.ObjectCollisionBox.X - camera.CameraPosition.X + 20,
+							pCurrent.ObjectCollisionBox.Y + 28 - camera.CameraPosition.Y,
+							78, 32), new Rectangle(0, pCurrent.AttackAnimationF * 32, 78, 32), Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.0f);
+						//draw pattern
 						spriteBatch.Draw(uiTextures[11], new Rectangle(pCurrent.PlayerAttackBox.X - camera.CameraPosition.X, pCurrent.PlayerAttackBox.Y - camera.CameraPosition.Y,
-							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 90.0f,
+							pCurrent.PlayerAttackBox.Width, pCurrent.PlayerAttackBox.Height), new Rectangle(pCurrent.AttackAnimationF * 275, 0, 275, 275), Color.White, 0.0f,
 							Vector2.Zero, SpriteEffects.None, 0.0f);
 					}
 				}
@@ -1289,16 +1306,20 @@ namespace LumberjackFantasy
                 {
                     case PlayerAttackDirection.up:
                         attackArea.Y -= (attackArea.Height);
-                        break;
+						attackArea.X -= (pCurrent.Width / 2);
+						break;
                     case PlayerAttackDirection.down:
                         attackArea.Y += pCurrent.Height;
+						attackArea.X -= (pCurrent.Width / 2);
                         break;
                     case PlayerAttackDirection.left:
                         attackArea.X -= (attackArea.Width);
+						attackArea.Y -= (pCurrent.ObjectCollisionBox.Height);
                         break;
                     case PlayerAttackDirection.right:
                         attackArea.X += pCurrent.Width;
-                        break;
+						attackArea.Y -= (pCurrent.ObjectCollisionBox.Height);
+						break;
                 }
 
 				pCurrent.PlayerAttackBox = attackArea;
