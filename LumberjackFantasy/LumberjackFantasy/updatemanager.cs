@@ -654,140 +654,142 @@ namespace LumberjackFantasy
 		private void UpdatePlayerMovementAnimation(Player oldPos)
 		{
 
-			// Updates Direction Animation 
-
-			if (oldPos.PosX > pCurrent.PosX && oldPos.PosY == pCurrent.PosY)         // Player walking in Left Direction
-			{
-				pCurrent.PlayerDirection = PlayerDirection.left;
-                if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
+            // Updates Direction Animation 
+            if (animate == true)
+            {
+                if (oldPos.PosX > pCurrent.PosX && oldPos.PosY == pCurrent.PosY)         // Player walking in Left Direction
                 {
-                    pCurrent.AnimateMoveFrame++;
-                    if (pCurrent.AnimateMoveFrame > 7)
+                    pCurrent.PlayerDirection = PlayerDirection.left;
+                    if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
+                    {
+                        pCurrent.AnimateMoveFrame++;
+                        if (pCurrent.AnimateMoveFrame > 7)
+                        {
+                            pCurrent.AnimateMoveFrame = 0;
+                        }
+                    }
+                    else
                     {
                         pCurrent.AnimateMoveFrame = 0;
                     }
                 }
-                else
+                else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY == pCurrent.PosY)   // Player walking in the Right Direction
                 {
-                    pCurrent.AnimateMoveFrame = 0;
-                }
-            }
-			else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY == pCurrent.PosY)   // Player walking in the Right Direction
-			{
-				pCurrent.PlayerDirection = PlayerDirection.right;
-                if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
-                {
-                    pCurrent.AnimateMoveFrame++;
-                    if (pCurrent.AnimateMoveFrame > 7)
+                    pCurrent.PlayerDirection = PlayerDirection.right;
+                    if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
+                    {
+                        pCurrent.AnimateMoveFrame++;
+                        if (pCurrent.AnimateMoveFrame > 7)
+                        {
+                            pCurrent.AnimateMoveFrame = 0;
+                        }
+                    }
+                    else
                     {
                         pCurrent.AnimateMoveFrame = 0;
                     }
                 }
-                else
+                else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Player walking Up Direction
                 {
-                    pCurrent.AnimateMoveFrame = 0;
-                }
-            }
-			else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Player walking Up Direction
-			{
-				pCurrent.PlayerDirection = PlayerDirection.up;
-                if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
-                {
-                    pCurrent.AnimateMoveFrame++;
-                    if (pCurrent.AnimateMoveFrame > 7)
+                    pCurrent.PlayerDirection = PlayerDirection.up;
+                    if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
+                    {
+                        pCurrent.AnimateMoveFrame++;
+                        if (pCurrent.AnimateMoveFrame > 7)
+                        {
+                            pCurrent.AnimateMoveFrame = 0;
+                        }
+                    }
+                    else
                     {
                         pCurrent.AnimateMoveFrame = 0;
                     }
                 }
-                else
+                else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Player walking Down Direction
                 {
-                    pCurrent.AnimateMoveFrame = 0;
-                }
-            }
-			else if (oldPos.PosX == pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Player walking Down Direction
-			{
-				pCurrent.PlayerDirection = PlayerDirection.down;
-                if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
-                {
-                    pCurrent.AnimateMoveFrame++;
-                    if (pCurrent.AnimateMoveFrame > 7)
+                    pCurrent.PlayerDirection = PlayerDirection.down;
+                    if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
+                    {
+                        pCurrent.AnimateMoveFrame++;
+                        if (pCurrent.AnimateMoveFrame > 7)
+                        {
+                            pCurrent.AnimateMoveFrame = 0;
+                        }
+                    }
+                    else
                     {
                         pCurrent.AnimateMoveFrame = 0;
                     }
                 }
-                else
+                else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Player is walking Up-Left
                 {
-                    pCurrent.AnimateMoveFrame = 0;
-                }
-            }
-			else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Player is walking Up-Left
-			{
-				pCurrent.PlayerDirection = PlayerDirection.upleft;
-                if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
-                {
-                    pCurrent.AnimateMoveFrame++;
-                    if (pCurrent.AnimateMoveFrame > 7)
+                    pCurrent.PlayerDirection = PlayerDirection.upleft;
+                    if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
+                    {
+                        pCurrent.AnimateMoveFrame++;
+                        if (pCurrent.AnimateMoveFrame > 7)
+                        {
+                            pCurrent.AnimateMoveFrame = 0;
+                        }
+                    }
+                    else
                     {
                         pCurrent.AnimateMoveFrame = 0;
                     }
                 }
-                else
+                else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Player is walking Up-Right
                 {
-                    pCurrent.AnimateMoveFrame = 0;
-                }
-            }
-			else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY > pCurrent.PosY)   // Player is walking Up-Right
-			{
-				pCurrent.PlayerDirection = PlayerDirection.upright;
-                if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
-                {
-                    pCurrent.AnimateMoveFrame++;
-                    if (pCurrent.AnimateMoveFrame > 7)
+                    pCurrent.PlayerDirection = PlayerDirection.upright;
+                    if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
+                    {
+                        pCurrent.AnimateMoveFrame++;
+                        if (pCurrent.AnimateMoveFrame > 7)
+                        {
+                            pCurrent.AnimateMoveFrame = 0;
+                        }
+                    }
+                    else
                     {
                         pCurrent.AnimateMoveFrame = 0;
                     }
                 }
-                else
+                else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Player is walking Down-Left
                 {
-                    pCurrent.AnimateMoveFrame = 0;
-                }
-            }
-			else if (oldPos.PosX > pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Player is walking Down-Left
-			{
-				pCurrent.PlayerDirection = PlayerDirection.downleft;
-                if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
-                {
-                    pCurrent.AnimateMoveFrame++;
-                    if (pCurrent.AnimateMoveFrame > 7)
+                    pCurrent.PlayerDirection = PlayerDirection.downleft;
+                    if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
+                    {
+                        pCurrent.AnimateMoveFrame++;
+                        if (pCurrent.AnimateMoveFrame > 7)
+                        {
+                            pCurrent.AnimateMoveFrame = 0;
+                        }
+                    }
+                    else
                     {
                         pCurrent.AnimateMoveFrame = 0;
                     }
                 }
-                else
+                else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Player is walking Down-Right
                 {
-                    pCurrent.AnimateMoveFrame = 0;
-                }
-            }
-			else if (oldPos.PosX < pCurrent.PosX && oldPos.PosY < pCurrent.PosY)   // Player is walking Down-Right
-			{
-				pCurrent.PlayerDirection = PlayerDirection.downright;
-                if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
-                {
-                    pCurrent.AnimateMoveFrame++;
-                    if (pCurrent.AnimateMoveFrame > 7)
+                    pCurrent.PlayerDirection = PlayerDirection.downright;
+                    if (oldPos.PlayerDirection == pCurrent.PlayerDirection)
+                    {
+                        pCurrent.AnimateMoveFrame++;
+                        if (pCurrent.AnimateMoveFrame > 7)
+                        {
+                            pCurrent.AnimateMoveFrame = 0;
+                        }
+                    }
+                    else
                     {
                         pCurrent.AnimateMoveFrame = 0;
                     }
                 }
-                else
+                else                                                                    // Player Stood Still
                 {
-                    pCurrent.AnimateMoveFrame = 0;
+                    pCurrent.PlayerDirection = oldPos.PlayerDirection;
                 }
             }
-			else                                                                    // Player Stood Still
-			{
-				pCurrent.PlayerDirection = oldPos.PlayerDirection;
-			}
 		}
 
 		/// <summary>
@@ -1052,8 +1054,8 @@ namespace LumberjackFantasy
 		{
 			if (oldPos.PosX > bearsCurrent[i].PosX && oldPos.PosY == bearsCurrent[i].PosY)         // Bear walking in Left Direction
 			{
-				bearsCurrent[i].BearDirection = BearDirection.left;
-			}
+				bearsCurrent[i].BearDirection = BearDirection.left;               
+            }
 			else if (oldPos.PosX < bearsCurrent[i].PosX && oldPos.PosY == bearsCurrent[i].PosY)   // Bear walking in the Right Direction
 			{
 				bearsCurrent[i].BearDirection = BearDirection.right;
@@ -1086,6 +1088,25 @@ namespace LumberjackFantasy
 			{
 				bearsCurrent[i].BearDirection = oldPos.BearDirection;
 			}
+
+            if (animate == true)
+            {
+                if (oldPos.BearDirection == bearsCurrent[i].BearDirection)
+                {
+                    if (oldPos.PosX != bearsCurrent[i].PosX && oldPos.PosY != bearsCurrent[i].PosY)
+                    {
+                        bearsCurrent[i].AnimateMoveFrame++;
+                        if (bearsCurrent[i].AnimateMoveFrame > 7)
+                        {
+                            bearsCurrent[i].AnimateMoveFrame = 0;
+                        }
+                    }
+                    else
+                    {
+                        bearsCurrent[i].AnimateMoveFrame = 0;
+                    }
+                }
+            }       
 		}
 
 		/// <summary>
