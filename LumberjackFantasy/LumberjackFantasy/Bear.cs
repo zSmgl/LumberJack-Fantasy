@@ -25,8 +25,8 @@ namespace LumberjackFantasy
     /// </summary>
     enum BearDirection
     {
-        upleft = 6,
-        upright = 5,
+        upleft = 5,
+        upright = 6,
         downleft = 4,
         downright = 7,
         up = 0,
