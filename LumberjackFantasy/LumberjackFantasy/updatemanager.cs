@@ -1290,9 +1290,8 @@ namespace LumberjackFantasy
             {
                 UpdatePlayerAttacks();
             }
-            
-
             //UpdateBearAttacks()
+            Invinicibility();
 
         }
 
@@ -1316,18 +1315,6 @@ namespace LumberjackFantasy
                     }
                 }
             }
-
-            if(pCurrent.Invincible == true)
-            {
-                pCurrent.InvincibleTimer -= gameTime.ElapsedGameTime.TotalSeconds;
-
-                if (pCurrent.InvincibleTimer <= 0)
-                {
-                    pCurrent.Invincible = false;
-                }
-            }
-
-
         }
 
         // ---------------------------------------------------------------------------- Attack Stuff ----------------------------------------------------------------------
@@ -1507,14 +1494,29 @@ namespace LumberjackFantasy
                     // Calls for attack on the player
                     // May need to rewrite method for one bear, not the whole bear list  Attacking Here
                     bool[] playerHit = collisionManager.GenericAttack( attackArea, pCurrent, bearsCurrent);
-                    if (playerHit[0])
+                    if (playerHit[0] && pCurrent.Invincible!= true)
                     {
                         pCurrent.Health--;
+                        pCurrent.Invincible = true;
+                        pCurrent.ResetTimer();
                     }
+
                 }
             }
         }
         
+        private void Invinicibility()
+        {
+            if (pCurrent.Invincible == true)
+            {
+                pCurrent.InvincibleTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (pCurrent.InvincibleTimer <= 0)
+                {
+                    pCurrent.Invincible = false;
+                }
+            }
+        }
 
             /*
             //bear attacks (fight me, puny human)
