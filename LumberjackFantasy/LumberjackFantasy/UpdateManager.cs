@@ -1290,7 +1290,13 @@ namespace LumberjackFantasy
             {
                 UpdatePlayerAttacks();
             }
-            //UpdateBearAttacks()
+            if (bearsCurrent != null)
+            {
+                foreach (Bear b in bearsCurrent)
+                {
+                    UpdateBearsAttack();
+                }
+            }
             Invinicibility();
 
         }
