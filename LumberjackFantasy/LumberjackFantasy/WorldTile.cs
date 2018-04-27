@@ -37,7 +37,7 @@ namespace LumberjackFantasy
         private List<Bear> worldBears;
         private List<Tree> worldTrees;
         private List<PickUp> worldPickups;
-		List<BackgroundTile> backgrounds;
+		private List<BackgroundTile> backgrounds;
 
 		/// <summary>
 		/// List of every bear in a level
@@ -77,7 +77,7 @@ namespace LumberjackFantasy
 
 
 		//random object removed in favor of random selection of tiles in the tile class
-		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups)
+		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups, Texture2D background)
 		{
 			rng = new Random();
 			tiles = new List<Tile>();
@@ -101,7 +101,12 @@ namespace LumberjackFantasy
 			tiles.Add(LoadTiles("tile_" + lowerLeft + ".txt", treeTexture, bearTexture, pickups, rng, Quadrent.BL));
 			tiles.Add(LoadTiles("tile_" + lowerRight + ".txt", treeTexture, bearTexture, pickups, rng, Quadrent.BR));
 
-            SetWorldTileLists();
+			backgrounds.Add(new BackgroundTile(0, 0, 896, 896, background));
+			backgrounds.Add(new BackgroundTile(896, 0, 896, 896, background));
+			backgrounds.Add(new BackgroundTile(0, 896, 896, 896, background));
+			backgrounds.Add(new BackgroundTile(896, 896, 896, 896, background));
+
+			SetWorldTileLists();
 
 		}
 

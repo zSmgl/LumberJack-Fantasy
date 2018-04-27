@@ -20,6 +20,7 @@ namespace LumberjackFantasy
 		private List<Bear> bearsCurrent;                // Holds all of the bears in the game
 		private List<Tree> treesCurrent;                // Holds all of the treesInTheGame
         private List<PickUp> pickUpsCurrent;            // Holds all the pickups in the game
+		private List<BackgroundTile> backgrounds;       // Holds all of the backgrounds for the game
 
 		private KeyboardState currentKB;                // Holds the current Kb State
 		private KeyboardState previousKB;               // Holds the previous Kb State (if needed)
@@ -69,7 +70,7 @@ namespace LumberjackFantasy
 		/// <summary>
 		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
 		/// </summary>
-		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera, int gameMaxLevel, List<Texture2D> textures, Texture2D nextLevelTexture)
+		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera, int gameMaxLevel, List<Texture2D> textures, Texture2D nextLevelTexture, List<BackgroundTile> list)
 		{
             // Sets Textures
             uiTextures = textures;
@@ -97,6 +98,8 @@ namespace LumberjackFantasy
             screenHeight = screenHeightMax;
             screenWidth = screenWidthMax;
             waitTimeNextLevel = 3;
+
+			backgrounds = list;
         }
 
 
@@ -176,6 +179,17 @@ namespace LumberjackFantasy
         ///</summary>
         public void DrawGame(SpriteBatch spriteBatch, SpriteFont spriteFont)
 		{
+			if (backgrounds != null)
+			{
+				foreach (BackgroundTile thisBg in backgrounds)
+				{
+					if (thisBg.OnScreen)
+					{
+						thisBg.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+					}
+				}
+			}
+
 			//draw player
 			pCurrent.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
 
@@ -1693,6 +1707,20 @@ namespace LumberjackFantasy
         private void UpdateCamera()
         {
             camera.UpdatePosition(pCurrent.ObjectCollisionBox);
+			if (backgrounds != null)
+			{
+				foreach (BackgroundTile thisBg in backgrounds)
+				{
+					if (camera.IsDrawn(thisBg.ObjectCollisionBox)) //checks if needs to be drawn
+					{
+						thisBg.OnScreen = true;
+					}
+					else
+					{
+						thisBg.OnScreen = false;
+					}
+				}
+			}
 			if (treesCurrent != null)
 			{
 				foreach (Tree thisTree in treesCurrent)
