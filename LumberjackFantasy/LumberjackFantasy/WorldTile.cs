@@ -37,11 +37,12 @@ namespace LumberjackFantasy
         private List<Bear> worldBears;
         private List<Tree> worldTrees;
         private List<PickUp> worldPickups;
+		List<BackgroundTile> backgrounds;
 
-        /// <summary>
-        /// List of every bear in a level
-        /// </summary>
-        public List<Bear> WorldBears
+		/// <summary>
+		/// List of every bear in a level
+		/// </summary>
+		public List<Bear> WorldBears
         {
             get { return worldBears; }
         }
@@ -67,6 +68,13 @@ namespace LumberjackFantasy
 			set { tiles = value; }
 		}
 
+		// lets you access the backgrounds for each quad
+		public List<BackgroundTile> Backgrounds
+		{
+			get { return backgrounds; }
+			set { backgrounds = value; }
+		}
+
 
 		//random object removed in favor of random selection of tiles in the tile class
 		public WorldTile(Texture2D treeTexture, Texture2D bearTexture, List<Texture2D> pickups)
@@ -76,6 +84,7 @@ namespace LumberjackFantasy
 			worldBears = new List<Bear>();
 			worldPickups = new List<PickUp>();
 			worldTrees = new List<Tree>();
+			backgrounds = new List<BackgroundTile>(); 
 			upperLeft = rng.Next(0, 19);
 			upperRight = rng.Next(0, 19);
 			lowerLeft = rng.Next(0, 19);
