@@ -1458,65 +1458,81 @@ namespace LumberjackFantasy
         {
             foreach (Bear b in bearsCurrent)
             {
-                // If Bears field of attack intersect Player 
-                if (b.FieldOfAttack.Intersects(pCurrent.ObjectCollisionBox))
+                if (!b.IsAttacking) //if bear is not already attacking
                 {
-                    Rectangle attackArea = new Rectangle(b.Location.X, b.Location.Y, 100, 100); // May be able to change to foa standard. idk
-                    // May need to reconfigure to state Bears pos relative to Players pos to  decide its area
-                    switch (b.BearDirection)
+                    // If Bears field of attack intersect Player 
+                    if (b.FieldOfAttack.Intersects(pCurrent.ObjectCollisionBox))
                     {
-                        case BearDirection.up:
-                            attackArea.Y -= b.Height;
-                            attackArea.Height = 50;
-                            attackArea.Width = 100;
-                            break;
-                        case BearDirection.upleft:
-                            attackArea.X -= b.Width;
-                            attackArea.Height = 50;
-                            attackArea.Width = 100;
-                            break;
-                        case BearDirection.upright:
-                            attackArea.Y -= b.Height;
-                            attackArea.Width = 50;
-                            attackArea.Height = 100;
-                            break;
-                        case BearDirection.down:
-                            attackArea.Y += b.Height;
-                            attackArea.Height = 50;
-                            attackArea.Width = 100;
-                            break;
-                        case BearDirection.downleft:
-                            attackArea.Y += b.Height;
-                            attackArea.Height = 50;
-                            attackArea.Width = 100;
-                            break;
-                        case BearDirection.downright:
-                            attackArea.X += b.Width;
-                            attackArea.Height = 50;
-                            attackArea.Width = 100;
-                            break;
-                        case BearDirection.left:
-                            attackArea.X -= b.Width;
-                            attackArea.Width = 50;
-                            attackArea.Height = 100;
-                            break;
-                        case BearDirection.right:
-                            attackArea.X += b.Width;
-                            attackArea.Width = 50;
-                            attackArea.Height = 100;
-                            break;
+                        b.IsAttacking = true;
+                        Rectangle attackArea = new Rectangle(b.Location.X, b.Location.Y, 100, 100); // May be able to change to foa standard. idk
+                                                                                                    // May need to reconfigure to state Bears pos relative to Players pos to  decide its area
+                        switch (b.BearDirection)
+                        {
+                            case BearDirection.up:
+                                attackArea.Y -= b.Height;
+                                attackArea.Height = 50;
+                                attackArea.Width = 100;
+                                break;
+                            case BearDirection.upleft:
+                                attackArea.X -= b.Width;
+                                attackArea.Height = 50;
+                                attackArea.Width = 100;
+                                break;
+                            case BearDirection.upright:
+                                attackArea.Y -= b.Height;
+                                attackArea.Width = 50;
+                                attackArea.Height = 100;
+                                break;
+                            case BearDirection.down:
+                                attackArea.Y += b.Height;
+                                attackArea.Height = 50;
+                                attackArea.Width = 100;
+                                break;
+                            case BearDirection.downleft:
+                                attackArea.Y += b.Height;
+                                attackArea.Height = 50;
+                                attackArea.Width = 100;
+                                break;
+                            case BearDirection.downright:
+                                attackArea.X += b.Width;
+                                attackArea.Height = 50;
+                                attackArea.Width = 100;
+                                break;
+                            case BearDirection.left:
+                                attackArea.X -= b.Width;
+                                attackArea.Width = 50;
+                                attackArea.Height = 100;
+                                break;
+                            case BearDirection.right:
+                                attackArea.X += b.Width;
+                                attackArea.Width = 50;
+                                attackArea.Height = 100;
+                                break;
+
+                        }
+                        // Calls for attack on the player
+                        // May need to rewrite method for one bear, not the whole bear list  Attacking Here
+                        bool[] playerHit = collisionManager.GenericAttack(attackArea, pCurrent, bearsCurrent);
+                        if (playerHit[0] && pCurrent.Invincible != true)
+                        {
+                            pCurrent.Health--;
+                            pCurrent.Invincible = true;
+                            pCurrent.ResetTimer();
+                        }
 
                     }
-                    // Calls for attack on the player
-                    // May need to rewrite method for one bear, not the whole bear list  Attacking Here
-                    bool[] playerHit = collisionManager.GenericAttack( attackArea, pCurrent, bearsCurrent);
-                    if (playerHit[0] && pCurrent.Invincible!= true)
+                }
+                else
+                {
+                    if (animate == true)
                     {
-                        pCurrent.Health--;
-                        pCurrent.Invincible = true;
-                        pCurrent.ResetTimer();
+                        b.AttackAnimationF++;
+                        if (b.AttackAnimationF >13)
+                        {
+                            b.AttackAnimationF = 0;
+                            b.IsAttacking = false;
+                        }
                     }
-
                 }
             }
         }
