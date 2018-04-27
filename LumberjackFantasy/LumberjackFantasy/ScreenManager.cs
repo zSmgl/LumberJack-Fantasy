@@ -197,13 +197,13 @@ namespace LumberjackFantasy
 			}
 			else
 			{
-				spriteBatch.DrawString(spriteFont, "Welcome To LumberJack Fantasy!\n\n" +
+				spriteBatch.DrawString(spriteFont, "Welcome To LumberJack Fantasy!\n" +
 					"WASD Keys To Move\n" +
-					"Arrow Keys To Attack\n" +
+					"Arrow Keys To Attack\n\n" +
 					"Collect the Required Number \n" +
-					"Of Logs Per Level\n\n" +
+					"Of Logs Per Level\n" +
 					"Cut Down Trees and Collect Syrup\n" +
-					"to Gain points\n\n" +
+					"to Gain points\n" +
 					"Killing bears deducts points,\n" +
 					"unless it is Open Season\n\n" +
 					"Collect Apples To regain Health\n" +
