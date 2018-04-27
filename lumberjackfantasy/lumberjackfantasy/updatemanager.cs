@@ -281,7 +281,7 @@ namespace LumberjackFantasy
                             if (attackDirection == BearDirection.up)
                             {
                                 spriteBatch.Draw(uiTextures[16], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
-                            thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(0 , thisObject.AttackAnimationF * 50, 100, 50), Color.White, 0.0f,
+                            100, 50), new Rectangle(0 , thisObject.AttackAnimationF * 50, 100, 50), Color.White, 0.0f,
                             Vector2.Zero, SpriteEffects.None, 0.0f);
                             }
                             if (attackDirection == BearDirection.down)
@@ -1499,26 +1499,26 @@ namespace LumberjackFantasy
                         switch (b.BearDirection)
                         {
                             case BearDirection.up:
-                                attackArea.Y -= b.Height;
                                 attackArea.Height = 50;
                                 attackArea.Width = 100;
+                                attackArea.Y -= attackArea.Height;
+                                attackArea.X -= 15;
                                 break;
                             case BearDirection.down:
-                                attackArea.Y += b.Height;
                                 attackArea.Height = 50;
                                 attackArea.Width = 100;
+                                attackArea.Y += b.Height;
+                                attackArea.X -= 15;
                                 break;
                             case BearDirection.left:
+                                attackArea.Width = 50;
+                                attackArea.Height = 100;
                                 attackArea.X -= attackArea.Width;
-                                attackArea.Y += b.Height / 2;
-                                attackArea.Width = 50;
-                                attackArea.Height = 100;
                                 break;
-                            case BearDirection.right:
-                                attackArea.X += b.Width;
-                                attackArea.Y += b.Height / 2;
+                            case BearDirection.right:                                
                                 attackArea.Width = 50;
                                 attackArea.Height = 100;
+                                attackArea.X += b.Width;
                                 break;
 
                         }
