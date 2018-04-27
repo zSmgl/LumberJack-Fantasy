@@ -25,7 +25,7 @@ namespace LumberjackFantasy
         public OpenSeasonManager()
         {
             openSeason = true;
-            openSeasonTimer = 5;
+            openSeasonTimer = 2;
             openSeasonLimiter = 0;
         }
 
@@ -93,7 +93,7 @@ namespace LumberjackFantasy
 
         public void ResetOpenSeasonTimer()
         {
-            openSeasonTimer = 60;
+            openSeasonTimer = 2;
         }
 
         
