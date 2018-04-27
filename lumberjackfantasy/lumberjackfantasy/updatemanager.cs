@@ -1467,27 +1467,43 @@ namespace LumberjackFantasy
                     {
                         case BearDirection.up:
                             attackArea.Y -= b.Height;
+                            attackArea.Height = 50;
+                            attackArea.Width = 100;
                             break;
                         case BearDirection.upleft:
                             attackArea.X -= b.Width;
+                            attackArea.Height = 50;
+                            attackArea.Width = 100;
                             break;
                         case BearDirection.upright:
                             attackArea.Y -= b.Height;
+                            attackArea.Width = 50;
+                            attackArea.Height = 100;
                             break;
                         case BearDirection.down:
                             attackArea.Y += b.Height;
+                            attackArea.Height = 50;
+                            attackArea.Width = 100;
                             break;
                         case BearDirection.downleft:
                             attackArea.Y += b.Height;
+                            attackArea.Height = 50;
+                            attackArea.Width = 100;
                             break;
                         case BearDirection.downright:
                             attackArea.X += b.Width;
+                            attackArea.Height = 50;
+                            attackArea.Width = 100;
                             break;
                         case BearDirection.left:
                             attackArea.X -= b.Width;
+                            attackArea.Width = 50;
+                            attackArea.Height = 100;
                             break;
                         case BearDirection.right:
                             attackArea.X += b.Width;
+                            attackArea.Width = 50;
+                            attackArea.Height = 100;
                             break;
 
                     }
