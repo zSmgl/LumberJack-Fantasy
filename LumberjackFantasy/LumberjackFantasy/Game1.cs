@@ -166,23 +166,23 @@ namespace LumberjackFantasy
 			ui.Add(Content.Load<Texture2D>("hShotgun")); //12
             ui.Add(Content.Load<Texture2D>("vShotgun"));
             ui.Add(Content.Load<Texture2D>("vShotgunProj")); //14
-            ui.Add(Content.Load<Texture2D>("hBearAttack")); //15
-            ui.Add(Content.Load<Texture2D>("VBearAttack")); // 16
-            // Managers 
-
-            updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui, nextLevelTexture);
-            screenManager = new ScreenManager(startButton, exitButton, instructButton, startScreenBackground, pauseBackground, continueButton, 
-				quitButton, startH, exitH, instructH, continueH, quitH);
-            player1 = new Player(448, 448, 70, 95, playerTexture, 5, 17, 10);
+            ui.Add(Content.Load<Texture2D>("hBearAttack"));
+            ui.Add(Content.Load<Texture2D>("VBearAttack")); // 15
 
             // Makes a total of 5 levels
             for(int i = 0; i < maxLevel; i++)
             {
-                worldTile.Add(new WorldTile(tree, bear, pickupsT));
+                worldTile.Add(new WorldTile(tree, bear, pickupsT, starterBackground));
             }
+			// Managers 
+
+			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui, nextLevelTexture, worldTile[0].Backgrounds);
+			screenManager = new ScreenManager(startButton, exitButton, instructButton, startScreenBackground, pauseBackground, continueButton,
+				quitButton, startH, exitH, instructH, continueH, quitH);
+			player1 = new Player(448, 448, 70, 95, playerTexture, 5, 17, 10);
 
 
-        }
+		}
 
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
@@ -228,7 +228,7 @@ namespace LumberjackFantasy
                         // Makes new levels for next time game is played
                         for (int i = 0; i < maxLevel; i++)
                         {
-                            worldTile.Add(new WorldTile(tree, bear, pickupsT));
+                            worldTile.Add(new WorldTile(tree, bear, pickupsT, starterBackground));
                         }
                     }
                     //show menu
@@ -281,7 +281,7 @@ namespace LumberjackFantasy
                     // Makes new levels for next time game is played
                     for (int i = 0; i < maxLevel; i++)
                     {
-                        worldTile.Add(new WorldTile(tree, bear, pickupsT));
+                        worldTile.Add(new WorldTile(tree, bear, pickupsT, starterBackground));
                     }
                     //display score
 
@@ -332,7 +332,7 @@ namespace LumberjackFantasy
                     }
 					else
 					{
-						spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+						// spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
 						updateManager.DrawGame(spriteBatch, spriteFont);
 						//updateManager.camera.DrawCam(spriteBatch);
 					}
