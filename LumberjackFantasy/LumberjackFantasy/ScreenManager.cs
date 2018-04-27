@@ -166,10 +166,11 @@ namespace LumberjackFantasy
         /// </summary>
         public void DrawTitleScreen(SpriteBatch spriteBatch, SpriteFont spriteFont)
         {
-            menu.DrawStartScreen(spriteBatch);
+           
 			if (!instructionsOn)
 			{
-				if (menu.StartHover)
+                menu.DrawStartScreen(spriteBatch);
+                if (menu.StartHover)
 				{
 					menu.DrawStartHover(spriteBatch);
 				}
