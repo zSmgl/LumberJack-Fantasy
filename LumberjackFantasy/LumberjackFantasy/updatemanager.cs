@@ -289,9 +289,48 @@ namespace LumberjackFantasy
 					if (thisObject.OnScreen)
 					{
 						thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
-                        if (thisObject.IsAttacking) //Draw Bears Attacking
+                        BearDirection attackDirection = thisObject.BearDirection;
+                        if ((int)attackDirection > 3)
                         {
-                            BearDirection attackDirection = (BearDirection)((int)thisObject.BearDirection % 3);
+                            if((int)attackDirection == 4 || (int)attackDirection == 5)
+                            {
+                                if (Math.Abs(thisObject.PosX - pCurrent.PosX) > Math.Abs(thisObject.PosY - pCurrent.PosY))
+                                {
+                                    attackDirection = BearDirection.left;
+                                }
+                                if (Math.Abs(thisObject.PosX - pCurrent.PosX) < Math.Abs(thisObject.PosY - pCurrent.PosY))
+                                {
+                                    if (thisObject.PosY - pCurrent.PosY > 0)
+                                    {
+                                        attackDirection = BearDirection.down;
+                                    }
+                                    else
+                                    {
+                                        attackDirection = BearDirection.up;
+                                    }
+                                }
+                            }
+                            if ((int)attackDirection == 6 || (int)attackDirection == 7)
+                            {
+                                if (Math.Abs(thisObject.PosX - pCurrent.PosX) > Math.Abs(thisObject.PosY - pCurrent.PosY))
+                                {
+                                    attackDirection = BearDirection.right;
+                                }
+                                if (Math.Abs(thisObject.PosX - pCurrent.PosX) < Math.Abs(thisObject.PosY - pCurrent.PosY))
+                                {
+                                    if (thisObject.PosY - pCurrent.PosY > 0)
+                                    {
+                                        attackDirection = BearDirection.down;
+                                    }
+                                    else
+                                    {
+                                        attackDirection = BearDirection.up;
+                                    }
+                                }
+                            }
+                        }
+                                if (thisObject.IsAttacking) //Draw Bears Attacking
+                        {
                             if (attackDirection == BearDirection.up)
                             {
                                 spriteBatch.Draw(uiTextures[16], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
@@ -301,19 +340,19 @@ namespace LumberjackFantasy
                             if (attackDirection == BearDirection.down)
                             {
                                 spriteBatch.Draw(uiTextures[16], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
-                            thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(0, thisObject.AttackAnimationF * 50, 100, 50), Color.White, 0.0f,
+                            100, 50), new Rectangle(0, thisObject.AttackAnimationF * 50, 100, 50), Color.White, 0.0f,
                             Vector2.Zero, SpriteEffects.FlipVertically, 0.0f);
                             }
                             if (attackDirection == BearDirection.left)
                             {
                                 spriteBatch.Draw(uiTextures[15], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
-                            thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(thisObject.AttackAnimationF * 50, 0, 50, 100), Color.White, 0.0f,
+                            50, 100), new Rectangle(thisObject.AttackAnimationF * 50, 0, 50, 100), Color.White, 0.0f,
                             Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
                             }
                             if (attackDirection == BearDirection.right)
                             {
                                 spriteBatch.Draw(uiTextures[15], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
-                            thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(thisObject.AttackAnimationF * 50, 0, 50, 100), Color.White, 0.0f,
+                            50, 100), new Rectangle(thisObject.AttackAnimationF * 50, 0, 50, 100), Color.White, 0.0f,
                             Vector2.Zero, SpriteEffects.None, 0.0f);
                             }
                         }
@@ -1129,7 +1168,7 @@ namespace LumberjackFantasy
 			}
 			else                                                                    // Bear Stood Still
 			{
-				bearsCurrent[i].BearDirection = oldPos.BearDirection;
+                bearsCurrent[i].BearDirection = oldPos.BearDirection;
 			}
 
             if (animate == true)
