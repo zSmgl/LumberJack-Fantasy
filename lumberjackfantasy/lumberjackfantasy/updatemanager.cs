@@ -120,6 +120,7 @@ namespace LumberjackFantasy
 			UpdatePlayer();
             UpdateCamera();
             UpdateAllBears();
+            UpdateBearsAttack();
             UpdatePlayerBearInteraction();
 			RemoveStuffFromStoredLists();
             
@@ -274,6 +275,34 @@ namespace LumberjackFantasy
 					if (thisObject.OnScreen)
 					{
 						thisObject.Draw(spriteBatch, camera.CameraPosition.Location.ToVector2());
+                        if (thisObject.IsAttacking) //Draw Bears Attacking
+                        {
+                            BearDirection attackDirection = (BearDirection)((int)thisObject.BearDirection % 3);
+                            if (attackDirection == BearDirection.up)
+                            {
+                                spriteBatch.Draw(uiTextures[14], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
+                            thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(0 , thisObject.AttackAnimationF * 50, 100, 50), Color.White, 0.0f,
+                            Vector2.Zero, SpriteEffects.None, 0.0f);
+                            }
+                            if (attackDirection == BearDirection.down)
+                            {
+                                spriteBatch.Draw(uiTextures[14], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
+                            thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(0, thisObject.AttackAnimationF * 50, 100, 50), Color.White, 0.0f,
+                            Vector2.Zero, SpriteEffects.FlipVertically, 0.0f);
+                            }
+                            if (attackDirection == BearDirection.left)
+                            {
+                                spriteBatch.Draw(uiTextures[15], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
+                            thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(thisObject.AttackAnimationF * 50, 0, 50, 100), Color.White, 0.0f,
+                            Vector2.Zero, SpriteEffects.FlipHorizontally, 0.0f);
+                            }
+                            if (attackDirection == BearDirection.right)
+                            {
+                                spriteBatch.Draw(uiTextures[15], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
+                            thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(thisObject.AttackAnimationF * 50, 0, 50, 100), Color.White, 0.0f,
+                            Vector2.Zero, SpriteEffects.None, 0.0f);
+                            }
+                        }
 					}
 				}
 			}
@@ -1516,6 +1545,7 @@ namespace LumberjackFantasy
                                 break;
 
                         }
+                        b.AttackBox = attackArea;
                         // Calls for attack on the player
                         // May need to rewrite method for one bear, not the whole bear list  Attacking Here
                         bool[] playerHit = collisionManager.GenericAttack(attackArea, pCurrent, bearsCurrent);

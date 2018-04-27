@@ -46,6 +46,7 @@ namespace LumberjackFantasy
         private Rectangle fieldOfAttack;        // Rectangle that determines if the bear should trigger an attack animation
         private bool attackStuff;       // Determines if the player can attack something. 
         private int attackAnimationF;   // Keeps track of the players current attacking animation frame;
+        private Rectangle attackBox;    // Holds the Rectangle of the Bears Attack Target
 
         // Movement Based Fields --------------------------------------------------------------
 
@@ -69,6 +70,10 @@ namespace LumberjackFantasy
 
         // Properties ------------------------------------------------------------------
 
+        /// <summary>
+        /// Attack HitBox
+        /// </summary>
+        public Rectangle AttackBox { get { return attackBox; } set { attackBox = value; } }
         /// <summary>
         /// Field of Attack Standard
         /// </summary>

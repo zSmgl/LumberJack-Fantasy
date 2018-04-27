@@ -166,6 +166,8 @@ namespace LumberjackFantasy
 			ui.Add(Content.Load<Texture2D>("hShotgun")); //12
             ui.Add(Content.Load<Texture2D>("vShotgun"));
             ui.Add(Content.Load<Texture2D>("vShotgunProj")); //14
+            ui.Add(Content.Load<Texture2D>("hBearAttack"));
+            ui.Add(Content.Load<Texture2D>("VBearAttack")); // 15
             // Managers 
 
             updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui, nextLevelTexture);
