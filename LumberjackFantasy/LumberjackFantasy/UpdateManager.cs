@@ -294,13 +294,13 @@ namespace LumberjackFantasy
                             BearDirection attackDirection = (BearDirection)((int)thisObject.BearDirection % 3);
                             if (attackDirection == BearDirection.up)
                             {
-                                spriteBatch.Draw(uiTextures[14], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
+                                spriteBatch.Draw(uiTextures[16], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
                             thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(0 , thisObject.AttackAnimationF * 50, 100, 50), Color.White, 0.0f,
                             Vector2.Zero, SpriteEffects.None, 0.0f);
                             }
                             if (attackDirection == BearDirection.down)
                             {
-                                spriteBatch.Draw(uiTextures[14], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
+                                spriteBatch.Draw(uiTextures[16], new Rectangle(thisObject.AttackBox.X - camera.CameraPosition.X, thisObject.AttackBox.Y - camera.CameraPosition.Y,
                             thisObject.AttackBox.Width, thisObject.AttackBox.Height), new Rectangle(0, thisObject.AttackAnimationF * 50, 100, 50), Color.White, 0.0f,
                             Vector2.Zero, SpriteEffects.FlipVertically, 0.0f);
                             }
@@ -1495,12 +1495,6 @@ namespace LumberjackFantasy
             {
                 pCurrent.AttackAnimationF++;
             }
-            // Increment the Attack Animation Frame for each Bear attacking
-            foreach(Bear b in bearsCurrent )
-                if (animate == true && b.IsAttacking == true)
-                {
-                    b.AttackAnimationF++;
-                }
         }
 
         public void UpdateBearsAttack()
@@ -1514,7 +1508,8 @@ namespace LumberjackFantasy
                     {
                         b.IsAttacking = true;
                         Rectangle attackArea = new Rectangle(b.Location.X, b.Location.Y, 100, 100); // May be able to change to foa standard. idk
-                                                                                                    // May need to reconfigure to state Bears pos relative to Players pos to  decide its area
+                        // May need to reconfigure to state Bears pos relative to Players pos to  decide its area
+                        BearDirection attackDirection = (BearDirection)((int)b.BearDirection % 3);
                         switch (b.BearDirection)
                         {
                             case BearDirection.up:
@@ -1522,38 +1517,20 @@ namespace LumberjackFantasy
                                 attackArea.Height = 50;
                                 attackArea.Width = 100;
                                 break;
-                            case BearDirection.upleft:
-                                attackArea.X -= b.Width;
-                                attackArea.Height = 50;
-                                attackArea.Width = 100;
-                                break;
-                            case BearDirection.upright:
-                                attackArea.Y -= b.Height;
-                                attackArea.Width = 50;
-                                attackArea.Height = 100;
-                                break;
                             case BearDirection.down:
                                 attackArea.Y += b.Height;
                                 attackArea.Height = 50;
                                 attackArea.Width = 100;
                                 break;
-                            case BearDirection.downleft:
-                                attackArea.Y += b.Height;
-                                attackArea.Height = 50;
-                                attackArea.Width = 100;
-                                break;
-                            case BearDirection.downright:
-                                attackArea.X += b.Width;
-                                attackArea.Height = 50;
-                                attackArea.Width = 100;
-                                break;
                             case BearDirection.left:
-                                attackArea.X -= b.Width;
+                                attackArea.X -= attackArea.Width;
+                                attackArea.Y += b.Height / 2;
                                 attackArea.Width = 50;
                                 attackArea.Height = 100;
                                 break;
                             case BearDirection.right:
                                 attackArea.X += b.Width;
+                                attackArea.Y += b.Height / 2;
                                 attackArea.Width = 50;
                                 attackArea.Height = 100;
                                 break;
@@ -1574,7 +1551,7 @@ namespace LumberjackFantasy
                 }
                 else
                 {
-                    if (animate == true)
+                    if (animate == true && b.IsAttacking)
                     {
                         b.AttackAnimationF++;
                         if (b.AttackAnimationF >13)
