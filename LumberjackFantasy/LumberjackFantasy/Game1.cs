@@ -34,6 +34,7 @@ namespace LumberjackFantasy
         SpriteFont waitNextlvlFont;
         Texture2D playerTexture;
         Texture2D startScreenBackground;
+        Texture2D instructionScreen;
         Texture2D starterBackground;
         Texture2D startButton;
 		Texture2D exitButton;
@@ -114,6 +115,7 @@ namespace LumberjackFantasy
             //Starter Background Variables for Base Build
             starterBackground = Content.Load<Texture2D>("starterBackground");
             startScreenBackground = Content.Load<Texture2D>("startScreenBackground");
+            instructionScreen = Content.Load<Texture2D>("instructionScreen");
             syrup = Content.Load<Texture2D>("Syrup");
             bear = Content.Load<Texture2D>("bearSS");
             tree = Content.Load<Texture2D>("treeSS");
@@ -173,7 +175,7 @@ namespace LumberjackFantasy
 
 			updateManager = new UpdateManager(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, camera, maxLevel, ui, nextLevelTexture, worldTile[0].Backgrounds);
 			screenManager = new ScreenManager(startButton, exitButton, instructButton, startScreenBackground, pauseBackground, continueButton,
-				quitButton, startH, exitH, instructH, continueH, quitH);
+				quitButton, startH, exitH, instructH, continueH, quitH, instructionScreen);
 			player1 = new Player(448, 448, 70, 95, playerTexture, 5, 17, 10);
 
 

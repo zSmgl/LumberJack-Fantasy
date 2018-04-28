@@ -21,11 +21,11 @@ namespace LumberjackFantasy
 		private Vector2 topLeftCenter;					//Holds the position of instruction text
 
         public ScreenManager(Texture2D startButton, Texture2D exitButton, Texture2D instructButton, Texture2D ssBG, Texture2D overlay, Texture2D continueButton, 
-			Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D instructHover, Texture2D continueHover, Texture2D quitHover)
+			Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D instructHover, Texture2D continueHover, Texture2D quitHover, Texture2D isBG)
         {
 			instructionsOn = false;
 			topLeftCenter = new Vector2(98, 0);
-            LoadMenus(startButton, exitButton, instructButton, ssBG, overlay, continueButton, quit, startHover, exitHover, instructHover, continueHover, quitHover);
+            LoadMenus(startButton, exitButton, instructButton, ssBG, overlay, continueButton, quit, startHover, exitHover, instructHover, continueHover, quitHover, isBG);
         }
 
         // ------------------------------------------------------------------- UPDATE METHODS FOR GAMESCREENS ---------------------------------------------------------------------
@@ -118,10 +118,10 @@ namespace LumberjackFantasy
         // ---------------------------------------------------------------------------- Menus Logic -----------------------------------------------------------------------
         //loadmenu command to create the screenmanager to be called in loadContent, method is in its test state as not all textures are created
         public void LoadMenus(Texture2D startButton, Texture2D exitButton, Texture2D instructButton, Texture2D ssBG, Texture2D overlay, 
-			Texture2D continueButton, Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D instructHover, Texture2D continueHover, Texture2D quitHover)
+			Texture2D continueButton, Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D instructHover, Texture2D continueHover, Texture2D quitHover, Texture2D isBG)
         {
             menu = new ScreenPosManager(startButton, exitButton, instructButton, ssBG, overlay, continueButton, quit, startHover, exitHover, 
-				instructHover, continueHover, quitHover);
+				instructHover, continueHover, quitHover, isBG);
         }
 
         //command to see if a button is being hovered over
@@ -173,7 +173,8 @@ namespace LumberjackFantasy
 			}
 			else
 			{
-				spriteBatch.DrawString(spriteFont, "Welcome To LumberJack Fantasy!\n" +
+                menu.DrawInstructionScreen(spriteBatch);
+                spriteBatch.DrawString(spriteFont, "Welcome To LumberJack Fantasy!\n" +
 					"WASD Keys To Move\n" +
 					"Arrow Keys To Attack\n\n" +
 					"Collect the Required Number \n" +
@@ -195,7 +196,7 @@ namespace LumberjackFantasy
 				}
 			}
         }
-		public void DrawPauseScreen(SpriteBatch spriteBatch)
+        public void DrawPauseScreen(SpriteBatch spriteBatch)
 		{
 			menu.DrawPause(spriteBatch);
 			if(menu.ReturnHover)

@@ -18,6 +18,7 @@ namespace LumberjackFantasy
         //Fields
         //Texture Fields
         private Texture2D startScreenBackground;
+        private Texture2D instructionScreen;
         private Texture2D title;
         private Texture2D startButton;
         private Texture2D exitButton;
@@ -39,6 +40,7 @@ namespace LumberjackFantasy
 
         //Vector Fields
         private Vector2 ssBGPos; //start screen bg position
+        private Vector2 isPos; //instructions screen position
         private Vector2 tPos; //title position
         private Vector2 sbPos; //start button position
         private Vector2 ebPos; //exit button position
@@ -77,11 +79,15 @@ namespace LumberjackFantasy
 		//Constructor
 
 		public ScreenPosManager(Texture2D start, Texture2D exit, Texture2D instruct, Texture2D ssBG, Texture2D pauseBG, Texture2D returnButton, Texture2D quit,
-			Texture2D startH , Texture2D exitH, Texture2D instructH, Texture2D returnH, Texture2D quitH)
+			Texture2D startH , Texture2D exitH, Texture2D instructH, Texture2D returnH, Texture2D quitH, Texture2D isBG)
         {
             startScreenBackground = ssBG;
             ssBGPos.X = 0;
             ssBGPos.Y = 0;
+
+            instructionScreen = isBG;
+            isPos.X = 0;
+            isPos.Y = 0;
 
             startButton = start;
 			startButtonH = startH;
@@ -128,6 +134,11 @@ namespace LumberjackFantasy
             spriteBatch.Draw(startScreenBackground, ssBGPos, Color.White);
             //spriteBatch.Draw(title, tPos, Color.White);
             
+        }
+
+        public void DrawInstructionScreen(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(instructionScreen, isPos, Color.White);
         }
 
         public void DrawStartButton(SpriteBatch spriteBatch)
