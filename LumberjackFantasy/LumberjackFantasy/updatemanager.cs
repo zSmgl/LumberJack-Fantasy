@@ -1122,11 +1122,11 @@ namespace LumberjackFantasy
 
                 if (adjustPosValues[0] != 0)
                 {
-                    pCurrent.SpeedX = 0;
+                    bearsCurrent[i].SpeedX = 0;
                 }
                 if (adjustPosValues[1] != 0)
                 {
-                    pCurrent.SpeedY = 0;
+                    bearsCurrent[i].SpeedY = 0;
                 }
             }
 
