@@ -109,27 +109,27 @@ namespace LumberjackFantasy
 			switch (scoreState)
 			{
 				case ScoreState.loading:
-					spriteBatch.DrawString(spriteFont, "Loading High Scores...", centerLeft, Color.Firebrick);
+					spriteBatch.DrawString(spriteFont, "Loading High Scores...", centerLeft, Color.White);
 					break;
 
 				case ScoreState.getName:
-					spriteBatch.DrawString(spriteFont, "Input Name", topLeftThird, Color.Firebrick);
+					spriteBatch.DrawString(spriteFont, "Input Name", topLeftThird, Color.White);
 					if (playerName.Length >= 1)
 					{
-						spriteBatch.DrawString(spriteFont, playerName[0].ToString(), characterLocations[0], Color.Firebrick);
+						spriteBatch.DrawString(spriteFont, playerName[0].ToString(), characterLocations[0], Color.White);
 					}
 					if (playerName.Length >= 2)
 					{
-						spriteBatch.DrawString(spriteFont, playerName[1].ToString(), characterLocations[1], Color.Firebrick);
+						spriteBatch.DrawString(spriteFont, playerName[1].ToString(), characterLocations[1], Color.White);
 					}
 					if (playerName.Length >= 3)
 					{
-						spriteBatch.DrawString(spriteFont, playerName[2].ToString(), characterLocations[2], Color.Firebrick);
+						spriteBatch.DrawString(spriteFont, playerName[2].ToString(), characterLocations[2], Color.White);
 					}
 					break;
 
 				case ScoreState.saving:
-					spriteBatch.DrawString(spriteFont, "Saving High Scores...", centerLeft, Color.Firebrick);
+					spriteBatch.DrawString(spriteFont, "Saving High Scores...", centerLeft, Color.White);
 					break;
 
 				case ScoreState.viewScore:
@@ -143,7 +143,7 @@ namespace LumberjackFantasy
 						scoreNames[7] + ": " + highScores[7] + "\n" +
 						scoreNames[8] + ": " + highScores[8] + "\n" +
 						scoreNames[9] + ": " + highScores[9] + "\n" +
-						"Press Enter To Continue", topLeftThird, Color.Firebrick);
+						"Press Enter To Continue", topLeftThird, Color.White);
 					break;
 			}
 			}

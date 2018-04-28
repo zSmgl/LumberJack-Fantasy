@@ -115,31 +115,6 @@ namespace LumberjackFantasy
 			return toReturn;
         }
 
-        /// <summary>
-        /// Update Method called when the game is at a Game Over Screen
-        /// </summary>
-        public void UpdateEndGameScreen()
-        {
-
-        }
-
-
-
-        // ----------------------------------------------------------------------- UPDATE SCREEN !FIELDS! METHODS ---------------------------------------------------------
-        public void UpdateTitleScreenFields()
-        {
-
-        }
-
-        public void UpdatePauseScreenFields()
-        {
-
-        }
-
-        public void UpdateEndGameScreenFields()
-        {
-
-        }
         // ---------------------------------------------------------------------------- Menus Logic -----------------------------------------------------------------------
         //loadmenu command to create the screenmanager to be called in loadContent, method is in its test state as not all textures are created
         public void LoadMenus(Texture2D startButton, Texture2D exitButton, Texture2D instructButton, Texture2D ssBG, Texture2D overlay, 

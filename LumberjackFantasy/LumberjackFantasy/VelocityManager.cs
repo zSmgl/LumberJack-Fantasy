@@ -18,13 +18,15 @@ namespace LumberjackFantasy
         /// slightly barebones at the moment but as we need more control over the objects physics we can add more
         /// </summary>
 
-        //fields ------------------------------------------------------------------------
+        #region Fields
+
         private int velocityX;
         private int velocityY;
         private int maxSpeed;
 
-        //properties --------------------------------------------------------------------
-        
+        #endregion Fields
+        #region Properties
+
         //velocities have a get and a set value, the set allow for values within the max speed to be set directly, adding or subtracting to velocity will be done through methods
 
         public int VelocityX
@@ -53,14 +55,19 @@ namespace LumberjackFantasy
 
         //maxSpeed has a get and a set in case we want to alter an objects move speed range in game
         public int MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
-        //constructor -------------------------------------------------------------------
+
+        #endregion Properties
+        #region Constructor
+
         public VelocityManager(int max)
         {
             maxSpeed = max;
             velocityX = 0;
             velocityY = 0;
         }
-        //methods -----------------------------------------------------------------------
+
+        #endregion Constructor
+        #region Methods
 
         //update position method which returns a rectangle with location equal to the input rectangle plus velocities
         public Rectangle UpdatePosition(Rectangle position)
@@ -127,5 +134,8 @@ namespace LumberjackFantasy
                 }
             }
         }
+
+        #endregion Methods
+
     }
 }

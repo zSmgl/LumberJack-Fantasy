@@ -14,12 +14,13 @@ namespace LumberjackFantasy
         ///Tree class
         ///game object similar to other objects, has no follow code as trees are stationary
         ///has its own sub class to distinguish from other objects
+        #region Fields
 
-        //fields ------------------------------------------------------------------------
-		private bool colliding;
+        private bool colliding;
         private bool wasAttacked;
 
-        //properties --------------------------------------------------------------------
+        #endregion Fields
+        #region Properties
         public bool Colliding {get {return colliding;} set {colliding = value;}}
         /// <summary>
         /// Determines if a tree can lose health
@@ -29,15 +30,17 @@ namespace LumberjackFantasy
             get { return wasAttacked; }
             set { wasAttacked = value; }
         }
-        //constructor
+        #endregion Properties
+        #region Constructor
+
         public Tree(int x, int y, int width, int height, Texture2D objectTexture, int maxH, int maxS) 
             : base(x, y, width, height, objectTexture, maxH, maxS)
         {
 			colliding = false;
             wasAttacked = false;
         }
-
-        //methods -----------------------------------------------------------------------
+        #endregion Constructor
+        #region Methods
         public override void Draw(SpriteBatch sb, Vector2 camera)
         {
                         //Base Draw Method for Base Build
@@ -49,5 +52,6 @@ namespace LumberjackFantasy
             }
 
         }
+        #endregion Methods
     }
 }

@@ -24,7 +24,6 @@ namespace LumberjackFantasy
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
-		List<Texture2D> testTiles;
 		List<WorldTile> worldTile;
 
         int level;
@@ -126,12 +125,8 @@ namespace LumberjackFantasy
             pickupsT.Add(apple);
             pickupsT.Add(syrup);
             pickupsT.Add(shotgun);
-
-            
-            testTiles = new List<Texture2D>();
             playerTexture = Content.Load<Texture2D>("lumberjackFront");
             //rng = new Random();
-            //LoadTile();
 
             nextLevelTexture = Content.Load<Texture2D>("nextLevelTexture");
 
@@ -341,7 +336,7 @@ namespace LumberjackFantasy
 					break;
 
 				case GameState.gameOver:
-					spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White);
+					//spriteBatch.Draw(starterBackground, new Rectangle(0, 0, 896, 896), Color.White); // put game over background here
 					scoreBoardManager.DrawGameOver(spriteBatch, scoreFont);
 					break;
 			}
@@ -349,17 +344,6 @@ namespace LumberjackFantasy
 			spriteBatch.End();
 
 			base.Draw(gameTime);
-		}
-
-
-		//Call only during textureload
-		//can be extended for extra textures
-		public void LoadTile()
-		{
-			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP1"));
-			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP2"));
-			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP3"));
-			testTiles.Add(Content.Load<Texture2D>("Tiles/bgP4"));
 		}
 
         public void NewLevel()
