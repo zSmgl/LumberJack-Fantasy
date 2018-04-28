@@ -11,10 +11,8 @@ namespace LumberjackFantasy
 {
 	class UpdateManager
 	{
-        // Basically Everyone has modified this at one point to assure we dont break each other's code. 
-        // hello
-
-		private Random rng;                             // Random Number Generator used for bears and bear speeds.
+        #region Fields
+        private Random rng;                             // Random Number Generator used for bears and bear speeds.
 		private GameTime gameTime;                      // Holds the current GameTime
 		private Player pCurrent;                        // Holds the player's values
 		private List<Bear> bearsCurrent;                // Holds all of the bears in the game
@@ -47,9 +45,10 @@ namespace LumberjackFantasy
 
 		VelocityManager velocityManager = new VelocityManager(0);
         CollisionManager collisionManager;
-
-		// Properties
-		public List<Bear> BearsCurrent
+        #endregion Fields
+        #region Properties
+        // Properties
+        public List<Bear> BearsCurrent
 		{
 			get { return bearsCurrent; }
 			set { bearsCurrent = value; }
@@ -70,12 +69,12 @@ namespace LumberjackFantasy
             set { currentLevel = value; }
         }
 
-
-
-		/// <summary>
-		/// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
-		/// </summary>
-		public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera, int gameMaxLevel, List<Texture2D> textures, Texture2D nextLevelTexture, List<BackgroundTile> list)
+        #endregion Properties
+        #region Constructor
+        /// <summary>
+        /// Constructor - Leave Blank. Update Manager should recieve data based on it's data retrieving methods 
+        /// </summary>
+        public UpdateManager(int screenWidthMax, int screenHeightMax, Texture2D camera, int gameMaxLevel, List<Texture2D> textures, Texture2D nextLevelTexture, List<BackgroundTile> list)
 		{
             // Sets Textures
             uiTextures = textures;
@@ -107,7 +106,7 @@ namespace LumberjackFantasy
 			backgrounds = list;
         }
 
-
+        #endregion Constructor
         #region uM Universal Stuff
         // --------------------------------------------------------------------- Universal Updates and Draws for  Screen State ------------------------------------------------------
 
@@ -1838,7 +1837,7 @@ namespace LumberjackFantasy
         }
 
         #endregion Updating Camera
-
+        #region Animation Help 
         // --------------------------------------------------------------------------------------------------------------------- Update Animations -------------------------------------------//
 
         public void UpdateAnimations()
@@ -1858,6 +1857,7 @@ namespace LumberjackFantasy
 
         }
 
+        #endregion Animation Help 
     }
 }
 
