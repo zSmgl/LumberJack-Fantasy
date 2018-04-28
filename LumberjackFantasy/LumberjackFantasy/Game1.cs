@@ -222,6 +222,7 @@ namespace LumberjackFantasy
                     if (gameState == GameState.start)
                     {
                         level = 0;         // Resets level back to 0
+                        updateManager.CurrentLevel = 0; // Don't ask why, but it fixed a bug
                         worldTile.Clear(); // Clears levels
                         player1 = new Player(448, 448, 70, 95, playerTexture, 5, 17, 10); // Creates a new Player
 
@@ -275,6 +276,7 @@ namespace LumberjackFantasy
                     // Resets avaliable levels, resets current level, and makes new player!
 
                     level = 0;         // Resets level back to 0
+                    updateManager.CurrentLevel = 0; // Don't ask why, but it fixed a bug
                     worldTile.Clear(); // Clears levels
                     player1 = new Player(448, 448, 70, 95, playerTexture, 5, 17, 10); // Creates a new Player
 

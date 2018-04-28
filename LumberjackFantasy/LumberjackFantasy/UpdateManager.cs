@@ -65,6 +65,11 @@ namespace LumberjackFantasy
 			set { pickUpsCurrent = value; }
 		}
 
+        public int CurrentLevel
+        {
+            set { currentLevel = value; }
+        }
+
 
 
 		/// <summary>
@@ -87,7 +92,7 @@ namespace LumberjackFantasy
 
             // Cords for UI stuff
             healthCords = new Rectangle[5] {new Rectangle(178,16, 23, 18), new Rectangle(156,16,23,18), new Rectangle(133, 16,23,18), new Rectangle(111, 16, 23, 18), new Rectangle(88, 16, 23, 18) };
-			hsCord = new Vector2(777, 14);
+			hsCord = new Vector2(777, 10);
 
             // Open Season
             oS = new OpenSeasonManager();
@@ -139,6 +144,7 @@ namespace LumberjackFantasy
                 {
                     toreturn = GameState.gameOver;
                     currentLevel = 0;
+                    return toreturn;
                 }
                 currentLevel++;
             }
@@ -170,7 +176,7 @@ namespace LumberjackFantasy
             // Draws Background Texture.
             spriteBatch.Draw(nextLevelTexture, new Vector2(0,0), Color.White);
             // Draws Level Text
-            spriteBatch.DrawString(spriteFont,"Lvl "+(currentLevel+1), new Vector2(290, 370), Color.White);
+            spriteBatch.DrawString(spriteFont,"LVL "+ (currentLevel+1), new Vector2(240, 300), Color.White);
 
         }
 
@@ -384,7 +390,7 @@ namespace LumberjackFantasy
 			spriteBatch.Draw(uiTextures[4], new Vector2(768, 42), Color.White);
 
 			//draws number of tocut left
-			spriteBatch.DrawString(spriteFont, totalTreesToCut.ToString(), new Vector2(807, 37), Color.White);
+			spriteBatch.DrawString(spriteFont, totalTreesToCut.ToString(), new Vector2(807, 30), Color.White);
 
 			//draws health
 			switch (pCurrent.Health)
