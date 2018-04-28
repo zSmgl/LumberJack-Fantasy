@@ -24,7 +24,7 @@ namespace LumberjackFantasy
 			Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D instructHover, Texture2D continueHover, Texture2D quitHover, Texture2D isBG)
         {
 			instructionsOn = false;
-			topLeftCenter = new Vector2(98, 0);
+			topLeftCenter = new Vector2(98, 35);
             LoadMenus(startButton, exitButton, instructButton, ssBG, overlay, continueButton, quit, startHover, exitHover, instructHover, continueHover, quitHover, isBG);
         }
 
