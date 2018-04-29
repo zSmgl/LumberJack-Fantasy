@@ -140,7 +140,7 @@ namespace LumberjackFantasy
             onScreen = true;
             uPScreen = true;
             attackStuff = false;
-            invincibleTimer = 3;
+            invincibleTimer = 1;
             invincibile = false;
             attackAnimationF = 0; // Will draw the first attacking frame
             attack = AttackVariation.axe; // Player Starts with Axe
@@ -171,7 +171,7 @@ namespace LumberjackFantasy
         /// </summary>
         public void ResetTimer()
         {
-            invincibleTimer = 3;
+            invincibleTimer = 1;
         }
 
         /// <summary>

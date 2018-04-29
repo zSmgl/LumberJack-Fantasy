@@ -1628,8 +1628,9 @@ namespace LumberjackFantasy
                         if (playerHit[0] && pCurrent.Invincible != true)
                         {
                             pCurrent.Health--;
-                            pCurrent.Invincible = true;
-                            pCurrent.ResetTimer();
+							pCurrent.Invincible = true;
+
+							pCurrent.ResetTimer();
                         }
 
                     }
