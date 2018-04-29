@@ -27,7 +27,6 @@ namespace LumberjackFantasy
 
         private AnimationManager aM;                    // Animation Manager
         private bool animate;                           // Tells things to animate
-		private PathManager pM;                         // Manager that determines pathing for the bears. 
 		private Rectangle[] healthCords;                // Holds location of the helath hearts.
 		private Vector2 hsCord;							// Holds location of the high score
         private OpenSeasonManager oS;                   // Manages what occurs if the open season state occurs
@@ -84,7 +83,6 @@ namespace LumberjackFantasy
             aM = new AnimationManager();
             animate = false;
             collisionManager = new CollisionManager(screenWidthMax, screenHeightMax);
-			pM = new PathManager();
 			rng = new Random();
             this.camera = new Camera(10, camera); //instantiate the camera, 10 is a placeholder value
 
@@ -987,8 +985,6 @@ namespace LumberjackFantasy
         /// </summary>
         private void UpdateAllBears()
 		{
-			// Sets tile of which player is on
-			pM.FindTarget(pCurrent);
 
 			for (int i = 0; i < bearsCurrent.Count; i++)
 			{
@@ -1227,10 +1223,6 @@ namespace LumberjackFantasy
 		/// </summary>
 		private void FollowPlayer(int i)
 		{
-            pM.ResetForNewBear();
-            //pM.FindCurrent(bearsCurrent[i]);
-            //pM.Following();
-            //bearsCurrent[i] = pM.GetDirection(bearsCurrent[i]);
 
             switch (bearsCurrent[i].BearDirection)
             {
@@ -1663,15 +1655,6 @@ namespace LumberjackFantasy
             }
         }
 
-            /*
-            //bear attacks (fight me, puny human)
-            else
-            {
-                //when the bear gets in a certain radius, it attacks where it is facing
-                //if (bearbox colides with player, play attack)
-                
-                */
-
         #endregion Updating Player & Bear Interactions
         #region Updating Pickups & Open Season
         // -------------------------------------------------------------Pickup Specific Methods && O.S. ---------------------------------------------------------------------
@@ -1860,20 +1843,6 @@ namespace LumberjackFantasy
 					{
 						thisPickup.UPScreen = false;
 					}
-				}
-			}
-			pM.UPScreen.ClearList();
-			foreach(Location thisTile in pM.UPScreen.Tiles)
-			{
-				
-				if (camera.IsUpdating(thisTile.Pos))
-				{
-					thisTile.ToUpdate = true;
-					pM.UPScreen.UpdateTiles(thisTile);
-				}
-				else
-				{
-					thisTile.ToUpdate = false;
 				}
 			}
         }
