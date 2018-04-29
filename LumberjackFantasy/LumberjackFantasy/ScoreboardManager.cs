@@ -13,14 +13,15 @@ namespace LumberjackFantasy
 	enum ScoreState { loading, getName, viewScore, saving } // Enum determines what should be happening in the gameover screen
 	class ScoreboardManager
 	{
-		/// <summary>
-		/// Jacob LeBerth
-		/// New class introduced to handle loading in and rewriting high score document
-		/// made to keep updatemanager clean
-		/// </summary> 
+        /// <summary>
+        /// Jacob LeBerth
+        /// New class introduced to handle loading in and rewriting high score document
+        /// made to keep updatemanager clean
+        /// </summary> 
 
-		//fields ------------------------------------------------------------------------
-		private int currentScore;           // Holds the players high score for this run
+        #region Fields
+
+        private int currentScore;           // Holds the players high score for this run
 		private int index;                  // Holds where to insert code
 		private string playerName;          // Holds The Players Name
 		private ScoreState scoreState;      // Holds the current scoreState
@@ -33,11 +34,18 @@ namespace LumberjackFantasy
 		Vector2 centerLeft;
 		Vector2 topLeftThird;
 
-		//properties --------------------------------------------------------------------
-		public int CurrentScore { get { return currentScore; } set { currentScore = value; } }
+        #endregion Fields
+        #region Properties
+
+        //properties --------------------------------------------------------------------
+        public int CurrentScore { get { return currentScore; } set { currentScore = value; } }
         public ScoreState ScoreReset { set { scoreState = value; } }
-		//constructor -------------------------------------------------------------------
-		public ScoreboardManager()
+
+        #endregion Properties
+        #region Constructor
+
+        //constructor -------------------------------------------------------------------
+        public ScoreboardManager()
 		{
 			scoreNames = new List<string>();
 			highScores = new List<int>();
@@ -48,8 +56,12 @@ namespace LumberjackFantasy
 			topLeftThird = new Vector2(298, 128);
 			playerName = "--";
 		}
-			//methods -----------------------------------------------------------------------
-			public GameState UpdateGameover() //method for updating the gameover screen
+
+        #endregion Constructor
+        #region Methods
+
+        //methods -----------------------------------------------------------------------
+        public GameState UpdateGameover() //method for updating the gameover screen
 			{
 				GameState toReturn = GameState.gameOver;
 				currentKB = Keyboard.GetState();
@@ -103,6 +115,7 @@ namespace LumberjackFantasy
 				previousKB = currentKB;
 				return toReturn;
 			}
+
 
 			public void DrawGameOver(SpriteBatch spriteBatch, SpriteFont spriteFont) //method that draws the gameover screen
 			{
@@ -235,8 +248,9 @@ namespace LumberjackFantasy
 				
 
 			}
+        #endregion Methods
 
-		}
-	}
+    }
+}
 
 

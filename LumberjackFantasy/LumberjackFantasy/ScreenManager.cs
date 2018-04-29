@@ -10,8 +10,7 @@ namespace LumberjackFantasy
         //The purpose of this class is to handle all the updates of each Screen State (other than the playing game.)
         // This means the Menu, Pause, and End Screen
 
-        // Fields
-
+        #region Fields
         private ScreenPosManager menu; // holds the position of everything for each menu
         private MouseState currentMS;                   // Holds the current Mouse State
         private MouseState previousMS;                  // Holds the previous Mouse State (if needed)
@@ -21,6 +20,8 @@ namespace LumberjackFantasy
 		private Vector2 topLeftCenter;					//Holds the position of instruction text
         private string instructionsText;                // Holds the instructions text
 
+        #endregion Fields
+        #region Constructor
         public ScreenManager(Texture2D startButton, Texture2D exitButton, Texture2D instructButton, Texture2D ssBG, Texture2D overlay, Texture2D continueButton, 
 			Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D instructHover, Texture2D continueHover, Texture2D quitHover, Texture2D isBG)
         {
@@ -37,13 +38,15 @@ namespace LumberjackFantasy
                     "Beat the game and make the HighScore List!";
             instructionsText = instructionsText.ToUpper();
         }
+        #endregion Constructor
+        #region Methods
 
         // ------------------------------------------------------------------- UPDATE METHODS FOR GAMESCREENS ---------------------------------------------------------------------
 
         /// <summary>
-		/// Update method called when the game is at the Title Screen
-		/// </summary>
-		public GameState UpdateTitleScreen()
+        /// Update method called when the game is at the Title Screen
+        /// </summary>
+        public GameState UpdateTitleScreen()
         {
             currentMS = Mouse.GetState();
             GameState toReturn = GameState.start;
@@ -229,5 +232,7 @@ namespace LumberjackFantasy
 			}
 			return false;
 		}
-	}
+
+        #endregion Methods
+    }
 }
