@@ -11,9 +11,7 @@ namespace LumberjackFantasy
 {
     class ScreenPosManager
     {
-        //No difficulty button put in yet
-        //Game Screen Background currently commented
-        //out since tile generation draws the background
+        #region Fields
 
         //Fields
         //Texture Fields
@@ -62,6 +60,9 @@ namespace LumberjackFantasy
 		private bool returnHover;
 		private bool quitHover;
 
+        #endregion Fields
+        #region Properties
+
         //property rectangles for button hitboxes
         public Rectangle StartButton { get { return new Rectangle((int)sbPos.X, (int)sbPos.Y, startButton.Width, startButton.Height); } }
         public Rectangle ExitButton { get { return new Rectangle((int)ebPos.X, (int)ebPos.Y, exitButton.Width, exitButton.Height); } }
@@ -76,9 +77,11 @@ namespace LumberjackFantasy
 		public bool InstructHover { get { return instructHover; } set { instructHover = value; } }
 		public bool ReturnHover { get { return returnHover; } set { returnHover = value; } }
 		public bool QuitHover { get { return quitHover; } set { quitHover = value; } }
-		//Constructor
 
-		public ScreenPosManager(Texture2D start, Texture2D exit, Texture2D instruct, Texture2D ssBG, Texture2D pauseBG, Texture2D returnButton, Texture2D quit,
+        #endregion Properties
+        #region Constructor
+
+        public ScreenPosManager(Texture2D start, Texture2D exit, Texture2D instruct, Texture2D ssBG, Texture2D pauseBG, Texture2D returnButton, Texture2D quit,
 			Texture2D startH , Texture2D exitH, Texture2D instructH, Texture2D returnH, Texture2D quitH, Texture2D isBG)
         {
             startScreenBackground = ssBG;
@@ -123,10 +126,10 @@ namespace LumberjackFantasy
 			quitButtonPos.X = 243;
 			quitButtonPos.Y = 468;
         }
-        //REMINDER: Game screen background removed from parameters
-		
-      
-        //Methods
+
+        #endregion Constructor
+        #region Methods
+
         public void DrawStartScreen(SpriteBatch spriteBatch)
         {
             //Calls the parameter spritebatch and then draws
@@ -212,30 +215,6 @@ namespace LumberjackFantasy
 			spriteBatch.Draw(instructionsButtonH, ibPos2, Color.White);
 		}
 
-
-		/*public void DrawGameScreenElements(SpriteBatch spriteBatch)
-        {
-            //Draws the in-game screen UI elements
-            spriteBatch.Draw(health, hPos, Color.White);
-            spriteBatch.Draw(hiScore, hsPos, Color.White);
-            spriteBatch.Draw(playerPortrait, ppPos, Color.White);
-        }
-		
-
-        public void DrawGameOverScreen(SpriteBatch spriteBatch)
-        {
-            //Draws GameOver Screen and buttons
-            spriteBatch.Draw(gameOverScreenBackground, gosBGPos, Color.White);
-            
-            
-        }
-
-        public void DrawPauseScreen(SpriteBatch spriteBatch)
-        {
-            //Draw Pause Screen and Buttons
-            spriteBatch.Draw(pauseScreenBackground, psBGPos, Color.White);
-            
-        }
-		*/
-	}
+        #endregion Methods
+    }
 }
