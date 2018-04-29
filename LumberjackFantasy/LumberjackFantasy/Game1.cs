@@ -63,6 +63,7 @@ namespace LumberjackFantasy
 		int frameskip = 0;
         KeyboardState kb = new KeyboardState();
         KeyboardState previousKbstate = new KeyboardState();
+        KeyboardState nullState = new KeyboardState();
 
         Player player1;
         UpdateManager updateManager;
@@ -238,8 +239,10 @@ namespace LumberjackFantasy
 
                     if (updateManager.WaitNextLevel(gameTime) == false)
                     {
-                        updateManager.NextLevel(player1, worldTile[level].WorldTrees, worldTile[level].WorldBears, worldTile[level].WorldPickUps, level);
+                        updateManager.NextLevel(player1, worldTile[level].WorldTrees, worldTile[level].WorldBears, worldTile[level].WorldPickUps, level, nullState);
                         level++;
+                        kb = nullState;
+                        previousKbstate = nullState;
                         gameState = GameState.gameLoop;
                     }
                     else
@@ -271,7 +274,8 @@ namespace LumberjackFantasy
 					this.IsMouseVisible = false;
 
                     // Resets avaliable levels, resets current level, and makes new player!
-
+                    kb = nullState;
+                    previousKbstate = nullState;
                     level = 0;         // Resets level back to 0
                     updateManager.CurrentLevel = 0; // Don't ask why, but it fixed a bug
                     worldTile.Clear(); // Clears levels
