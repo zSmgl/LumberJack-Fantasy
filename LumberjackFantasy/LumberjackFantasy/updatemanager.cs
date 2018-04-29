@@ -1221,8 +1221,8 @@ namespace LumberjackFantasy
 		private void FollowPlayer(int i)
 		{
             pM.ResetForNewBear();
-            pM.FindCurrent(bearsCurrent[i]);
-            pM.Following();
+            //pM.FindCurrent(bearsCurrent[i]);
+            //pM.Following();
             //bearsCurrent[i] = pM.GetDirection(bearsCurrent[i]);
 
             switch (bearsCurrent[i].BearDirection)
@@ -1343,41 +1343,40 @@ namespace LumberjackFantasy
 			}
 			if (bearsCurrent[i].BearState == BearState.following)
 			{
-				if (bearsCurrent[i].PosX == pCurrent.PosX && bearsCurrent[i].PosY < pCurrent.PosY) //up
-				{
-					bearsCurrent[i].BearDirection = BearDirection.up;
-				}
-				if (bearsCurrent[i].PosX == pCurrent.PosX && bearsCurrent[i].PosY > pCurrent.PosY) //down
+				if (bearsCurrent[i].PosX == pCurrent.PosX && bearsCurrent[i].PosY < pCurrent.PosY) //down
 				{
 					bearsCurrent[i].BearDirection = BearDirection.down;
 				}
-				if (bearsCurrent[i].PosX < pCurrent.PosX && bearsCurrent[i].PosY == pCurrent.PosY) //left
+				else if (bearsCurrent[i].PosX == pCurrent.PosX && bearsCurrent[i].PosY > pCurrent.PosY) //u[
+				{
+					bearsCurrent[i].BearDirection = BearDirection.up;
+				}
+				else if (bearsCurrent[i].PosX > pCurrent.PosX && bearsCurrent[i].PosY == pCurrent.PosY) //left
 				{
 					bearsCurrent[i].BearDirection = BearDirection.left;
 				}
-				if (bearsCurrent[i].PosX > pCurrent.PosX && bearsCurrent[i].PosY == pCurrent.PosY) //right
+				else if (bearsCurrent[i].PosX < pCurrent.PosX && bearsCurrent[i].PosY == pCurrent.PosY) //right
 				{
 					bearsCurrent[i].BearDirection = BearDirection.right;
 				}
-				if (bearsCurrent[i].PosX < pCurrent.PosX && bearsCurrent[i].PosY < pCurrent.PosY) //upleft
+				else if (bearsCurrent[i].PosX > pCurrent.PosX && bearsCurrent[i].PosY > pCurrent.PosY) //upleft
 				{
 					bearsCurrent[i].BearDirection = BearDirection.upleft;
 				}
-				if (bearsCurrent[i].PosX > pCurrent.PosX && bearsCurrent[i].PosY < pCurrent.PosY) //upright
+				else if (bearsCurrent[i].PosX < pCurrent.PosX && bearsCurrent[i].PosY > pCurrent.PosY) //upright
 				{
 					bearsCurrent[i].BearDirection = BearDirection.upright;
 				}
-				if (bearsCurrent[i].PosX < pCurrent.PosX && bearsCurrent[i].PosY > pCurrent.PosY) //downleft
+				else if (bearsCurrent[i].PosX > pCurrent.PosX && bearsCurrent[i].PosY < pCurrent.PosY) //downleft
 				{
 					bearsCurrent[i].BearDirection = BearDirection.downleft;
 				}
-				if (bearsCurrent[i].PosX > pCurrent.PosX && bearsCurrent[i].PosY > pCurrent.PosY) //downright
+				else if (bearsCurrent[i].PosX < pCurrent.PosX && bearsCurrent[i].PosY < pCurrent.PosY) //downright
 				{
 					bearsCurrent[i].BearDirection = BearDirection.downright;
 				}
 				FollowPlayer(i);
 			}
-
 
 
 		}
