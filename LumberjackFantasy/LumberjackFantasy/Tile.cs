@@ -141,7 +141,7 @@ namespace LumberjackFantasy
 									bearTexture,
 									Int32.Parse(split[4]),
 									Int32.Parse(split[5]),
-									Int32.Parse(split[6]),
+									50,
 									Int32.Parse(split[7]),
 									Int32.Parse(split[8]),
 									rng
