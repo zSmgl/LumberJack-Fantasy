@@ -19,6 +19,7 @@ namespace LumberjackFantasy
 		private KeyboardState previousKB;               // Holds the previous keyboard state (if needed)
 		private bool instructionsOn;                    // Holds whether or not instructions is being displayed
 		private Vector2 topLeftCenter;					//Holds the position of instruction text
+        private string instructionsText;                // Holds the instructions text
 
         public ScreenManager(Texture2D startButton, Texture2D exitButton, Texture2D instructButton, Texture2D ssBG, Texture2D overlay, Texture2D continueButton, 
 			Texture2D quit, Texture2D startHover, Texture2D exitHover, Texture2D instructHover, Texture2D continueHover, Texture2D quitHover, Texture2D isBG)
@@ -26,6 +27,15 @@ namespace LumberjackFantasy
 			instructionsOn = false;
 			topLeftCenter = new Vector2(98, 35);
             LoadMenus(startButton, exitButton, instructButton, ssBG, overlay, continueButton, quit, startHover, exitHover, instructHover, continueHover, quitHover, isBG);
+            instructionsText = "\n\n            Welcome To LumberJack Fantasy!\n\n" +
+                    "Goal: Collect required # Of Logs per level\n" +
+                    "Move: W/A/S/D Keys \n" +
+                    "Attack: Arrow Keys\n" +
+                    "Point Values:      Apples = +1 Health \nTrees = +3 / Bears = -10 / Maple Syrup = +45\n" +
+                    "Open Season: Grab a shotgun to shoot away!\n" +
+                    "         (Bears point value turn positive)\n\n" +
+                    "Beat the game and make the HighScore List!";
+            instructionsText = instructionsText.ToUpper();
         }
 
         // ------------------------------------------------------------------- UPDATE METHODS FOR GAMESCREENS ---------------------------------------------------------------------
@@ -174,18 +184,7 @@ namespace LumberjackFantasy
 			else
 			{
                 menu.DrawInstructionScreen(spriteBatch);
-                spriteBatch.DrawString(spriteFont, "Welcome To LumberJack Fantasy!\n" +
-					"WASD Keys To Move\n" +
-					"Arrow Keys To Attack\n\n" +
-					"Collect the Required Number \n" +
-					"Of Logs Per Level\n" +
-					"Cut Down Trees and Collect Syrup\n" +
-					"to Gain points\n" +
-					"Killing bears deducts points,\n" +
-					"unless it is Open Season\n\n" +
-					"Collect Apples To regain Health\n" +
-					"Grab a Shotgun for Open Season\n" +
-					"and Shoot Away!", topLeftCenter, Color.White);
+                spriteBatch.DrawString(spriteFont, instructionsText, topLeftCenter, Color.White);
 				if (menu.InstructHover)
 				{
 					menu.DrawInstructHover2(spriteBatch);
