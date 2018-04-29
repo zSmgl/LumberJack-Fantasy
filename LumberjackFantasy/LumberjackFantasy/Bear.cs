@@ -183,8 +183,8 @@ namespace LumberjackFantasy
                 width + (fieldOfAttackStandard * 2), height + (fieldOfAttackStandard * 2));
 
             whenToMoveCounter = 0;
-            whenToMoveMax = 15 + 1;                                     // Bears Wait a max of 15 Seconds before making a movement;
-            whenToMoveMin = 5;                                          // Bears Wait a min of 5 Seconds before making a movement;
+            whenToMoveMax = 5 + 1;                                     // Bears Wait a max of 15 Seconds before making a movement;
+            whenToMoveMin = 1;                                          // Bears Wait a min of 5 Seconds before making a movement;
             whenToMoveLimiter = rng.Next(whenToMoveMin, whenToMoveMax); // Random int between 5-15 Seconds of when bear first can Move
 
 
