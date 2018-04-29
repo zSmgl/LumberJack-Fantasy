@@ -468,7 +468,7 @@ namespace LumberjackFantasy
         /// <param name="trees"></param>
         /// <param name="bears"></param>
         /// <param name="pickUps"></param>
-        public void NextLevel(Player p, List<Tree> trees, List<Bear> bears, List<PickUp> pickUps, int currentLevel)
+        public void NextLevel(Player p, List<Tree> trees, List<Bear> bears, List<PickUp> pickUps, int currentLevel, KeyboardState nullState)
         {
             pCurrent = p;
             treesCurrent = trees;
@@ -482,6 +482,13 @@ namespace LumberjackFantasy
             pCurrent.ObjectCollisionBox = new Rectangle((screenWidth)-(pCurrent.Width/2), (screenHeight) - (pCurrent.Height / 2), pCurrent.Width, pCurrent.Height);
             pCurrent.PlayerVision = new Rectangle(pCurrent.ObjectCollisionBox.X - pCurrent.VisionStandard, pCurrent.ObjectCollisionBox.Y - pCurrent.VisionStandard,
             pCurrent.PlayerVision.Width, pCurrent.PlayerVision.Height);
+
+            // Sets kb down to null
+            currentKB = nullState;
+            previousKB = nullState;
+            animate = false;
+            p.AttackAnimationF = 0;
+            p.IsAttacking = false;
 
             // Handles if Game was in Open Season when Level Ended
 
