@@ -1228,28 +1228,28 @@ namespace LumberjackFantasy
             switch (bearsCurrent[i].BearDirection)
             {
                 case BearDirection.down:
-                    velocityManager.AddVelocity(0, bearsCurrent[i].MaxSpeed / 6);
+                    velocityManager.AddVelocity(0, bearsCurrent[i].MaxSpeed / 10);
                     break;
                 case BearDirection.up:
-                    velocityManager.AddVelocity(0, -1 * bearsCurrent[i].MaxSpeed / 6);
+                    velocityManager.AddVelocity(0, -1 * bearsCurrent[i].MaxSpeed / 10);
                     break;
                 case BearDirection.left:
-                    velocityManager.AddVelocity(-1 * bearsCurrent[i].MaxSpeed / 6, 0);
+                    velocityManager.AddVelocity(-1 * bearsCurrent[i].MaxSpeed / 10, 0);
                     break;
                 case BearDirection.right:
-                    velocityManager.AddVelocity(bearsCurrent[i].MaxSpeed / 6, 0);
+                    velocityManager.AddVelocity(bearsCurrent[i].MaxSpeed / 10, 0);
                     break;
                 case BearDirection.upleft:
-                    velocityManager.AddVelocity(-1 * bearsCurrent[i].MaxSpeed / 6, -1 * bearsCurrent[i].MaxSpeed / 6);
+                    velocityManager.AddVelocity(-1 * bearsCurrent[i].MaxSpeed / 10, -1 * bearsCurrent[i].MaxSpeed / 10);
                     break;
                 case BearDirection.upright:
-                    velocityManager.AddVelocity(bearsCurrent[i].MaxSpeed / 6, -1 * bearsCurrent[i].MaxSpeed / 6);
+                    velocityManager.AddVelocity(bearsCurrent[i].MaxSpeed / 10, -1 * bearsCurrent[i].MaxSpeed / 10);
                     break;
                 case BearDirection.downleft:
-                    velocityManager.AddVelocity(-1 * bearsCurrent[i].MaxSpeed / 6, bearsCurrent[i].MaxSpeed / 6);
+                    velocityManager.AddVelocity(-1 * bearsCurrent[i].MaxSpeed / 10, bearsCurrent[i].MaxSpeed / 10);
                     break;
                 case BearDirection.downright:
-                    velocityManager.AddVelocity(bearsCurrent[i].MaxSpeed / 6, bearsCurrent[i].MaxSpeed / 6);
+                    velocityManager.AddVelocity(bearsCurrent[i].MaxSpeed / 10, bearsCurrent[i].MaxSpeed / 10);
                     break;
             }
 
@@ -1377,6 +1377,8 @@ namespace LumberjackFantasy
 				}
 				FollowPlayer(i);
 			}
+
+
 
 
 		}
